@@ -2,92 +2,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Order System</title>
+<title>Mumbai Special Barbeque – Cashier Kathiravan</title>
 <style>
-body{font-family:Arial;background:#f4f6f8;padding:15px}
-h1{text-align:center}
-.container{max-width:1000px;margin:auto;background:#fff;padding:15px;border-radius:10px}
-select,button{padding:10px;font-size:16px}
-.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.menu-item{background:#eee;border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center}
-ul li{margin:6px 0}
-.submit-btn{background:#28a745;color:#fff;border:none;border-radius:8px;width:100%;padding:12px}
+:root{
+  --primary:#b71c1c; /* restaurant red */
+  --secondary:#263238; /* dark */
+  --bg:#f4f6f8;
+  --card:#ffffff;
+}
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);margin:0;padding:12px}
+.header{display:flex;align-items:center;justify-content:space-between;background:var(--secondary);color:#fff;padding:12px;border-radius:10px}
+.header h1{font-size:18px;margin:0}
+.search{position:relative}
+.search input{padding:8px 10px;border-radius:6px;border:none;outline:none}
+.container{max-width:1000px;margin:12px auto;background:var(--card);padding:12px;border-radius:12px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+select{padding:10px;border-radius:8px;border:1px solid #ccc}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.menu-item{background:#f1f1f1;border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center}
+.menu-item b{color:#111}
+.menu-item button{padding:8px 12px;border-radius:8px;border:1px solid #999;background:#fff;font-size:18px}
+.menu-item button:active{transform:scale(0.98)}
+.order{margin-top:14px}
+.order h3{margin:6px 0}
+ul{list-style:none;padding:0;margin:0}
+li{margin:6px 0;display:flex;justify-content:space-between;align-items:center}
+li .qty button{padding:4px 8px;border-radius:6px;border:1px solid #999;margin-left:6px}
+.total{font-size:18px;font-weight:bold;margin-top:6px}
+.submit-btn{margin-top:10px;width:100%;padding:12px;border:none;border-radius:10px;background:#2e7d32;color:#fff;font-size:18px}
+.footer-note{margin-top:8px;color:#555;font-size:12px;text-align:center}
 </style>
 </head>
-<body>
-<h1>Hotel Order</h1>
-<div class="container"><label>Table Number</label><br> <select id="tableNo">
+<body><div class="header">
+  <h1>Mumbai Special Barbeque – Cashier Kathiravan</h1>
+  <div class="search">
+    <input type="text" id="search" placeholder="Search item…" oninput="filterMenu()" />
+  </div>
+</div><div class="container">
+  <div class="controls">
+    <select id="tableNo">
+      <option value="">Select Table</option>
+      <option>Table 1</option><option>Table 2</option><option>Table 3</option><option>Table 4</option><option>Table 5</option>
+      <option>Table 6</option><option>Table 7</option><option>Table 8</option><option>Table 9</option><option>Table 10</option>
+      <option>Table 11</option><option>Table 12</option><option>Table 13</option><option>Table 14</option><option>Table 15</option>
+      <option>Table 16</option><option>Table 17</option><option>Table 18</option><option>Table 19</option><option>Table 20</option>
+    </select>
+  </div>  <h3>Menu (Most ordered first)</h3>
+  <div class="menu" id="menu">
+    <!-- RICE & FAST MOVING -->
+    <div class="menu-item" data-name="Chicken Rice"><b>Chicken Rice</b><span>₹130</span><button onclick="addItem('Chicken Rice',130)">+</button></div>
+    <div class="menu-item" data-name="Egg Rice"><b>Egg Rice</b><span>₹100</span><button onclick="addItem('Egg Rice',100)">+</button></div>
+    <div class="menu-item" data-name="Plain Briyani"><b>Plain Briyani</b><span>₹100</span><button onclick="addItem('Plain Briyani',100)">+</button></div>
+    <div class="menu-item" data-name="Chicken Rice Half"><b>Chicken Rice 1/2</b><span>₹150</span><button onclick="addItem('Chicken Rice 1/2',150)">+</button></div>
+    <div class="menu-item" data-name="Rice Combo"><b>Rice Combo</b><span>₹180</span><button onclick="addItem('Rice Combo',180)">+</button></div><!-- PAROTTA & SIDES -->
+<div class="menu-item" data-name="Parotta"><b>Parotta</b><span>₹20</span><button onclick="addItem('Parotta',20)">+</button></div>
+<div class="menu-item" data-name="Kall Dosa"><b>Kall Dosa</b><span>₹20</span><button onclick="addItem('Kall Dosa',20)">+</button></div>
+<div class="menu-item" data-name="Half Boil"><b>Half Boil</b><span>₹20</span><button onclick="addItem('Half Boil',20)">+</button></div>
 
-<option value="">Select Table</option>
-<option>Table 1</option><option>Table 2</option><option>Table 3</option><option>Table 4</option><option>Table 5</option>
-<option>Table 6</option><option>Table 7</option><option>Table 8</option><option>Table 9</option><option>Table 10</option>
-<option>Table 11</option><option>Table 12</option><option>Table 13</option><option>Table 14</option><option>Table 15</option>
-</select><h3>Menu</h3>
-<div class="menu">
-  <div class="menu-item"><span>Chicken Rice – ₹130</span><button onclick="addItem('Chicken Rice',130)">+</button></div>
-  <div class="menu-item"><span>Egg Rice – ₹100</span><button onclick="addItem('Egg Rice',100)">+</button></div>
-  <div class="menu-item"><span>Plain Briyani – ₹100</span><button onclick="addItem('Plain Briyani',100)">+</button></div>  <div class="menu-item"><span>Grill Quarter – ₹100</span><button onclick="addItem('Grill Quarter',100)">+</button></div>
-  <div class="menu-item"><span>Grill Half – ₹200</span><button onclick="addItem('Grill Half',200)">+</button></div>
-  <div class="menu-item"><span>Grill Full – ₹400</span><button onclick="addItem('Grill Full',400)">+</button></div>  <div class="menu-item"><span>Tandoori Quarter – ₹100</span><button onclick="addItem('Tandoori Quarter',100)">+</button></div>
-  <div class="menu-item"><span>Tandoori Half – ₹200</span><button onclick="addItem('Tandoori Half',200)">+</button></div>
-  <div class="menu-item"><span>Tandoori Full – ₹400</span><button onclick="addItem('Tandoori Full',400)">+</button></div>  <div class="menu-item"><span>Pepper Quarter – ₹140</span><button onclick="addItem('Pepper Quarter',140)">+</button></div>
-  <div class="menu-item"><span>Pepper Half – ₹270</span><button onclick="addItem('Pepper Half',270)">+</button></div>
-  <div class="menu-item"><span>Pepper Full – ₹500</span><button onclick="addItem('Pepper Full',500)">+</button></div>  <div class="menu-item"><span>BBQ Quarter – ₹110</span><button onclick="addItem('BBQ Quarter',110)">+</button></div>
-  <div class="menu-item"><span>BBQ Half – ₹210</span><button onclick="addItem('BBQ Half',210)">+</button></div>
-  <div class="menu-item"><span>BBQ Full – ₹400</span><button onclick="addItem('BBQ Full',400)">+</button></div>  <div class="menu-item"><span>Shawarma Roll Special – ₹120</span><button onclick="addItem('Shawarma Roll Special',120)">+</button></div>
-  <div class="menu-item"><span>Chicken Rice 1/2 – ₹150</span><button onclick="addItem('Chicken Rice Half',150)">+</button></div>
-  <div class="menu-item"><span>Rice Combo – ₹180</span><button onclick="addItem('Rice Combo',180)">+</button></div>  <div class="menu-item"><span>Kall Dosa – ₹20</span><button onclick="addItem('Kall Dosa',20)">+</button></div>
-  <div class="menu-item"><span>Half Boil – ₹20</span><button onclick="addItem('Half Boil',20)">+</button></div>
-  <div class="menu-item"><span>Chicken 65 (Small) – ₹65</span><button onclick="addItem('Chicken 65 Small',65)">+</button></div>
-  <div class="menu-item"><span>Chicken 65 (Large) – ₹120</span><button onclick="addItem('Chicken 65 Large',120)">+</button></div>
-</div>
-  <div class="menu-item"><img src="https://images.unsplash.com/photo-1626776876724-b98c2e82c9aa"/><p>Egg Rice ₹100</p><button onclick="addItem('Egg Rice',100)">+</button></div>
-  <div class="menu-item"><img src="https://images.unsplash.com/photo-1600628422019-0f21a3c71b88"/><p>Grill Quarter ₹100</p><button onclick="addItem('Grill Quarter',100)">+</button></div>
-  <div class="menu-item"><img src="https://images.unsplash.com/photo-1625944525903-9d6f8f49e16b"/><p>Grill Half ₹200</p><button onclick="addItem('Grill Half',200)">+</button></div>
-  <div class="menu-item"><img src="https://images.unsplash.com/photo-1626078293844-b0b45a1c3c5d"/><p>Tandoori Full ₹400</p><button onclick="addItem('Tandoori Full',400)">+</button></div>
-  <div class="menu-item"><img src="https://images.unsplash.com/photo-1626078293773-4d6fd94f8d71"/><p>Shawarma ₹120</p><button onclick="addItem('Shawarma',120)">+</button></div>
-</div><h3>Order</h3>
-<ul id="orderList"></ul>
-<h3>Total: ₹<span id="total">0</span></h3><button class="submit-btn" onclick="sendWhatsApp()">Send Order to WhatsApp</button>
+<!-- 65 -->
+<div class="menu-item" data-name="Chicken 65"><b>Chicken 65</b><span>₹120</span><button onclick="addItem('Chicken 65',120)">+</button></div>
 
+<!-- GRILL -->
+<div class="menu-item" data-name="Grill Quarter"><b>Grill Quarter</b><span>₹100</span><button onclick="addItem('Grill Quarter',100)">+</button></div>
+<div class="menu-item" data-name="Grill Half"><b>Grill Half</b><span>₹200</span><button onclick="addItem('Grill Half',200)">+</button></div>
+<div class="menu-item" data-name="Grill Full"><b>Grill Full</b><span>₹400</span><button onclick="addItem('Grill Full',400)">+</button></div>
+
+<!-- TANDOORI -->
+<div class="menu-item" data-name="Tandoori Quarter"><b>Tandoori Quarter</b><span>₹100</span><button onclick="addItem('Tandoori Quarter',100)">+</button></div>
+<div class="menu-item" data-name="Tandoori Half"><b>Tandoori Half</b><span>₹200</span><button onclick="addItem('Tandoori Half',200)">+</button></div>
+<div class="menu-item" data-name="Tandoori Full"><b>Tandoori Full</b><span>₹400</span><button onclick="addItem('Tandoori Full',400)">+</button></div>
+
+<!-- PEPPER -->
+<div class="menu-item" data-name="Pepper Quarter"><b>Pepper Quarter</b><span>₹140</span><button onclick="addItem('Pepper Quarter',140)">+</button></div>
+<div class="menu-item" data-name="Pepper Half"><b>Pepper Half</b><span>₹270</span><button onclick="addItem('Pepper Half',270)">+</button></div>
+<div class="menu-item" data-name="Pepper Full"><b>Pepper Full</b><span>₹500</span><button onclick="addItem('Pepper Full',500)">+</button></div>
+
+<!-- BBQ -->
+<div class="menu-item" data-name="BBQ Quarter"><b>BBQ Quarter</b><span>₹110</span><button onclick="addItem('BBQ Quarter',110)">+</button></div>
+<div class="menu-item" data-name="BBQ Half"><b>BBQ Half</b><span>₹210</span><button onclick="addItem('BBQ Half',210)">+</button></div>
+<div class="menu-item" data-name="BBQ Full"><b>BBQ Full</b><span>₹400</span><button onclick="addItem('BBQ Full',400)">+</button></div>
+
+<!-- ROLLS -->
+<div class="menu-item" data-name="Shawarma Roll Special"><b>Shawarma Roll Special</b><span>₹120</span><button onclick="addItem('Shawarma Roll Special',120)">+</button></div>
+
+  </div>  <div class="order">
+    <h3>Order</h3>
+    <ul id="orderList"></ul>
+    <div class="total">Total: ₹<span id="total">0</span></div>
+    <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
+    <div class="footer-note">WhatsApp will open with message. Tap Send.</div>
+  </div>
 </div><script>
-let orders={};
-let total=0;
-const orderList=document.getElementById('orderList');
-const totalSpan=document.getElementById('total');
+let orders = {};
+let total = 0;
+const orderList = document.getElementById('orderList');
+const totalSpan = document.getElementById('total');
 
-function addItem(name,price){
- if(!orders[name]) orders[name]={price:price,qty:1};
- else orders[name].qty++;
- total+=price;
- render();
-}
-
-function render(){
- orderList.innerHTML='';
- for(let name in orders){
-  let i=orders[name];
-  let li=document.createElement('li');
-  li.innerHTML=`${name} x ${i.qty} = ₹${i.qty*i.price} <button onclick=\"addItem('${name}',${i.price})\">+</button> <button onclick=\"removeItem('${name}')\">-</button>`;
-  orderList.appendChild(li);
- }
- totalSpan.textContent=total;
+function addItem(name, price){
+  if(!orders[name]) orders[name] = {price, qty:1};
+  else orders[name].qty++;
+  total += price;
+  render();
 }
 
 function removeItem(name){
- if(orders[name].qty>1){orders[name].qty--; total-=orders[name].price;}
- else{total-=orders[name].price; delete orders[name];}
- render();
+  if(orders[name].qty > 1){ orders[name].qty--; total -= orders[name].price; }
+  else { total -= orders[name].price; delete orders[name]; }
+  render();
 }
 
-function sendWhatsApp(){
- const table=document.getElementById('tableNo').value;
- if(!table||Object.keys(orders).length===0){alert('Select table & items');return;}
- let text=`Order from ${table}\n`;
- for(let name in orders){let i=orders[name]; text+=`${name} x ${i.qty} = ₹${i.qty*i.price}\n`;}
- text+=`Total: ₹${total}`;
- const phone='918608776956';
- window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+function render(){
+  orderList.innerHTML = '';
+  for(const name in orders){
+    const i = orders[name];
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${name} x ${i.qty}</span><span class="qty">₹${i.qty*i.price} <button onclick=\"addItem('${name}',${i.price})\">+</button><button onclick=\"removeItem('${name}')\">-</button></span>`;
+    orderList.appendChild(li);
+  }
+  totalSpan.textContent = total;
+}
+
+function submitOrder(){
+  const table = document.getElementById('tableNo').value;
+  if(!table || Object.keys(orders).length===0){ alert('Select table and items'); return; }
+  let text = `Mumbai Special Barbeque%0ATable: ${table}%0A`;
+  for(const name in orders){ const i=orders[name]; text += `${name} x ${i.qty} - ₹${i.qty*i.price}%0A`; }
+  text += `Total: ₹${total}`;
+  const phone = '918608776956';
+  window.location.href = `https://wa.me/${phone}?text=${text}`;
+  orders={}; total=0; render(); document.getElementById('tableNo').value='';
+}
+
+function filterMenu(){
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.menu-item').forEach(item=>{
+    const name = item.getAttribute('data-name').toLowerCase();
+    item.style.display = name.includes(q) ? 'flex' : 'none';
+  });
 }
 </script></body>
 </html>
