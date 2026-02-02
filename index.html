@@ -71,7 +71,7 @@ function submitOrder(){
   orders.forEach(o=>{ message+=`${o.name} - ₹${o.price}%0A`; });
   message+=`Total: ₹${total}`;
 
-  const phoneNumber='91XXXXXXXXXX'; // CHANGE THIS
+  const phoneNumber='918608776956'; // CHANGE THIS
   const url=`https://wa.me/${phoneNumber}?text=${message}`;
   window.open(url,'_blank');
 
