@@ -4,12 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mumbai Special Barbeque – Cashier Kathiravan</title>
 <style>
-:root{
-  --primary:#c62828;
-  --dark:#263238;
-  --bg:#f4f6f8;
-  --card:#ffffff;
-}
+:root{--dark:#263238;--bg:#f4f6f8;--card:#ffffff;--green:#2e7d32}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg)}
 .header{background:var(--dark);color:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
@@ -30,7 +25,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
 ul{list-style:none;padding:0;margin:0}
 li{display:flex;justify-content:space-between;margin:6px 0}
 .total{font-size:18px;font-weight:bold;margin-top:6px}
-.submit-btn{margin-top:10px;width:100%;padding:14px;border:none;border-radius:14px;background:#2e7d32;color:#fff;font-size:18px}
+.submit-btn{margin-top:10px;width:100%;padding:14px;border:none;border-radius:14px;background:var(--green);color:#fff;font-size:18px}
 .note{text-align:center;font-size:12px;color:#555;margin-top:6px}
 </style>
 </head>
@@ -43,25 +38,22 @@ li{display:flex;justify-content:space-between;margin:6px 0}
   <option>Table 1</option><option>Table 2</option><option>Table 3</option><option>Table 4</option><option>Table 5</option>
   <option>Table 6</option><option>Table 7</option><option>Table 8</option><option>Table 9</option><option>Table 10</option>
   <option>Table 11</option><option>Table 12</option><option>Table 13</option><option>Table 14</option><option>Table 15</option>
-</select><div class="menu" id="menu">
-  <!-- Each item -->
-  <div class="menu-item" data-name="Chicken Rice">
-    <div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div>
-    <div class="qty-box"><button onclick="changeQty('Chicken Rice',130,-1)">−</button><span id="q-Chicken Rice">0</span><button onclick="changeQty('Chicken Rice',130,1)">+</button></div>
-  </div>  <div class="menu-item" data-name="Egg Rice">
-    <div class="menu-left"><b>Egg Rice</b><span>₹100</span></div>
-    <div class="qty-box"><button onclick="changeQty('Egg Rice',100,-1)">−</button><span id="q-Egg Rice">0</span><button onclick="changeQty('Egg Rice',100,1)">+</button></div>
-  </div>  <div class="menu-item" data-name="Parotta">
-    <div class="menu-left"><b>Parotta</b><span>₹20</span></div>
-    <div class="qty-box"><button onclick="changeQty('Parotta',20,-1)">−</button><span id="q-Parotta">0</span><button onclick="changeQty('Parotta',20,1)">+</button></div>
-  </div>  <div class="menu-item" data-name="Grill Half">
-    <div class="menu-left"><b>Grill Half</b><span>₹200</span></div>
-    <div class="qty-box"><button onclick="changeQty('Grill Half',200,-1)">−</button><span id="q-Grill Half">0</span><button onclick="changeQty('Grill Half',200,1)">+</button></div>
-  </div>  <div class="menu-item" data-name="Tandoori Full">
-    <div class="menu-left"><b>Tandoori Full</b><span>₹400</span></div>
-    <div class="qty-box"><button onclick="changeQty('Tandoori Full',400,-1)">−</button><span id="q-Tandoori Full">0</span><button onclick="changeQty('Tandoori Full',400,1)">+</button></div>
-  </div>
-</div><div class="order">
+  <option>Table 16</option><option>Table 17</option><option>Table 18</option><option>Table 19</option><option>Table 20</option>
+</select><div class="menu" id="menu"><!-- RICE --><div class="menu-item" data-name="Chicken Rice"><div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice',130,-1)">−</button><span id="q-Chicken Rice">0</span><button onclick="changeQty('Chicken Rice',130,1)">+</button></div></div>
+<div class="menu-item" data-name="Egg Rice"><div class="menu-left"><b>Egg Rice</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Egg Rice',100,-1)">−</button><span id="q-Egg Rice">0</span><button onclick="changeQty('Egg Rice',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Plain Briyani"><div class="menu-left"><b>Plain Briyani</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Plain Briyani',100,-1)">−</button><span id="q-Plain Briyani">0</span><button onclick="changeQty('Plain Briyani',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Chicken Rice 1/2"><div class="menu-left"><b>Chicken Rice 1/2</b><span>₹150</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice 1/2',150,-1)">−</button><span id="q-Chicken Rice 1/2">0</span><button onclick="changeQty('Chicken Rice 1/2',150,1)">+</button></div></div>
+<div class="menu-item" data-name="Rice Combo"><div class="menu-left"><b>Rice Combo</b><span>₹180</span></div><div class="qty-box"><button onclick="changeQty('Rice Combo',180,-1)">−</button><span id="q-Rice Combo">0</span><button onclick="changeQty('Rice Combo',180,1)">+</button></div></div><!-- PAROTTA & DOSA --><div class="menu-item" data-name="Parotta"><div class="menu-left"><b>Parotta</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Parotta',20,-1)">−</button><span id="q-Parotta">0</span><button onclick="changeQty('Parotta',20,1)">+</button></div></div>
+<div class="menu-item" data-name="Kall Dosa"><div class="menu-left"><b>Kall Dosa</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Kall Dosa',20,-1)">−</button><span id="q-Kall Dosa">0</span><button onclick="changeQty('Kall Dosa',20,1)">+</button></div></div>
+<div class="menu-item" data-name="Half Boil"><div class="menu-left"><b>Half Boil</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Half Boil',20,-1)">−</button><span id="q-Half Boil">0</span><button onclick="changeQty('Half Boil',20,1)">+</button></div></div><!-- 65 --><div class="menu-item" data-name="Chicken 65"><div class="menu-left"><b>Chicken 65</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('Chicken 65',120,-1)">−</button><span id="q-Chicken 65">0</span><button onclick="changeQty('Chicken 65',120,1)">+</button></div></div><!-- GRILL --><div class="menu-item" data-name="Grill Quarter"><div class="menu-left"><b>Grill Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Grill Quarter',100,-1)">−</button><span id="q-Grill Quarter">0</span><button onclick="changeQty('Grill Quarter',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Grill Half"><div class="menu-left"><b>Grill Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('Grill Half',200,-1)">−</button><span id="q-Grill Half">0</span><button onclick="changeQty('Grill Half',200,1)">+</button></div></div>
+<div class="menu-item" data-name="Grill Full"><div class="menu-left"><b>Grill Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('Grill Full',400,-1)">−</button><span id="q-Grill Full">0</span><button onclick="changeQty('Grill Full',400,1)">+</button></div></div><!-- TANDOORI --><div class="menu-item" data-name="Tandoori Quarter"><div class="menu-left"><b>Tandoori Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Tandoori Quarter',100,-1)">−</button><span id="q-Tandoori Quarter">0</span><button onclick="changeQty('Tandoori Quarter',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Tandoori Half"><div class="menu-left"><b>Tandoori Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('Tandoori Half',200,-1)">−</button><span id="q-Tandoori Half">0</span><button onclick="changeQty('Tandoori Half',200,1)">+</button></div></div>
+<div class="menu-item" data-name="Tandoori Full"><div class="menu-left"><b>Tandoori Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('Tandoori Full',400,-1)">−</button><span id="q-Tandoori Full">0</span><button onclick="changeQty('Tandoori Full',400,1)">+</button></div></div><!-- PEPPER --><div class="menu-item" data-name="Pepper Quarter"><div class="menu-left"><b>Pepper Quarter</b><span>₹140</span></div><div class="qty-box"><button onclick="changeQty('Pepper Quarter',140,-1)">−</button><span id="q-Pepper Quarter">0</span><button onclick="changeQty('Pepper Quarter',140,1)">+</button></div></div>
+<div class="menu-item" data-name="Pepper Half"><div class="menu-left"><b>Pepper Half</b><span>₹270</span></div><div class="qty-box"><button onclick="changeQty('Pepper Half',270,-1)">−</button><span id="q-Pepper Half">0</span><button onclick="changeQty('Pepper Half',270,1)">+</button></div></div>
+<div class="menu-item" data-name="Pepper Full"><div class="menu-left"><b>Pepper Full</b><span>₹500</span></div><div class="qty-box"><button onclick="changeQty('Pepper Full',500,-1)">−</button><span id="q-Pepper Full">0</span><button onclick="changeQty('Pepper Full',500,1)">+</button></div></div><!-- BBQ --><div class="menu-item" data-name="BBQ Quarter"><div class="menu-left"><b>BBQ Quarter</b><span>₹110</span></div><div class="qty-box"><button onclick="changeQty('BBQ Quarter',110,-1)">−</button><span id="q-BBQ Quarter">0</span><button onclick="changeQty('BBQ Quarter',110,1)">+</button></div></div>
+<div class="menu-item" data-name="BBQ Half"><div class="menu-left"><b>BBQ Half</b><span>₹210</span></div><div class="qty-box"><button onclick="changeQty('BBQ Half',210,-1)">−</button><span id="q-BBQ Half">0</span><button onclick="changeQty('BBQ Half',210,1)">+</button></div></div>
+<div class="menu-item" data-name="BBQ Full"><div class="menu-left"><b>BBQ Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('BBQ Full',400,-1)">−</button><span id="q-BBQ Full">0</span><button onclick="changeQty('BBQ Full',400,1)">+</button></div></div><!-- ROLLS --><div class="menu-item" data-name="Shawarma Roll Special"><div class="menu-left"><b>Shawarma Roll Special</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('Shawarma Roll Special',120,-1)">−</button><span id="q-Shawarma Roll Special">0</span><button onclick="changeQty('Shawarma Roll Special',120,1)">+</button></div></div></div><div class="order">
   <h3>Order</h3>
   <ul id="orderList"></ul>
   <div class="total">Total: ₹<span id="total">0</span></div>
@@ -69,47 +61,19 @@ li{display:flex;justify-content:space-between;margin:6px 0}
   <div class="note">WhatsApp opens with message – tap Send</div>
 </div>
 </div><script>
-let orders={};
-let total=0;
-const orderList=document.getElementById('orderList');
-const totalSpan=document.getElementById('total');
+let orders={}; let total=0;
+const orderList=document.getElementById('orderList'); const totalSpan=document.getElementById('total');
 
 function changeQty(name,price,delta){
   if(!orders[name] && delta<0) return;
   if(!orders[name]) orders[name]={price,qty:0};
   orders[name].qty+=delta;
   if(orders[name].qty<=0) delete orders[name];
-  document.getElementById('q-'+name).textContent=orders[name]?orders[name].qty:0;
-  total+=price*delta;
-  if(total<0) total=0;
-  render();
+  const q=document.getElementById('q-'+name); if(q) q.textContent=orders[name]?orders[name].qty:0;
+  total+=price*delta; if(total<0) total=0; render();
 }
-
-function render(){
-  orderList.innerHTML='';
-  for(const name in orders){
-    const i=orders[name];
-    const li=document.createElement('li');
-    li.textContent=`${name} x ${i.qty} = ₹${i.qty*i.price}`;
-    orderList.appendChild(li);
-  }
-  totalSpan.textContent=total;
-}
-
-function submitOrder(){
-  const table=document.getElementById('tableNo').value;
-  if(!table||Object.keys(orders).length===0){alert('Select table and items');return;}
-  let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`;
-  for(const n in orders){const i=orders[n];msg+=`${n} x ${i.qty} - ₹${i.qty*i.price}%0A`;}
-  msg+=`Total: ₹${total}`;
-  window.location.href=`https://wa.me/918608776956?text=${msg}`;
-}
-
-function filterMenu(){
-  const q=document.getElementById('search').value.toLowerCase();
-  document.querySelectorAll('.menu-item').forEach(i=>{
-    i.style.display=i.dataset.name.toLowerCase().includes(q)?'flex':'none';
-  });
-}
+function render(){ orderList.innerHTML=''; for(const n in orders){const i=orders[n]; const li=document.createElement('li'); li.textContent=`${n} x ${i.qty} = ₹${i.qty*i.price}`; orderList.appendChild(li);} totalSpan.textContent=total; }
+function submitOrder(){ const table=document.getElementById('tableNo').value; if(!table||Object.keys(orders).length===0){alert('Select table and items');return;} let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`; for(const n in orders){const i=orders[n]; msg+=`${n} x ${i.qty} - ₹${i.qty*i.price}%0A`;} msg+=`Total: ₹${total}`; window.location.href=`https://wa.me/918608776956?text=${msg}`; }
+function filterMenu(){ const q=document.getElementById('search').value.toLowerCase(); document.querySelectorAll('.menu-item').forEach(i=>{ i.style.display=i.dataset.name.toLowerCase().includes(q)?'flex':'none';}); }
 </script></body>
 </html>
