@@ -26,6 +26,7 @@ ul{list-style:none;padding:0;margin:0}
 li{display:flex;justify-content:space-between;margin:6px 0}
 .total{font-size:18px;font-weight:bold;margin-top:6px}
 .submit-btn{margin-top:10px;width:100%;padding:14px;border:none;border-radius:14px;background:var(--green);color:#fff;font-size:18px}
+.clear-btn{margin-top:8px;width:100%;padding:12px;border:none;border-radius:14px;background:#b71c1c;color:#fff;font-size:16px}
 .note{text-align:center;font-size:12px;color:#555;margin-top:6px}
 </style>
 </head>
@@ -39,60 +40,81 @@ li{display:flex;justify-content:space-between;margin:6px 0}
   <option>Table 6</option><option>Table 7</option><option>Table 8</option><option>Table 9</option><option>Table 10</option>
   <option>Table 11</option><option>Table 12</option><option>Table 13</option><option>Table 14</option><option>Table 15</option>
   <option>Table 16</option><option>Table 17</option><option>Table 18</option><option>Table 19</option><option>Table 20</option>
-</select><div class="menu" id="menu"><!-- RICE --><div class="menu-item" data-name="Chicken Noodles"><div class="menu-left"><b>Chicken Noodles</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('Chicken Noodles',130,-1)">−</button><span id="q-Chicken Noodles">0</span><button onclick="changeQty('Chicken Noodles',130,1)">+</button></div></div>
-<div class="menu-item" data-name="Chicken Rice"><div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice',130,-1)">−</button><span id="q-Chicken Rice">0</span><button onclick="changeQty('Chicken Rice',130,1)">+</button></div></div>
-<div class="menu-item" data-name="Egg Rice"><div class="menu-left"><b>Egg Rice</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Egg Rice',100,-1)">−</button><span id="q-Egg Rice">0</span><button onclick="changeQty('Egg Rice',100,1)">+</button></div></div>
-<div class="menu-item" data-name="Plain Briyani"><div class="menu-left"><b>Plain Briyani</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Plain Briyani',100,-1)">−</button><span id="q-Plain Briyani">0</span><button onclick="changeQty('Plain Briyani',100,1)">+</button></div></div>
-<div class="menu-item" data-name="Chicken Rice 1/2"><div class="menu-left"><b>Chicken Rice 1/2</b><span>₹150</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice 1/2',150,-1)">−</button><span id="q-Chicken Rice 1/2">0</span><button onclick="changeQty('Chicken Rice 1/2',150,1)">+</button></div></div>
-<div class="menu-item" data-name="Rice Combo"><div class="menu-left"><b>Rice Combo</b><span>₹180</span></div><div class="qty-box"><button onclick="changeQty('Rice Combo',180,-1)">−</button><span id="q-Rice Combo">0</span><button onclick="changeQty('Rice Combo',180,1)">+</button></div></div><!-- PAROTTA & DOSA --><div class="menu-item" data-name="Parotta"><div class="menu-left"><b>Parotta</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Parotta',20,-1)">−</button><span id="q-Parotta">0</span><button onclick="changeQty('Parotta',20,1)">+</button></div></div>
-<div class="menu-item" data-name="Chapathi"><div class="menu-left"><b>Chapathi</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Chapathi',20,-1)">−</button><span id="q-Chapathi">0</span><button onclick="changeQty('Chapathi',20,1)">+</button></div></div>
-<div class="menu-item" data-name="Egg Dosa"><div class="menu-left"><b>Egg Dosa</b><span>₹50</span></div><div class="qty-box"><button onclick="changeQty('Egg Dosa',50,-1)">−</button><span id="q-Egg Dosa">0</span><button onclick="changeQty('Egg Dosa',50,1)">+</button></div></div>
-<div class="menu-item" data-name="Egg Veechi"><div class="menu-left"><b>Egg Veechi</b><span>₹30</span></div><div class="qty-box"><button onclick="changeQty('Egg Veechi',30,-1)">−</button><span id="q-Egg Veechi">0</span><button onclick="changeQty('Egg Veechi',30,1)">+</button></div></div>
-<div class="menu-item" data-name="Kall Dosa"><div class="menu-left"><b>Kall Dosa</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Kall Dosa',20,-1)">−</button><span id="q-Kall Dosa">0</span><button onclick="changeQty('Kall Dosa',20,1)">+</button></div></div>
-<div class="menu-item" data-name="Half Boil"><div class="menu-left"><b>Half Boil</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Half Boil',20,-1)">−</button><span id="q-Half Boil">0</span><button onclick="changeQty('Half Boil',20,1)">+</button></div></div><!-- 65 --><div class="menu-item" data-name="Chicken 65"><div class="menu-left"><b>Chicken 65</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('Chicken 65',120,-1)">−</button><span id="q-Chicken 65">0</span><button onclick="changeQty('Chicken 65',120,1)">+</button></div></div><!-- GRILL --><div class="menu-item" data-name="Grill Quarter"><div class="menu-left"><b>Grill Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Grill Quarter',100,-1)">−</button><span id="q-Grill Quarter">0</span><button onclick="changeQty('Grill Quarter',100,1)">+</button></div></div>
-<div class="menu-item" data-name="Grill Half"><div class="menu-left"><b>Grill Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('Grill Half',200,-1)">−</button><span id="q-Grill Half">0</span><button onclick="changeQty('Grill Half',200,1)">+</button></div></div>
-<div class="menu-item" data-name="Grill Full"><div class="menu-left"><b>Grill Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('Grill Full',400,-1)">−</button><span id="q-Grill Full">0</span><button onclick="changeQty('Grill Full',400,1)">+</button></div></div><!-- TANDOORI --><div class="menu-item" data-name="Tandoori Quarter"><div class="menu-left"><b>Tandoori Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Tandoori Quarter',100,-1)">−</button><span id="q-Tandoori Quarter">0</span><button onclick="changeQty('Tandoori Quarter',100,1)">+</button></div></div>
-<div class="menu-item" data-name="Tandoori Half"><div class="menu-left"><b>Tandoori Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('Tandoori Half',200,-1)">−</button><span id="q-Tandoori Half">0</span><button onclick="changeQty('Tandoori Half',200,1)">+</button></div></div>
-<div class="menu-item" data-name="Tandoori Full"><div class="menu-left"><b>Tandoori Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('Tandoori Full',400,-1)">−</button><span id="q-Tandoori Full">0</span><button onclick="changeQty('Tandoori Full',400,1)">+</button></div></div><!-- PEPPER --><div class="menu-item" data-name="Pepper Quarter"><div class="menu-left"><b>Pepper Quarter</b><span>₹140</span></div><div class="qty-box"><button onclick="changeQty('Pepper Quarter',140,-1)">−</button><span id="q-Pepper Quarter">0</span><button onclick="changeQty('Pepper Quarter',140,1)">+</button></div></div>
-<div class="menu-item" data-name="Pepper Half"><div class="menu-left"><b>Pepper Half</b><span>₹270</span></div><div class="qty-box"><button onclick="changeQty('Pepper Half',270,-1)">−</button><span id="q-Pepper Half">0</span><button onclick="changeQty('Pepper Half',270,1)">+</button></div></div>
-<div class="menu-item" data-name="Pepper Full"><div class="menu-left"><b>Pepper Full</b><span>₹500</span></div><div class="qty-box"><button onclick="changeQty('Pepper Full',500,-1)">−</button><span id="q-Pepper Full">0</span><button onclick="changeQty('Pepper Full',500,1)">+</button></div></div><!-- BBQ --><div class="menu-item" data-name="BBQ Quarter"><div class="menu-left"><b>BBQ Quarter</b><span>₹110</span></div><div class="qty-box"><button onclick="changeQty('BBQ Quarter',110,-1)">−</button><span id="q-BBQ Quarter">0</span><button onclick="changeQty('BBQ Quarter',110,1)">+</button></div></div>
-<div class="menu-item" data-name="BBQ Half"><div class="menu-left"><b>BBQ Half</b><span>₹210</span></div><div class="qty-box"><button onclick="changeQty('BBQ Half',210,-1)">−</button><span id="q-BBQ Half">0</span><button onclick="changeQty('BBQ Half',210,1)">+</button></div></div>
-<div class="menu-item" data-name="BBQ Full"><div class="menu-left"><b>BBQ Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('BBQ Full',400,-1)">−</button><span id="q-BBQ Full">0</span><button onclick="changeQty('BBQ Full',400,1)">+</button></div></div><!-- ROLLS --><div class="menu-item" data-name="Shawarma Roll Special"><div class="menu-left"><b>Shawarma Roll Special</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('Shawarma Roll Special',120,-1)">−</button><span id="q-Shawarma Roll Special">0</span><button onclick="changeQty('Shawarma Roll Special',120,1)">+</button></div></div></div><div class="order">
+</select><div class="menu" id="menu"><!-- FAST MOVING / RICE --><div class="menu-item" data-name="Chicken Rice" data-key="chicken_rice"><div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('chicken_rice','Chicken Rice',130,-1)">−</button><span id="q-chicken_rice">0</span><button onclick="changeQty('chicken_rice','Chicken Rice',130,1)">+</button></div></div>
+<div class="menu-item" data-name="Chicken Noodles" data-key="chicken_noodles"><div class="menu-left"><b>Chicken Noodles</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('chicken_noodles','Chicken Noodles',130,-1)">−</button><span id="q-chicken_noodles">0</span><button onclick="changeQty('chicken_noodles','Chicken Noodles',130,1)">+</button></div></div>
+<div class="menu-item" data-name="Egg Rice" data-key="egg_rice"><div class="menu-left"><b>Egg Rice</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('egg_rice','Egg Rice',100,-1)">−</button><span id="q-egg_rice">0</span><button onclick="changeQty('egg_rice','Egg Rice',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Plain Briyani" data-key="plain_briyani"><div class="menu-left"><b>Plain Briyani</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('plain_briyani','Plain Briyani',100,-1)">−</button><span id="q-plain_briyani">0</span><button onclick="changeQty('plain_briyani','Plain Briyani',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Chicken Rice 1/2" data-key="chicken_rice_half"><div class="menu-left"><b>Chicken Rice 1/2</b><span>₹150</span></div><div class="qty-box"><button onclick="changeQty('chicken_rice_half','Chicken Rice 1/2',150,-1)">−</button><span id="q-chicken_rice_half">0</span><button onclick="changeQty('chicken_rice_half','Chicken Rice 1/2',150,1)">+</button></div></div>
+<div class="menu-item" data-name="Rice Combo" data-key="rice_combo"><div class="menu-left"><b>Rice Combo</b><span>₹180</span></div><div class="qty-box"><button onclick="changeQty('rice_combo','Rice Combo',180,-1)">−</button><span id="q-rice_combo">0</span><button onclick="changeQty('rice_combo','Rice Combo',180,1)">+</button></div></div><!-- PAROTTA / DOSA --><div class="menu-item" data-name="Parotta" data-key="parotta"><div class="menu-left"><b>Parotta</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('parotta','Parotta',20,-1)">−</button><span id="q-parotta">0</span><button onclick="changeQty('parotta','Parotta',20,1)">+</button></div></div>
+<div class="menu-item" data-name="Chapathi" data-key="chapathi"><div class="menu-left"><b>Chapathi</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('chapathi','Chapathi',20,-1)">−</button><span id="q-chapathi">0</span><button onclick="changeQty('chapathi','Chapathi',20,1)">+</button></div></div>
+<div class="menu-item" data-name="Egg Dosa" data-key="egg_dosa"><div class="menu-left"><b>Egg Dosa</b><span>₹50</span></div><div class="qty-box"><button onclick="changeQty('egg_dosa','Egg Dosa',50,-1)">−</button><span id="q-egg_dosa">0</span><button onclick="changeQty('egg_dosa','Egg Dosa',50,1)">+</button></div></div>
+<div class="menu-item" data-name="Egg Veechi" data-key="egg_veechi"><div class="menu-left"><b>Egg Veechi</b><span>₹30</span></div><div class="qty-box"><button onclick="changeQty('egg_veechi','Egg Veechi',30,-1)">−</button><span id="q-egg_veechi">0</span><button onclick="changeQty('egg_veechi','Egg Veechi',30,1)">+</button></div></div>
+<div class="menu-item" data-name="Kall Dosa" data-key="kall_dosa"><div class="menu-left"><b>Kall Dosa</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('kall_dosa','Kall Dosa',20,-1)">−</button><span id="q-kall_dosa">0</span><button onclick="changeQty('kall_dosa','Kall Dosa',20,1)">+</button></div></div>
+<div class="menu-item" data-name="Half Boil" data-key="half_boil"><div class="menu-left"><b>Half Boil</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('half_boil','Half Boil',20,-1)">−</button><span id="q-half_boil">0</span><button onclick="changeQty('half_boil','Half Boil',20,1)">+</button></div></div><!-- CHICKEN --><div class="menu-item" data-name="Chicken 65" data-key="chicken_65"><div class="menu-left"><b>Chicken 65</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('chicken_65','Chicken 65',120,-1)">−</button><span id="q-chicken_65">0</span><button onclick="changeQty('chicken_65','Chicken 65',120,1)">+</button></div></div><!-- GRILL --><div class="menu-item" data-name="Grill Quarter" data-key="grill_quarter"><div class="menu-left"><b>Grill Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('grill_quarter','Grill Quarter',100,-1)">−</button><span id="q-grill_quarter">0</span><button onclick="changeQty('grill_quarter','Grill Quarter',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Grill Half" data-key="grill_half"><div class="menu-left"><b>Grill Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('grill_half','Grill Half',200,-1)">−</button><span id="q-grill_half">0</span><button onclick="changeQty('grill_half','Grill Half',200,1)">+</button></div></div>
+<div class="menu-item" data-name="Grill Full" data-key="grill_full"><div class="menu-left"><b>Grill Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('grill_full','Grill Full',400,-1)">−</button><span id="q-grill_full">0</span><button onclick="changeQty('grill_full','Grill Full',400,1)">+</button></div></div><!-- TANDOORI --><div class="menu-item" data-name="Tandoori Quarter" data-key="tandoori_quarter"><div class="menu-left"><b>Tandoori Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('tandoori_quarter','Tandoori Quarter',100,-1)">−</button><span id="q-tandoori_quarter">0</span><button onclick="changeQty('tandoori_quarter','Tandoori Quarter',100,1)">+</button></div></div>
+<div class="menu-item" data-name="Tandoori Half" data-key="tandoori_half"><div class="menu-left"><b>Tandoori Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('tandoori_half','Tandoori Half',200,-1)">−</button><span id="q-tandoori_half">0</span><button onclick="changeQty('tandoori_half','Tandoori Half',200,1)">+</button></div></div>
+<div class="menu-item" data-name="Tandoori Full" data-key="tandoori_full"><div class="menu-left"><b>Tandoori Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('tandoori_full','Tandoori Full',400,-1)">−</button><span id="q-tandoori_full">0</span><button onclick="changeQty('tandoori_full','Tandoori Full',400,1)">+</button></div></div><!-- PEPPER --><div class="menu-item" data-name="Pepper Quarter" data-key="pepper_quarter"><div class="menu-left"><b>Pepper Quarter</b><span>₹140</span></div><div class="qty-box"><button onclick="changeQty('pepper_quarter','Pepper Quarter',140,-1)">−</button><span id="q-pepper_quarter">0</span><button onclick="changeQty('pepper_quarter','Pepper Quarter',140,1)">+</button></div></div>
+<div class="menu-item" data-name="Pepper Half" data-key="pepper_half"><div class="menu-left"><b>Pepper Half</b><span>₹270</span></div><div class="qty-box"><button onclick="changeQty('pepper_half','Pepper Half',270,-1)">−</button><span id="q-pepper_half">0</span><button onclick="changeQty('pepper_half','Pepper Half',270,1)">+</button></div></div>
+<div class="menu-item" data-name="Pepper Full" data-key="pepper_full"><div class="menu-left"><b>Pepper Full</b><span>₹500</span></div><div class="qty-box"><button onclick="changeQty('pepper_full','Pepper Full',500,-1)">−</button><span id="q-pepper_full">0</span><button onclick="changeQty('pepper_full','Pepper Full',500,1)">+</button></div></div><!-- BBQ --><div class="menu-item" data-name="BBQ Quarter" data-key="bbq_quarter"><div class="menu-left"><b>BBQ Quarter</b><span>₹110</span></div><div class="qty-box"><button onclick="changeQty('bbq_quarter','BBQ Quarter',110,-1)">−</button><span id="q-bbq_quarter">0</span><button onclick="changeQty('bbq_quarter','BBQ Quarter',110,1)">+</button></div></div>
+<div class="menu-item" data-name="BBQ Half" data-key="bbq_half"><div class="menu-left"><b>BBQ Half</b><span>₹210</span></div><div class="qty-box"><button onclick="changeQty('bbq_half','BBQ Half',210,-1)">−</button><span id="q-bbq_half">0</span><button onclick="changeQty('bbq_half','BBQ Half',210,1)">+</button></div></div>
+<div class="menu-item" data-name="BBQ Full" data-key="bbq_full"><div class="menu-left"><b>BBQ Full</b><span>₹400</span></div><div class="qty-box"><button onclick="changeQty('bbq_full','BBQ Full',400,-1)">−</button><span id="q-bbq_full">0</span><button onclick="changeQty('bbq_full','BBQ Full',400,1)">+</button></div></div><!-- ROLLS --><div class="menu-item" data-name="Shawarma Roll Special" data-key="shawarma"><div class="menu-left"><b>Shawarma Roll Special</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('shawarma','Shawarma Roll Special',120,-1)">−</button><span id="q-shawarma">0</span><button onclick="changeQty('shawarma','Shawarma Roll Special',120,1)">+</button></div></div></div><div class="order">
   <h3>Order</h3>
   <ul id="orderList"></ul>
   <div class="total">Total: ₹<span id="total">0</span></div>
   <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
-  <button class="submit-btn" style="background:#b71c1c;margin-top:8px" onclick="clearCart()">Clear Cart</button>
+  <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
   <div class="note">WhatsApp opens with message – tap Send</div>
 </div>
 </div><script>
-let orders={}; let total=0;
-const orderList=document.getElementById('orderList'); const totalSpan=document.getElementById('total');
+let orders = {}; let total = 0;
+const orderList = document.getElementById('orderList');
+const totalSpan = document.getElementById('total');
 
-function changeQty(name,price,delta){
-  if(!orders[name] && delta<0) return;
-  if(!orders[name]) orders[name]={price,qty:0};
-  orders[name].qty+=delta;
-  if(orders[name].qty<=0) delete orders[name];
-  const q=document.getElementById('q-'+name); if(q) q.textContent=orders[name]?orders[name].qty:0;
-  total+=price*delta; if(total<0) total=0; render();
+function changeQty(key, name, price, delta){
+  if(!orders[key] && delta < 0) return;
+  if(!orders[key]) orders[key] = { name, price, qty: 0 };
+  orders[key].qty += delta;
+  if(orders[key].qty <= 0) delete orders[key];
+  const q = document.getElementById('q-' + key);
+  if(q) q.textContent = orders[key] ? orders[key].qty : 0;
+  total += price * delta;
+  if(total < 0) total = 0;
+  render();
 }
-function render(){ orderList.innerHTML=''; for(const n in orders){const i=orders[n]; const li=document.createElement('li'); li.textContent=`${n} x ${i.qty} = ₹${i.qty*i.price}`; orderList.appendChild(li);} totalSpan.textContent=total; }
-function submitOrder(){ const table=document.getElementById('tableNo').value; if(!table||Object.keys(orders).length===0){alert('Select table and items');return;} let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`; for(const n in orders){const i=orders[n]; msg+=`${n} x ${i.qty} - ₹${i.qty*i.price}%0A`;} msg+=`Total: ₹${total}`; window.location.href=`https://wa.me/918608776956?text=${msg}`; }
+
+function render(){
+  orderList.innerHTML = '';
+  for(const k in orders){
+    const i = orders[k];
+    const li = document.createElement('li');
+    li.textContent = `${i.name} x ${i.qty} = ₹${i.qty * i.price}`;
+    orderList.appendChild(li);
+  }
+  totalSpan.textContent = total;
+}
 
 function clearCart(){
-  // reset data
-  orders = {};
-  total = 0;
-  // reset all visible qty boxes
-  document.querySelectorAll('.qty-box span').forEach(s=>s.textContent='0');
-  // clear order list and total
-  orderList.innerHTML='';
-  totalSpan.textContent='0';
-}; total=0;
-  document.querySelectorAll('[id^="q-"]').forEach(q=>q.textContent='0');
-  render();
-} let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`; for(const n in orders){const i=orders[n]; msg+=`${n} x ${i.qty} - ₹${i.qty*i.price}%0A`;} msg+=`Total: ₹${total}`; window.location.href=`https://wa.me/918608776956?text=${msg}`; }
-function filterMenu(){ const q=document.getElementById('search').value.toLowerCase(); document.querySelectorAll('.menu-item').forEach(i=>{ i.style.display=i.dataset.name.toLowerCase().includes(q)?'flex':'none';}); }
+  orders = {}; total = 0;
+  document.querySelectorAll('.qty-box span').forEach(s => s.textContent = '0');
+  orderList.innerHTML = '';
+  totalSpan.textContent = '0';
+}
+
+function submitOrder(){
+  const table = document.getElementById('tableNo').value;
+  if(!table || Object.keys(orders).length === 0){ alert('Select table and items'); return; }
+  let msg = `Mumbai Special Barbeque%0ATable: ${table}%0A`;
+  for(const k in orders){ const i = orders[k]; msg += `${i.name} x ${i.qty} - ₹${i.qty * i.price}%0A`; }
+  msg += `Total: ₹${total}`;
+  window.location.href = `https://wa.me/918608776956?text=${msg}`;
+}
+
+function filterMenu(){
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.menu-item').forEach(i => {
+    i.style.display = i.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none';
+  });
+}
 </script></body>
 </html>
