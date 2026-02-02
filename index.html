@@ -119,5 +119,10 @@ function filterMenu(){
     i.style.display = i.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none';
   });
 }
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </script></body>
 </html>
