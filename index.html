@@ -1,110 +1,79 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel Order System</title>
-  <style>
-    body{font-family:Arial;background:#f4f6f8;padding:20px}
-    h1{text-align:center}
-    .container{max-width:950px;margin:auto;background:#fff;padding:20px;border-radius:10px}
-    select,button{padding:10px;font-size:16px;margin:5px}
-    .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-    .menu-item{background:#eee;padding:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
-    ul li{margin:6px 0}
-    .submit-btn{background:#28a745;color:#fff;border:none;border-radius:8px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Order System</title>
+<style>
+body{font-family:Arial;background:#f4f6f8;padding:15px}
+h1{text-align:center}
+.container{max-width:1000px;margin:auto;background:#fff;padding:15px;border-radius:10px}
+select,button{padding:10px;font-size:16px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.menu-item{background:#eee;border-radius:10px;padding:10px;text-align:center}
+.menu-item img{width:100%;height:130px;object-fit:cover;border-radius:8px}
+.menu-item button{margin-top:8px;width:100%}
+ul li{margin:6px 0}
+.submit-btn{background:#28a745;color:#fff;border:none;border-radius:8px;width:100%;padding:12px}
+</style>
 </head>
 <body>
-<h1>Hotel Order Taking</h1>
+<h1>Hotel Order</h1>
 <div class="container"><label>Table Number</label><br> <select id="tableNo">
 
 <option value="">Select Table</option>
 <option>Table 1</option><option>Table 2</option><option>Table 3</option><option>Table 4</option><option>Table 5</option>
 <option>Table 6</option><option>Table 7</option><option>Table 8</option><option>Table 9</option><option>Table 10</option>
 <option>Table 11</option><option>Table 12</option><option>Table 13</option><option>Table 14</option><option>Table 15</option>
-</select><h3>Menu (Most ordered first)</h3>
+</select><h3>Menu</h3>
 <div class="menu">
-  <!-- MOST POPULAR -->
-  <div class="menu-item"><span>Chicken Rice – ₹130</span><button onclick="addItem('Chicken Rice',130)">+</button></div>
-  <div class="menu-item"><span>Chicken Kothu – ₹130</span><button onclick="addItem('Chicken Kothu',130)">+</button></div>
-  <div class="menu-item"><span>Egg Rice – ₹100</span><button onclick="addItem('Egg Rice',100)">+</button></div>
-  <div class="menu-item"><span>Plain Briyani – ₹100</span><button onclick="addItem('Plain Briyani',100)">+</button></div>  <!-- PEPPER ITEMS -->  <div class="menu-item"><span>Pepper Quarter – ₹140</span><button onclick="addItem('Pepper Quarter',140)">+</button></div>
-  <div class="menu-item"><span>Pepper Half – ₹270</span><button onclick="addItem('Pepper Half',270)">+</button></div>
-  <div class="menu-item"><span>Pepper Full – ₹500</span><button onclick="addItem('Pepper Full',500)">+</button></div>  <!-- GRILL ITEMS -->  <div class="menu-item"><span>Grill Quarter – ₹100</span><button onclick="addItem('Grill Quarter',100)">+</button></div>
-  <div class="menu-item"><span>Grill Half – ₹200</span><button onclick="addItem('Grill Half',200)">+</button></div>
-  <div class="menu-item"><span>Grill Full – ₹400</span><button onclick="addItem('Grill Full',400)">+</button></div>  <!-- TANDOORI ITEMS -->  <div class="menu-item"><span>Tandoori Quarter – ₹100</span><button onclick="addItem('Tandoori Quarter',100)">+</button></div>
-  <div class="menu-item"><span>Tandoori Half – ₹200</span><button onclick="addItem('Tandoori Half',200)">+</button></div>
-  <div class="menu-item"><span>Tandoori Full – ₹400</span><button onclick="addItem('Tandoori Full',400)">+</button></div>  <!-- BBQ ITEMS -->  <div class="menu-item"><span>BBQ Quarter – ₹110</span><button onclick="addItem('BBQ Quarter',110)">+</button></div>
-  <div class="menu-item"><span>BBQ Half – ₹210</span><button onclick="addItem('BBQ Half',210)">+</button></div>
-  <div class="menu-item"><span>BBQ Full – ₹400</span><button onclick="addItem('BBQ Full',400)">+</button></div>  <!-- SHAWARMA -->  <div class="menu-item"><span>Shawarma Roll Special – ₹120</span><button onclick="addItem('Shawarma Roll Special',120)">+</button></div>  <!-- RICE & COMBO -->  <div class="menu-item"><span>Chicken Rice 1/2 – ₹150</span><button onclick="addItem('Chicken Rice Half',150)">+</button></div>
-  <div class="menu-item"><span>Rice Combo – ₹180</span><button onclick="addItem('Rice Combo',180)">+</button></div>  <!-- SIDES -->  <div class="menu-item"><span>Kall Dosa – ₹20</span><button onclick="addItem('Kall Dosa',20)">+</button></div>
-  <div class="menu-item"><span>Half Boil – ₹20</span><button onclick="addItem('Half Boil',20)">+</button></div>
-  <div class="menu-item"><span>Chicken 65 (Small) – ₹65</span><button onclick="addItem('Chicken 65 Small',65)">+</button></div>
-  <div class="menu-item"><span>Chicken 65 (Large) – ₹120</span><button onclick="addItem('Chicken 65 Large',120)">+</button></div>
+  <div class="menu-item"><img src="https://images.unsplash.com/photo-1604908177522-429f37dcd84a"/><p>Chicken Rice ₹130</p><button onclick="addItem('Chicken Rice',130)">+</button></div>
+  <div class="menu-item"><img src="https://images.unsplash.com/photo-1626776876724-b98c2e82c9aa"/><p>Egg Rice ₹100</p><button onclick="addItem('Egg Rice',100)">+</button></div>
+  <div class="menu-item"><img src="https://images.unsplash.com/photo-1600628422019-0f21a3c71b88"/><p>Grill Quarter ₹100</p><button onclick="addItem('Grill Quarter',100)">+</button></div>
+  <div class="menu-item"><img src="https://images.unsplash.com/photo-1625944525903-9d6f8f49e16b"/><p>Grill Half ₹200</p><button onclick="addItem('Grill Half',200)">+</button></div>
+  <div class="menu-item"><img src="https://images.unsplash.com/photo-1626078293844-b0b45a1c3c5d"/><p>Tandoori Full ₹400</p><button onclick="addItem('Tandoori Full',400)">+</button></div>
+  <div class="menu-item"><img src="https://images.unsplash.com/photo-1626078293773-4d6fd94f8d71"/><p>Shawarma ₹120</p><button onclick="addItem('Shawarma',120)">+</button></div>
 </div><h3>Order</h3>
 <ul id="orderList"></ul>
-<h3>Total: ₹<span id="total">0</span></h3><button class="submit-btn" onclick="submitOrder()">Send to WhatsApp</button>
+<h3>Total: ₹<span id="total">0</span></h3><button class="submit-btn" onclick="sendWhatsApp()">Send Order to WhatsApp</button>
 
 </div><script>
-let orders = {};
-let total = 0;
+let orders={};
+let total=0;
+const orderList=document.getElementById('orderList');
+const totalSpan=document.getElementById('total');
 
-const orderList = document.getElementById('orderList');
-const totalSpan = document.getElementById('total');
-
-function addItem(name, price){
-  if(!orders[name]){
-    orders[name] = {price: price, qty: 1};
-  } else {
-    orders[name].qty++;
-  }
-  total += price;
-  render();
-}
-
-function removeItem(name){
-  if(orders[name].qty > 1){
-    orders[name].qty--;
-    total -= orders[name].price;
-  } else {
-    total -= orders[name].price;
-    delete orders[name];
-  }
-  render();
+function addItem(name,price){
+ if(!orders[name]) orders[name]={price:price,qty:1};
+ else orders[name].qty++;
+ total+=price;
+ render();
 }
 
 function render(){
-  orderList.innerHTML = '';
-  for(const name in orders){
-    const item = orders[name];
-    const li = document.createElement('li');
-    li.innerHTML = `${name} x ${item.qty} = ₹${item.qty * item.price} <button onclick=\"addItem('${name}',${item.price})\">+</button> <button onclick=\"removeItem('${name}')\">-</button>`;
-    orderList.appendChild(li);
-  }
-  totalSpan.textContent = total;
+ orderList.innerHTML='';
+ for(let name in orders){
+  let i=orders[name];
+  let li=document.createElement('li');
+  li.innerHTML=`${name} x ${i.qty} = ₹${i.qty*i.price} <button onclick=\"addItem('${name}',${i.price})\">+</button> <button onclick=\"removeItem('${name}')\">-</button>`;
+  orderList.appendChild(li);
+ }
+ totalSpan.textContent=total;
 }
 
-function submitOrder(){
-  const table = document.getElementById('tableNo').value;
-  if(!table || Object.keys(orders).length === 0){
-    alert('Select table and items');
-    return;
-  }
+function removeItem(name){
+ if(orders[name].qty>1){orders[name].qty--; total-=orders[name].price;}
+ else{total-=orders[name].price; delete orders[name];}
+ render();
+}
 
-  let message = `Table: ${table}%0A`;
-  for(const name in orders){
-    const i = orders[name];
-    message += `${name} x ${i.qty} - ₹${i.qty * i.price}%0A`;
-  }
-  message += `Total: ₹${total}`;
-
-  const phoneNumber = '918608776956';
-  window.open(`https://wa.me/${phoneNumber}?text=${message}`,'_blank');
-
-  orders = {};
-  total = 0;
-  render();
-  document.getElementById('tableNo').value = '';
+function sendWhatsApp(){
+ const table=document.getElementById('tableNo').value;
+ if(!table||Object.keys(orders).length===0){alert('Select table & items');return;}
+ let text=`Order from ${table}\n`;
+ for(let name in orders){let i=orders[name]; text+=`${name} x ${i.qty} = ₹${i.qty*i.price}\n`;}
+ text+=`Total: ₹${total}`;
+ const phone='918608776956';
+ window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 </script></body>
 </html>
