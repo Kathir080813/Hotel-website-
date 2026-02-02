@@ -52,82 +52,71 @@
 <ul id="orderList"></ul>
 <h3>Total: ₹<span id="total">0</span></h3><button class="submit-btn" onclick="submitOrder()">Submit Order</button>
 
-</div><script>
-let orders={};
-let total=0;
-const orderList=document.getElementById('orderList');
-const totalSpan=document.getElementById('total');
+<script>
+let orders = {};
+let total = 0;
 
-function addItem(name,price){
-  if(!orders[name]){
-    orders[name]={price:price,qty:1};
+const orderList = document.getElementById('orderList');
+const totalSpan = document.getElementById('total');
+
+function addItem(name, price) {
+  if (!orders[name]) {
+    orders[name] = { price: price, qty: 1 };
   } else {
     orders[name].qty++;
   }
-  total+=price;
+  total += price;
   render();
 }
-function render(){
-  orderList.innerHTML='';
-  for(const name in orders){
-    const item=orders[name];
-    const li=document.createElement('li');
 
-    const text=document.createElement('span');
-    text.textContent=`${name} x ${item.qty} = ₹${item.price*item.qty} `;
-
-    const plus=document.createElement('button');
-    plus.textContent='+';
-    plus.onclick=()=>addItem(name,item.price);
-
-    const minus=document.createElement('button');
-    minus.textContent='-';
-    minus.onclick=()=>removeItem(name);
-
-    li.appendChild(text);
-    li.appendChild(plus);
-    li.appendChild(minus);
-    orderList.appendChild(li);
-  }
-  totalSpan.textContent=total;
-}function removeItem(name){
-  if(orders[name].qty>1){
+function removeItem(name) {
+  if (orders[name].qty > 1) {
     orders[name].qty--;
-    total-=orders[name].price;
+    total -= orders[name].price;
   } else {
-    total-=orders[name].price;
+    total -= orders[name].price;
     delete orders[name];
   }
   render();
-}function submitOrder(){
-  const table=document.getElementById('tableNo').value;
-  if(!table||Object.keys(orders).length===0){alert('Select table & items');return;}
+}
 
-  let message=`Table: ${table}%0A`;
-  for(const name in orders){
-    const i=orders[name];
-    message+=`${name} x ${i.qty} - ₹${i.price*i.qty}%0A`;
+function render() {
+  orderList.innerHTML = '';
+  for (let name in orders) {
+    let item = orders[name];
+    let li = document.createElement('li');
+
+    li.innerHTML = `
+      ${name} x ${item.qty} = ₹${item.qty * item.price}
+      <button onclick=\"addItem('${name}', ${item.price})\">+</button>
+      <button onclick=\"removeItem('${name}')\">-</button>
+    `;
+
+    orderList.appendChild(li);
   }
-  message+=`Total: ₹${total}`;
-
-  const phoneNumber='918608776956'; // CHANGE NUMBER
-  const url=`https://wa.me/${phoneNumber}?text=${message}`;
-  window.open(url,'_blank');
-
-  orders={}; total=0; render(); document.getElementById('tableNo').value='';
+  totalSpan.textContent = total;
 }
-  let message=`Table: ${table}%0A`;
-  orders.forEach(o=>{ message+=`${o.name} - ₹${o.price}%0A`; });
-  message+=`Total: ₹${total}`;
 
-  const phoneNumber='918608776956'; // CHANGE THIS
-  const url=`https://wa.me/${phoneNumber}?text=${message}`;
-  window.open(url,'_blank');
+function submitOrder() {
+  const table = document.getElementById('tableNo').value;
+  if (!table || Object.keys(orders).length === 0) {
+    alert('Select table & items');
+    return;
+  }
 
-  orders=[]; total=0; render(); document.getElementById('tableNo').value='';
+  let message = `Table: ${table}%0A`;
+  for (let name in orders) {
+    let i = orders[name];
+    message += `${name} x ${i.qty} - ₹${i.qty * i.price}%0A`;
+  }
+  message += `Total: ₹${total}`;
+
+  const phoneNumber = '918608776956';
+  window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+
+  orders = {};
+  total = 0;
+  render();
+  document.getElementById('tableNo').value = '';
 }
-  alert(table+' Order Placed. Total ₹'+total);
-  orders=[];total=0;render();document.getElementById('tableNo').value='';
-}
-</script></body>
-</html>
+</script>
