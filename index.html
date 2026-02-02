@@ -66,6 +66,17 @@ function removeItem(i){total-=orders[i].price;orders.splice(i,1);render();}
 function submitOrder(){
   const table=document.getElementById('tableNo').value;
   if(!table||orders.length===0){alert('Select table & items');return;}
+
+  let message=`Table: ${table}%0A`;
+  orders.forEach(o=>{ message+=`${o.name} - ₹${o.price}%0A`; });
+  message+=`Total: ₹${total}`;
+
+  const phoneNumber='91XXXXXXXXXX'; // CHANGE THIS
+  const url=`https://wa.me/${phoneNumber}?text=${message}`;
+  window.open(url,'_blank');
+
+  orders=[]; total=0; render(); document.getElementById('tableNo').value='';
+}
   alert(table+' Order Placed. Total ₹'+total);
   orders=[];total=0;render();document.getElementById('tableNo').value='';
 }
