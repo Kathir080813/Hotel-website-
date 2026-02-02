@@ -28,6 +28,13 @@
 </select><h3>Menu</h3>
 <div class="menu">
   <div class="menu-item"><span>Chicken Rice – ₹130</span><button onclick="addItem('Chicken Rice',130)">Add</button></div>
+  <div class="menu-item"><span>Chicken Kothu – ₹130</span><button onclick="addItem('Chicken Kothu',130)">Add</button></div>  <div class="menu-item"><span>Grill Quarter – ₹100</span><button onclick="addItem('Grill Quarter',100)">Add</button></div>
+  <div class="menu-item"><span>Grill Half – ₹200</span><button onclick="addItem('Grill Half',200)">Add</button></div>
+  <div class="menu-item"><span>Grill Full – ₹400</span><button onclick="addItem('Grill Full',400)">Add</button></div>  <div class="menu-item"><span>Tandoori Quarter – ₹100</span><button onclick="addItem('Tandoori Quarter',100)">Add</button></div>
+  <div class="menu-item"><span>Tandoori Half – ₹200</span><button onclick="addItem('Tandoori Half',200)">Add</button></div>
+  <div class="menu-item"><span>Tandoori Full – ₹400</span><button onclick="addItem('Tandoori Full',400)">Add</button></div>  <div class="menu-item"><span>Parotta – ₹20</span><button onclick="addItem('Parotta',20)">Add</button></div>
+  <div class="menu-item"><span>Shawarma – ₹60</span><button onclick="addItem('Shawarma',60)">Add</button></div>
+</div>
   <div class="menu-item"><span>Chicken Kothu – ₹130</span><button onclick="addItem('Chicken Kothu',130)">Add</button></div>
   <div class="menu-item"><span>Grill Quarter – ₹100</span><button onclick="addItem('Grill Quarter',100)">Add</button></div>
   <div class="menu-item"><span>Grill Half – ₹200</span><button onclick="addItem('Grill Half',200)">Add</button></div>
@@ -39,39 +46,64 @@
 <h3>Total: ₹<span id="total">0</span></h3><button class="submit-btn" onclick="submitOrder()">Submit Order</button>
 
 </div><script>
-let orders=[];
+let orders={};
 let total=0;
 const orderList=document.getElementById('orderList');
 const totalSpan=document.getElementById('total');
 
 function addItem(name,price){
-  orders.push({name,price});
+  if(!orders[name]){
+    orders[name]={price:price,qty:1};
+  } else {
+    orders[name].qty++;
+  }
   total+=price;
   render();
 }
 function render(){
   orderList.innerHTML='';
-  orders.forEach((o,i)=>{
+  for(const name in orders){
+    const item=orders[name];
     const li=document.createElement('li');
-    li.textContent=o.name+' - ₹'+o.price;
+    li.textContent=`${name} x ${item.qty} = ₹${item.price*item.qty} `;
     const btn=document.createElement('button');
-    btn.textContent='Remove';
-    btn.onclick=()=>removeItem(i);
+    btn.textContent='-';
+    btn.onclick=()=>removeItem(name);
     li.appendChild(btn);
     orderList.appendChild(li);
-  });
+  }
   totalSpan.textContent=total;
-}
-function removeItem(i){total-=orders[i].price;orders.splice(i,1);render();}
-function submitOrder(){
+}function removeItem(name){
+  if(orders[name].qty>1){
+    orders[name].qty--;
+    total-=orders[name].price;
+  } else {
+    total-=orders[name].price;
+    delete orders[name];
+  }
+  render();
+}function submitOrder(){
   const table=document.getElementById('tableNo').value;
-  if(!table||orders.length===0){alert('Select table & items');return;}
+  if(!table||Object.keys(orders).length===0){alert('Select table & items');return;}
 
+  let message=`Table: ${table}%0A`;
+  for(const name in orders){
+    const i=orders[name];
+    message+=`${name} x ${i.qty} - ₹${i.price*i.qty}%0A`;
+  }
+  message+=`Total: ₹${total}`;
+
+  const phoneNumber='918608776956'; // CHANGE NUMBER
+  const url=`https://wa.me/${phoneNumber}?text=${message}`;
+  window.open(url,'_blank');
+
+  orders={}; total=0; render(); document.getElementById('tableNo').value='';
+}
   let message=`Table: ${table}%0A`;
   orders.forEach(o=>{ message+=`${o.name} - ₹${o.price}%0A`; });
   message+=`Total: ₹${total}`;
 
-  const phoneNumber='918608776956'; // CHANGE THIS
+  const phoneNumber='91XXXXXXXXXX'; // CHANGE THIS
   const url=`https://wa.me/${phoneNumber}?text=${message}`;
   window.open(url,'_blank');
 
