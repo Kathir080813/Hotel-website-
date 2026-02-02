@@ -39,13 +39,15 @@ li{display:flex;justify-content:space-between;margin:6px 0}
   <option>Table 6</option><option>Table 7</option><option>Table 8</option><option>Table 9</option><option>Table 10</option>
   <option>Table 11</option><option>Table 12</option><option>Table 13</option><option>Table 14</option><option>Table 15</option>
   <option>Table 16</option><option>Table 17</option><option>Table 18</option><option>Table 19</option><option>Table 20</option>
-</select><div class="menu" id="menu"><!-- RICE --><div class="menu-item" data-name="Chicken Rice"><div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice',130,-1)">−</button><span id="q-Chicken Rice">0</span><button onclick="changeQty('Chicken Rice',130,1)">+</button></div></div>
+</select><div class="menu" id="menu"><!-- RICE --><div class="menu-item" data-name="Chicken Noodles"><div class="menu-left"><b>Chicken Noodles</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('Chicken Noodles',130,-1)">−</button><span id="q-Chicken Noodles">0</span><button onclick="changeQty('Chicken Noodles',130,1)">+</button></div></div>
+<div class="menu-item" data-name="Chicken Rice"><div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice',130,-1)">−</button><span id="q-Chicken Rice">0</span><button onclick="changeQty('Chicken Rice',130,1)">+</button></div></div>
 <div class="menu-item" data-name="Egg Rice"><div class="menu-left"><b>Egg Rice</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Egg Rice',100,-1)">−</button><span id="q-Egg Rice">0</span><button onclick="changeQty('Egg Rice',100,1)">+</button></div></div>
 <div class="menu-item" data-name="Plain Briyani"><div class="menu-left"><b>Plain Briyani</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Plain Briyani',100,-1)">−</button><span id="q-Plain Briyani">0</span><button onclick="changeQty('Plain Briyani',100,1)">+</button></div></div>
 <div class="menu-item" data-name="Chicken Rice 1/2"><div class="menu-left"><b>Chicken Rice 1/2</b><span>₹150</span></div><div class="qty-box"><button onclick="changeQty('Chicken Rice 1/2',150,-1)">−</button><span id="q-Chicken Rice 1/2">0</span><button onclick="changeQty('Chicken Rice 1/2',150,1)">+</button></div></div>
 <div class="menu-item" data-name="Rice Combo"><div class="menu-left"><b>Rice Combo</b><span>₹180</span></div><div class="qty-box"><button onclick="changeQty('Rice Combo',180,-1)">−</button><span id="q-Rice Combo">0</span><button onclick="changeQty('Rice Combo',180,1)">+</button></div></div><!-- PAROTTA & DOSA --><div class="menu-item" data-name="Parotta"><div class="menu-left"><b>Parotta</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Parotta',20,-1)">−</button><span id="q-Parotta">0</span><button onclick="changeQty('Parotta',20,1)">+</button></div></div>
 <div class="menu-item" data-name="Chapathi"><div class="menu-left"><b>Chapathi</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Chapathi',20,-1)">−</button><span id="q-Chapathi">0</span><button onclick="changeQty('Chapathi',20,1)">+</button></div></div>
 <div class="menu-item" data-name="Egg Dosa"><div class="menu-left"><b>Egg Dosa</b><span>₹50</span></div><div class="qty-box"><button onclick="changeQty('Egg Dosa',50,-1)">−</button><span id="q-Egg Dosa">0</span><button onclick="changeQty('Egg Dosa',50,1)">+</button></div></div>
+<div class="menu-item" data-name="Egg Veechi"><div class="menu-left"><b>Egg Veechi</b><span>₹30</span></div><div class="qty-box"><button onclick="changeQty('Egg Veechi',30,-1)">−</button><span id="q-Egg Veechi">0</span><button onclick="changeQty('Egg Veechi',30,1)">+</button></div></div>
 <div class="menu-item" data-name="Kall Dosa"><div class="menu-left"><b>Kall Dosa</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Kall Dosa',20,-1)">−</button><span id="q-Kall Dosa">0</span><button onclick="changeQty('Kall Dosa',20,1)">+</button></div></div>
 <div class="menu-item" data-name="Half Boil"><div class="menu-left"><b>Half Boil</b><span>₹20</span></div><div class="qty-box"><button onclick="changeQty('Half Boil',20,-1)">−</button><span id="q-Half Boil">0</span><button onclick="changeQty('Half Boil',20,1)">+</button></div></div><!-- 65 --><div class="menu-item" data-name="Chicken 65"><div class="menu-left"><b>Chicken 65</b><span>₹120</span></div><div class="qty-box"><button onclick="changeQty('Chicken 65',120,-1)">−</button><span id="q-Chicken 65">0</span><button onclick="changeQty('Chicken 65',120,1)">+</button></div></div><!-- GRILL --><div class="menu-item" data-name="Grill Quarter"><div class="menu-left"><b>Grill Quarter</b><span>₹100</span></div><div class="qty-box"><button onclick="changeQty('Grill Quarter',100,-1)">−</button><span id="q-Grill Quarter">0</span><button onclick="changeQty('Grill Quarter',100,1)">+</button></div></div>
 <div class="menu-item" data-name="Grill Half"><div class="menu-left"><b>Grill Half</b><span>₹200</span></div><div class="qty-box"><button onclick="changeQty('Grill Half',200,-1)">−</button><span id="q-Grill Half">0</span><button onclick="changeQty('Grill Half',200,1)">+</button></div></div>
@@ -77,6 +79,20 @@ function changeQty(name,price,delta){
 }
 function render(){ orderList.innerHTML=''; for(const n in orders){const i=orders[n]; const li=document.createElement('li'); li.textContent=`${n} x ${i.qty} = ₹${i.qty*i.price}`; orderList.appendChild(li);} totalSpan.textContent=total; }
 function submitOrder(){ const table=document.getElementById('tableNo').value; if(!table||Object.keys(orders).length===0){alert('Select table and items');return;} let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`; for(const n in orders){const i=orders[n]; msg+=`${n} x ${i.qty} - ₹${i.qty*i.price}%0A`;} msg+=`Total: ₹${total}`; window.location.href=`https://wa.me/918608776956?text=${msg}`; }
+
+function clearCart(){
+  // reset data
+  orders = {};
+  total = 0;
+  // reset all visible qty boxes
+  document.querySelectorAll('.qty-box span').forEach(s=>s.textContent='0');
+  // clear order list and total
+  orderList.innerHTML='';
+  totalSpan.textContent='0';
+}; total=0;
+  document.querySelectorAll('[id^="q-"]').forEach(q=>q.textContent='0');
+  render();
+} let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`; for(const n in orders){const i=orders[n]; msg+=`${n} x ${i.qty} - ₹${i.qty*i.price}%0A`;} msg+=`Total: ₹${total}`; window.location.href=`https://wa.me/918608776956?text=${msg}`; }
 function filterMenu(){ const q=document.getElementById('search').value.toLowerCase(); document.querySelectorAll('.menu-item').forEach(i=>{ i.style.display=i.dataset.name.toLowerCase().includes(q)?'flex':'none';}); }
 </script></body>
 </html>
