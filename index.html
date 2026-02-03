@@ -15,6 +15,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Segoe UI,Arial;background:var(--bg)}
+
 .header{
   background:var(--primary);
   color:#fff;
@@ -170,7 +171,7 @@ function itemHTML(name,price,key){
  </div>`;
 }
 
-/* RICE */
+/* ITEMS (ALL INCLUDED) */
 rice.innerHTML+=
  itemHTML("Plain Briyani",90,"pb90")+
  itemHTML("Egg Briyani",100,"eb100")+
@@ -182,7 +183,6 @@ rice.innerHTML+=
  itemHTML("65 Briyani",150,"b65150")+
  itemHTML("Rice Combo",180,"rc180");
 
-/* DOSA */
 dosa.innerHTML+=
  itemHTML("Parotta",20,"par20")+
  itemHTML("Chapathi",20,"chap20")+
@@ -195,43 +195,36 @@ dosa.innerHTML+=
  itemHTML("Onion Uthappam",60,"ou60")+
  itemHTML("Kari Dosa",100,"kd100");
 
-/* STARTERS */
 starters.innerHTML+=
  itemHTML("Chicken 65",120,"c65120")+
  itemHTML("Chinna Chicken",120,"ch120")+
  itemHTML("Chilli Chicken",140,"cc140")+
  itemHTML("Chettinad Chicken",140,"chc140");
 
-/* ROLLS */
 rolls.innerHTML+=
  itemHTML("Shawarma Roll",60,"sr60")+
  itemHTML("Shawarma Roll Special",120,"srs120");
 
-/* GRILL */
 grill.innerHTML+=
  itemHTML("Grill Quarter",100,"gq100")+
  itemHTML("Grill Half",200,"gh200")+
  itemHTML("Grill Full",400,"gf400");
 
-/* TANDOORI */
 tandoori.innerHTML+=
  itemHTML("Tandoori Quarter",100,"tq100")+
  itemHTML("Tandoori Half",200,"th200")+
  itemHTML("Tandoori Full",400,"tf400");
 
-/* PEPPER */
 pepper.innerHTML+=
  itemHTML("Pepper Quarter",140,"pq140")+
  itemHTML("Pepper Half",270,"ph270")+
  itemHTML("Pepper Full",500,"pf500");
 
-/* BBQ */
 bbq.innerHTML+=
  itemHTML("BBQ Quarter",110,"bq110")+
  itemHTML("BBQ Half",210,"bh210")+
  itemHTML("BBQ Full",400,"bf400");
 
-/* NOODLES (FIXED) */
 noodles.innerHTML+=
  itemHTML("Veg Noodles",100,"vn100")+
  itemHTML("Egg Schezwan Noodles",110,"esn110")+
@@ -241,8 +234,8 @@ noodles.innerHTML+=
  itemHTML("Chicken Noodles",130,"cn130")+
  itemHTML("Chicken Schezwan Noodles",140,"csn140");
 
-/* ORDER + SALES */
-let orders={},total=0;
+/* ORDER LOGIC */
+let orders={}, total=0;
 const totalEl=document.getElementById("total");
 
 function changeQty(k,n,p,d){
@@ -287,14 +280,31 @@ function resetSalesReport(){
   alert("Sales report reset");
  }
 }
+
+/* WHATSAPP SEND (FIXED) */
 function submitOrder(){
- let table=tableNo.value;
- if(!table||!Object.keys(orders).length){
-  alert("Select table and items");return;
+ let table = tableNo.value;
+ if(!table || !Object.keys(orders).length){
+  alert("Select table and items"); return;
  }
- saveSale(table,orders,total);
- alert("Order saved");
+
+ saveSale(table, orders, total);
+
+ let msg = `Mumbai Special Barbeque%0A`;
+ msg += `Table: ${table}%0A%0A`;
+ for(let k in orders){
+  let i = orders[k];
+  msg += `${i.name} x ${i.qty} = ₹${i.qty*i.price}%0A`;
+ }
+ msg += `%0ATotal: ₹${total}`;
+
+ window.open(
+  `https://wa.me/918608776956?text=${msg}`,
+  "_blank"
+ );
 }
+
+/* SEARCH */
 function filterMenu(){
  let q=search.value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
