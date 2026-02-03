@@ -16,112 +16,67 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Segoe UI,Arial;background:var(--bg)}
 .header{
-  background:var(--primary);
-  color:#fff;
-  padding:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  background:var(--primary);color:#fff;
+  padding:16px;display:flex;
+  justify-content:space-between;align-items:center
 }
 .header h1{font-size:20px;margin:0}
 .header input{padding:8px 14px;border-radius:20px;border:none}
 
-.container{max-width:1100px;margin:auto;padding:14px}
+.container{max-width:1200px;margin:auto;padding:14px}
 
 select{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  margin-bottom:14px;
-  font-size:15px;
+  width:100%;padding:12px;
+  border-radius:12px;border:1px solid #ccc;margin-bottom:14px
 }
 
-/* CATEGORY */
-.category{
-  margin-top:20px;
-}
+.category{margin-top:22px}
 .category h2{
-  margin:10px 0;
   color:var(--primary);
   border-left:6px solid var(--accent);
   padding-left:10px;
   font-size:18px;
 }
 
-/* MENU */
 .menu{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:12px;
+  gap:12px
 }
 .menu-item{
   background:var(--card);
-  padding:14px;
-  border-radius:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 6px rgba(0,0,0,.12);
+  padding:14px;border-radius:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.12)
 }
 .menu-left b{font-size:16px;color:#3a1b1b}
 .menu-left span{display:block;color:#666;margin-top:4px}
 
 .qty-box{
-  display:flex;
-  align-items:center;
-  border:1px solid #ddd;
-  border-radius:20px;
-  overflow:hidden;
+  display:flex;align-items:center;
+  border:1px solid #ddd;border-radius:20px;overflow:hidden
 }
 .qty-box button{
-  border:none;
-  background:#f5f5f5;
-  padding:6px 14px;
-  font-size:18px;
+  border:none;background:#f5f5f5;
+  padding:6px 14px;font-size:18px
 }
-.qty-box span{
-  min-width:30px;
-  text-align:center;
-  font-weight:bold;
-}
+.qty-box span{min-width:30px;text-align:center;font-weight:bold}
 
-/* ORDER */
 .order{
-  background:#fff;
-  margin-top:20px;
-  padding:16px;
-  border-radius:18px;
+  background:#fff;margin-top:20px;
+  padding:16px;border-radius:18px
 }
 .total{font-size:20px;font-weight:bold;margin-top:8px}
 
 .submit-btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:18px;
-  background:var(--green);
-  color:#fff;
-  font-size:18px;
-  margin-top:10px;
+  width:100%;padding:14px;border:none;
+  border-radius:18px;background:var(--green);
+  color:#fff;font-size:18px;margin-top:10px
 }
 .clear-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:18px;
-  background:var(--accent);
-  color:#fff;
-  margin-top:8px;
-}
-.report-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:18px;
-  background:#283593;
-  color:#fff;
-  margin-top:8px;
+  width:100%;padding:12px;border:none;
+  border-radius:18px;background:var(--accent);
+  color:#fff;margin-top:8px
 }
 </style>
 </head>
@@ -141,63 +96,37 @@ select{
   <option>Table 4</option><option>Table 5</option>
 </select>
 
-<!-- RICE -->
 <div class="category">
-<h2>🍚 Rice Items</h2>
+<h2>🍚 Rice / Briyani</h2>
 <div class="menu" id="rice"></div>
 </div>
 
-<!-- PAROTTA / DOSA -->
 <div class="category">
-<h2>🫓 Parotta / Dosa / Egg</h2>
-<div class="menu" id="parotta"></div>
+<h2>🫓 Dosa / Egg / Kall</h2>
+<div class="menu" id="dosa"></div>
 </div>
 
-<!-- STARTERS -->
 <div class="category">
 <h2>🍗 Starters</h2>
 <div class="menu" id="starters"></div>
 </div>
 
-<!-- ROLLS -->
+<div class="category">
+<h2>🍜 Noodles</h2>
+<div class="menu" id="noodles"></div>
+</div>
+
 <div class="category">
 <h2>🌯 Rolls</h2>
 <div class="menu" id="rolls"></div>
 </div>
 
-<!-- GRILL -->
-<div class="category">
-<h2>🔥 Grill</h2>
-<div class="menu" id="grill"></div>
-</div>
-
-<!-- TANDOORI -->
-<div class="category">
-<h2>🔥 Tandoori</h2>
-<div class="menu" id="tandoori"></div>
-</div>
-
-<!-- PEPPER -->
-<div class="category">
-<h2>🌶️ Pepper</h2>
-<div class="menu" id="pepper"></div>
-</div>
-
-<!-- BBQ -->
-<div class="category">
-<h2>🍖 BBQ</h2>
-<div class="menu" id="bbq"></div>
-</div>
-
 <div class="order">
-  <h3>Order Summary</h3>
-  <ul id="orderList"></ul>
-  <div class="total">Total: ₹<span id="total">0</span></div>
-
-  <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
-  <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
-  <button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
-  <button class="clear-btn" onclick="resetSalesReport()">Reset Sales Report</button>
+<h3>Order Summary</h3>
+<ul id="orderList"></ul>
+<div class="total">Total: ₹<span id="total">0</span></div>
+<button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
+<button class="clear-btn" onclick="clearCart()">Clear Cart</button>
 </div>
 
 </div>
@@ -216,60 +145,48 @@ function itemHTML(name,price,key){
 }
 
 /* RICE */
-document.getElementById("rice").innerHTML+=
- itemHTML("Egg Rice",100,"er")+
- itemHTML("Plain Briyani",100,"pb")+
- itemHTML("Chicken Rice",130,"cr")+
- itemHTML("Chicken Briyani",130,"cb")+
- itemHTML("Chicken Noodles",130,"cn")+
- itemHTML("Chicken Rice 1/2",150,"crh")+
- itemHTML("Rice Combo",180,"rc");
+rice.innerHTML +=
+ itemHTML("Plain Briyani",90,"pb90")+
+ itemHTML("Egg Briyani",100,"eb100")+
+ itemHTML("Veg Rice",100,"vr100")+
+ itemHTML("Chicken Rice",130,"cr130")+
+ itemHTML("Chicken Briyani",130,"cb130")+
+ itemHTML("Gobi Rice",120,"gr120")+
+ itemHTML("Mushroom Rice",120,"mr120")+
+ itemHTML("Paneer Rice",120,"pr120")+
+ itemHTML("Chicken Schezwan Rice",140,"csr140")+
+ itemHTML("Egg Schezwan Rice",110,"esr110")+
+ itemHTML("65 Briyani",150,"b65150");
 
-/* PAROTTA */
-document.getElementById("parotta").innerHTML+=
- itemHTML("Parotta",20,"par")+
- itemHTML("Chapathi",20,"chap")+
- itemHTML("Kall Dosa",20,"kd")+
- itemHTML("Omelette",20,"om")+
- itemHTML("Half Boil",20,"hb")+
- itemHTML("Egg Veechi",30,"ev")+
- itemHTML("Egg Dosa",50,"ed");
+/* DOSA */
+dosa.innerHTML +=
+ itemHTML("Kalakki",20,"kal20")+
+ itemHTML("Plain Dosa",40,"pd40")+
+ itemHTML("Egg Podimas",40,"ep40")+
+ itemHTML("Double Omelette",40,"do40")+
+ itemHTML("Egg Kall Dosa",50,"ekd50")+
+ itemHTML("Onion Uthappam",60,"ou60")+
+ itemHTML("Kari Dosa",100,"kd100");
 
 /* STARTERS */
-document.getElementById("starters").innerHTML+=
- itemHTML("Chicken 65",120,"c65")+
- itemHTML("Chinna Chicken",120,"chinna")+
- itemHTML("Chilli Chicken",140,"cc")+
- itemHTML("Chettinad Chicken",140,"chc");
+starters.innerHTML +=
+ itemHTML("Chicken 65",120,"c65120")+
+ itemHTML("Chilli Chicken",140,"cc140")+
+ itemHTML("Chettinad Chicken",140,"chc140");
+
+/* NOODLES */
+noodles.innerHTML +=
+ itemHTML("Veg Noodles",100,"vn100")+
+ itemHTML("Egg Schezwan Noodles",110,"esn110")+
+ itemHTML("Gobi Noodles",120,"gn120")+
+ itemHTML("Mushroom Noodles",120,"mn120")+
+ itemHTML("Paneer Noodles",120,"pn120")+
+ itemHTML("Chicken Schezwan Noodles",140,"csn140");
 
 /* ROLLS */
-document.getElementById("rolls").innerHTML+=
- itemHTML("Shawarma Roll",60,"sr")+
- itemHTML("Shawarma Roll Special",120,"srs");
-
-/* GRILL */
-document.getElementById("grill").innerHTML+=
- itemHTML("Grill Quarter",100,"gq")+
- itemHTML("Grill Half",200,"gh")+
- itemHTML("Grill Full",400,"gf");
-
-/* TANDOORI */
-document.getElementById("tandoori").innerHTML+=
- itemHTML("Tandoori Quarter",100,"tq")+
- itemHTML("Tandoori Half",200,"th")+
- itemHTML("Tandoori Full",400,"tf");
-
-/* PEPPER */
-document.getElementById("pepper").innerHTML+=
- itemHTML("Pepper Quarter",140,"pq")+
- itemHTML("Pepper Half",270,"ph")+
- itemHTML("Pepper Full",500,"pf");
-
-/* BBQ */
-document.getElementById("bbq").innerHTML+=
- itemHTML("BBQ Quarter",110,"bq")+
- itemHTML("BBQ Half",210,"bh")+
- itemHTML("BBQ Full",400,"bf");
+rolls.innerHTML +=
+ itemHTML("Shawarma Roll",60,"sr60")+
+ itemHTML("Shawarma Roll Special",120,"srs120");
 
 /* LOGIC */
 let orders={},total=0;
@@ -282,24 +199,22 @@ function changeQty(k,n,p,d){
  total+=p*d;if(total<0)total=0;render();
 }
 function render(){
- document.getElementById("orderList").innerHTML=
+ orderList.innerHTML=
  Object.values(orders).map(i=>`<li>${i.name} x ${i.qty} = ₹${i.qty*i.price}</li>`).join("");
- document.getElementById("total").innerText=total;
+ total.innerText=total;
 }
 function clearCart(){
  orders={};total=0;
  document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
  render();
 }
-function submitOrder(){alert("WhatsApp already configured earlier")}
+function submitOrder(){alert("WhatsApp already configured")}
 function filterMenu(){
- let q=document.getElementById("search").value.toLowerCase();
+ let q=search.value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
   i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
  });
 }
-function downloadReport(){alert("Sales report feature already added")}
-function resetSalesReport(){localStorage.removeItem("salesReport");alert("Sales report reset")}
 </script>
 
 </body>
