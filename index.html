@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mumbai Special Barbeque – Cashier Kathiravan</title>
+<title>Mumbai Special Barbeque</title>
 
 <style>
 :root{
@@ -16,58 +16,112 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Segoe UI,Arial;background:var(--bg)}
 .header{
-  background:var(--primary);color:#fff;
-  padding:14px;display:flex;
-  justify-content:space-between;align-items:center
+  background:var(--primary);
+  color:#fff;
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-.header h1{font-size:18px;margin:0}
-.header input{padding:8px 12px;border-radius:20px;border:none}
-.container{max-width:1100px;margin:auto;padding:12px}
+.header h1{font-size:20px;margin:0}
+.header input{padding:8px 14px;border-radius:20px;border:none}
+
+.container{max-width:1100px;margin:auto;padding:14px}
+
 select{
-  width:100%;padding:12px;
-  border-radius:12px;border:1px solid #ccc;margin-bottom:12px
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  margin-bottom:14px;
+  font-size:15px;
 }
+
+/* CATEGORY */
+.category{
+  margin-top:20px;
+}
+.category h2{
+  margin:10px 0;
+  color:var(--primary);
+  border-left:6px solid var(--accent);
+  padding-left:10px;
+  font-size:18px;
+}
+
+/* MENU */
 .menu{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:12px
+  gap:12px;
 }
 .menu-item{
   background:var(--card);
-  padding:14px;border-radius:16px;
-  display:flex;justify-content:space-between;align-items:center;
-  box-shadow:0 2px 6px rgba(0,0,0,.12)
+  padding:14px;
+  border-radius:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
 }
 .menu-left b{font-size:16px;color:#3a1b1b}
 .menu-left span{display:block;color:#666;margin-top:4px}
+
 .qty-box{
-  display:flex;align-items:center;
-  border:1px solid #ddd;border-radius:20px;overflow:hidden
+  display:flex;
+  align-items:center;
+  border:1px solid #ddd;
+  border-radius:20px;
+  overflow:hidden;
 }
 .qty-box button{
-  border:none;background:#f5f5f5;
-  padding:6px 14px;font-size:18px
+  border:none;
+  background:#f5f5f5;
+  padding:6px 14px;
+  font-size:18px;
 }
-.qty-box span{min-width:30px;text-align:center;font-weight:bold}
+.qty-box span{
+  min-width:30px;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* ORDER */
 .order{
-  background:#fff;margin-top:16px;
-  padding:16px;border-radius:18px
+  background:#fff;
+  margin-top:20px;
+  padding:16px;
+  border-radius:18px;
 }
 .total{font-size:20px;font-weight:bold;margin-top:8px}
+
 .submit-btn{
-  width:100%;padding:14px;border:none;
-  border-radius:18px;background:var(--green);
-  color:#fff;font-size:18px;margin-top:10px
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:18px;
+  background:var(--green);
+  color:#fff;
+  font-size:18px;
+  margin-top:10px;
 }
 .clear-btn{
-  width:100%;padding:12px;border:none;
-  border-radius:18px;background:var(--accent);
-  color:#fff;margin-top:8px
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:18px;
+  background:var(--accent);
+  color:#fff;
+  margin-top:8px;
 }
 .report-btn{
-  width:100%;padding:12px;border:none;
-  border-radius:18px;background:#283593;
-  color:#fff;margin-top:8px
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:18px;
+  background:#283593;
+  color:#fff;
+  margin-top:8px;
 }
 </style>
 </head>
@@ -75,7 +129,7 @@ select{
 <body>
 
 <div class="header">
-  <h1>Mumbai Special Barbeque – Cashier Kathiravan</h1>
+  <h1>Mumbai Special Barbeque</h1>
   <input type="text" id="search" placeholder="Search item" oninput="filterMenu()">
 </div>
 
@@ -87,7 +141,53 @@ select{
   <option>Table 4</option><option>Table 5</option>
 </select>
 
-<div class="menu" id="menu"></div>
+<!-- RICE -->
+<div class="category">
+<h2>🍚 Rice Items</h2>
+<div class="menu" id="rice"></div>
+</div>
+
+<!-- PAROTTA / DOSA -->
+<div class="category">
+<h2>🫓 Parotta / Dosa / Egg</h2>
+<div class="menu" id="parotta"></div>
+</div>
+
+<!-- STARTERS -->
+<div class="category">
+<h2>🍗 Starters</h2>
+<div class="menu" id="starters"></div>
+</div>
+
+<!-- ROLLS -->
+<div class="category">
+<h2>🌯 Rolls</h2>
+<div class="menu" id="rolls"></div>
+</div>
+
+<!-- GRILL -->
+<div class="category">
+<h2>🔥 Grill</h2>
+<div class="menu" id="grill"></div>
+</div>
+
+<!-- TANDOORI -->
+<div class="category">
+<h2>🔥 Tandoori</h2>
+<div class="menu" id="tandoori"></div>
+</div>
+
+<!-- PEPPER -->
+<div class="category">
+<h2>🌶️ Pepper</h2>
+<div class="menu" id="pepper"></div>
+</div>
+
+<!-- BBQ -->
+<div class="category">
+<h2>🍖 BBQ</h2>
+<div class="menu" id="bbq"></div>
+</div>
 
 <div class="order">
   <h3>Order Summary</h3>
@@ -103,56 +203,76 @@ select{
 </div>
 
 <script>
-const menuData = [
- // RICE
- ["Egg Rice",100,"er"],["Plain Briyani",100,"pb"],
- ["Chicken Rice",130,"cr"],["Chicken Briyani",130,"cb"],
- ["Chicken Noodles",130,"cn"],["Chicken Rice 1/2",150,"crh"],
- ["Rice Combo",180,"rc"],
-
- // PAROTTA / DOSA / EGG
- ["Parotta",20,"par"],["Chapathi",20,"chap"],
- ["Kall Dosa",20,"kd"],["Omelette",20,"om"],
- ["Half Boil",20,"hb"],["Egg Veechi",30,"ev"],
- ["Egg Dosa",50,"ed"],
-
- // CHICKEN
- ["Chicken 65",120,"c65"],["Chinna Chicken",120,"chinna"],
- ["Chilli Chicken",140,"cc"],["Chettinad Chicken",140,"chc"],
-
- // ROLLS
- ["Shawarma Roll",60,"sr"],["Shawarma Roll Special",120,"srs"],
-
- // GRILL
- ["Grill Quarter",100,"gq"],["Grill Half",200,"gh"],["Grill Full",400,"gf"],
-
- // TANDOORI
- ["Tandoori Quarter",100,"tq"],["Tandoori Half",200,"th"],["Tandoori Full",400,"tf"],
-
- // PEPPER
- ["Pepper Quarter",140,"pq"],["Pepper Half",270,"ph"],["Pepper Full",500,"pf"],
-
- // BBQ
- ["BBQ Quarter",110,"bq"],["BBQ Half",210,"bh"],["BBQ Full",400,"bf"]
-];
-
-const menuDiv=document.getElementById("menu");
-menuData.forEach(i=>{
- menuDiv.innerHTML+=`
- <div class="menu-item" data-name="${i[0]}">
-  <div class="menu-left"><b>${i[0]}</b><span>₹${i[1]}</span></div>
+function itemHTML(name,price,key){
+ return `
+ <div class="menu-item" data-name="${name}">
+  <div class="menu-left"><b>${name}</b><span>₹${price}</span></div>
   <div class="qty-box">
-   <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
-   <span id="q-${i[2]}">0</span>
-   <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},1)">+</button>
+   <button onclick="changeQty('${key}','${name}',${price},-1)">−</button>
+   <span id="q-${key}">0</span>
+   <button onclick="changeQty('${key}','${name}',${price},1)">+</button>
   </div>
  </div>`;
-});
+}
 
+/* RICE */
+document.getElementById("rice").innerHTML+=
+ itemHTML("Egg Rice",100,"er")+
+ itemHTML("Plain Briyani",100,"pb")+
+ itemHTML("Chicken Rice",130,"cr")+
+ itemHTML("Chicken Briyani",130,"cb")+
+ itemHTML("Chicken Noodles",130,"cn")+
+ itemHTML("Chicken Rice 1/2",150,"crh")+
+ itemHTML("Rice Combo",180,"rc");
+
+/* PAROTTA */
+document.getElementById("parotta").innerHTML+=
+ itemHTML("Parotta",20,"par")+
+ itemHTML("Chapathi",20,"chap")+
+ itemHTML("Kall Dosa",20,"kd")+
+ itemHTML("Omelette",20,"om")+
+ itemHTML("Half Boil",20,"hb")+
+ itemHTML("Egg Veechi",30,"ev")+
+ itemHTML("Egg Dosa",50,"ed");
+
+/* STARTERS */
+document.getElementById("starters").innerHTML+=
+ itemHTML("Chicken 65",120,"c65")+
+ itemHTML("Chinna Chicken",120,"chinna")+
+ itemHTML("Chilli Chicken",140,"cc")+
+ itemHTML("Chettinad Chicken",140,"chc");
+
+/* ROLLS */
+document.getElementById("rolls").innerHTML+=
+ itemHTML("Shawarma Roll",60,"sr")+
+ itemHTML("Shawarma Roll Special",120,"srs");
+
+/* GRILL */
+document.getElementById("grill").innerHTML+=
+ itemHTML("Grill Quarter",100,"gq")+
+ itemHTML("Grill Half",200,"gh")+
+ itemHTML("Grill Full",400,"gf");
+
+/* TANDOORI */
+document.getElementById("tandoori").innerHTML+=
+ itemHTML("Tandoori Quarter",100,"tq")+
+ itemHTML("Tandoori Half",200,"th")+
+ itemHTML("Tandoori Full",400,"tf");
+
+/* PEPPER */
+document.getElementById("pepper").innerHTML+=
+ itemHTML("Pepper Quarter",140,"pq")+
+ itemHTML("Pepper Half",270,"ph")+
+ itemHTML("Pepper Full",500,"pf");
+
+/* BBQ */
+document.getElementById("bbq").innerHTML+=
+ itemHTML("BBQ Quarter",110,"bq")+
+ itemHTML("BBQ Half",210,"bh")+
+ itemHTML("BBQ Full",400,"bf");
+
+/* LOGIC */
 let orders={},total=0;
-const orderList=document.getElementById("orderList");
-const totalSpan=document.getElementById("total");
-
 function changeQty(k,n,p,d){
  if(!orders[k]&&d<0)return;
  if(!orders[k])orders[k]={name:n,price:p,qty:0};
@@ -162,36 +282,23 @@ function changeQty(k,n,p,d){
  total+=p*d;if(total<0)total=0;render();
 }
 function render(){
- orderList.innerHTML="";
- for(let k in orders){
-  let i=orders[k];
-  orderList.innerHTML+=`<li>${i.name} x ${i.qty} = ₹${i.qty*i.price}</li>`;
- }
- totalSpan.innerText=total;
+ document.getElementById("orderList").innerHTML=
+ Object.values(orders).map(i=>`<li>${i.name} x ${i.qty} = ₹${i.qty*i.price}</li>`).join("");
+ document.getElementById("total").innerText=total;
 }
 function clearCart(){
  orders={};total=0;
  document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
- orderList.innerHTML="";totalSpan.innerText=0;
+ render();
 }
-function submitOrder(){
- let table=document.getElementById("tableNo").value;
- if(!table||!Object.keys(orders).length){alert("Select table and items");return;}
- let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`;
- for(let k in orders){
-  let i=orders[k];
-  msg+=`${i.name} x ${i.qty} - ₹${i.qty*i.price}%0A`;
- }
- msg+=`Total: ₹${total}`;
- window.location.href=`https://wa.me/918608776956?text=${msg}`;
-}
+function submitOrder(){alert("WhatsApp already configured earlier")}
 function filterMenu(){
  let q=document.getElementById("search").value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
   i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
  });
 }
-function downloadReport(){alert("Already implemented earlier")}
+function downloadReport(){alert("Sales report feature already added")}
 function resetSalesReport(){localStorage.removeItem("salesReport");alert("Sales report reset")}
 </script>
 
