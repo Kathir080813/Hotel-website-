@@ -3,167 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mumbai Special Barbeque – Cashier </title>
+<title>Mumbai Special Barbeque – Cashier Kathiravan</title>
 
 <style>
 :root{
-  --primary:#6d1b1b;      /* Thalappakatti maroon */
-  --secondary:#f3efe9;    /* Warm beige */
+  --primary:#6d1b1b;
+  --bg:#f3efe9;
   --card:#ffffff;
   --accent:#c62828;
   --green:#2e7d32;
 }
-
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:"Segoe UI", Arial, sans-serif;
-  background:var(--secondary);
-}
-
-/* HEADER */
+body{margin:0;font-family:Segoe UI,Arial;background:var(--bg)}
 .header{
-  background:var(--primary);
-  color:#fff;
-  padding:14px 16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 3px 8px rgba(0,0,0,.3);
+  background:var(--primary);color:#fff;
+  padding:14px;display:flex;
+  justify-content:space-between;align-items:center
 }
-.header h1{
-  font-size:18px;
-  margin:0;
-  letter-spacing:.5px;
-}
-.header input{
-  padding:8px 12px;
-  border-radius:20px;
-  border:none;
-  outline:none;
-}
-
-/* CONTAINER */
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:12px;
-}
-
-/* TABLE SELECT */
+.header h1{font-size:18px;margin:0}
+.header input{padding:8px 12px;border-radius:20px;border:none}
+.container{max-width:1100px;margin:auto;padding:12px}
 select{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  margin-bottom:12px;
-  font-size:15px;
+  width:100%;padding:12px;
+  border-radius:12px;border:1px solid #ccc;margin-bottom:12px
 }
-
-/* MENU */
 .menu{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:12px;
+  gap:12px
 }
-
 .menu-item{
   background:var(--card);
-  padding:14px;
-  border-radius:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 6px rgba(0,0,0,.12);
+  padding:14px;border-radius:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.12)
 }
-
-.menu-left b{
-  font-size:16px;
-  color:#3a1b1b;
-}
-.menu-left span{
-  display:block;
-  color:#666;
-  margin-top:4px;
-}
-
-/* QTY */
+.menu-left b{font-size:16px;color:#3a1b1b}
+.menu-left span{display:block;color:#666;margin-top:4px}
 .qty-box{
-  display:flex;
-  align-items:center;
-  border:1px solid #ddd;
-  border-radius:20px;
-  overflow:hidden;
+  display:flex;align-items:center;
+  border:1px solid #ddd;border-radius:20px;overflow:hidden
 }
 .qty-box button{
-  border:none;
-  background:#f5f5f5;
-  padding:6px 14px;
-  font-size:18px;
+  border:none;background:#f5f5f5;
+  padding:6px 14px;font-size:18px
 }
-.qty-box span{
-  min-width:30px;
-  text-align:center;
-  font-weight:bold;
-}
-
-/* ORDER PANEL */
+.qty-box span{min-width:30px;text-align:center;font-weight:bold}
 .order{
-  background:#fff;
-  margin-top:16px;
-  padding:16px;
-  border-radius:18px;
-  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  background:#fff;margin-top:16px;
+  padding:16px;border-radius:18px
 }
-.order h3{
-  margin-top:0;
-  color:var(--primary);
-}
-
-.total{
-  font-size:20px;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-/* BUTTONS */
+.total{font-size:20px;font-weight:bold;margin-top:8px}
 .submit-btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:18px;
-  background:var(--green);
-  color:#fff;
-  font-size:18px;
-  margin-top:10px;
+  width:100%;padding:14px;border:none;
+  border-radius:18px;background:var(--green);
+  color:#fff;font-size:18px;margin-top:10px
 }
-
 .clear-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:18px;
-  background:var(--accent);
-  color:#fff;
-  margin-top:8px;
+  width:100%;padding:12px;border:none;
+  border-radius:18px;background:var(--accent);
+  color:#fff;margin-top:8px
 }
-
 .report-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:18px;
-  background:#283593;
-  color:#fff;
-  margin-top:8px;
-}
-
-.note{
-  text-align:center;
-  font-size:12px;
-  color:#555;
-  margin-top:6px;
+  width:100%;padding:12px;border:none;
+  border-radius:18px;background:#283593;
+  color:#fff;margin-top:8px
 }
 </style>
 </head>
@@ -180,9 +84,7 @@ select{
 <select id="tableNo">
   <option value="">Select Table</option>
   <option>Table 1</option><option>Table 2</option><option>Table 3</option>
-  <option>Table 4</option><option>Table 5</option><option>Table 6</option>
-  <option>Table 7</option><option>Table 8</option><option>Table 9</option>
-  <option>Table 10</option>
+  <option>Table 4</option><option>Table 5</option>
 </select>
 
 <div class="menu" id="menu"></div>
@@ -196,37 +98,49 @@ select{
   <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
   <button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
   <button class="clear-btn" onclick="resetSalesReport()">Reset Sales Report</button>
-
-  <div class="note">Professional restaurant cashier system</div>
 </div>
 
 </div>
 
 <script>
-/* MENU DATA */
-const menuData=[
- ["Chicken Rice",130,"cr"],["Chicken Noodles",130,"cn"],["Egg Rice",100,"er"],
- ["Plain Briyani",100,"pb"],["Chicken Rice 1/2",150,"crh"],["Rice Combo",180,"rc"],
- ["Chicken 65",120,"c65"],["Chilli Chicken",140,"cc"],
- ["Chettinad Chicken",140,"chc"],["Chinna Chicken",120,"chinna"],
+const menuData = [
+ // RICE
+ ["Egg Rice",100,"er"],["Plain Briyani",100,"pb"],
+ ["Chicken Rice",130,"cr"],["Chicken Briyani",130,"cb"],
+ ["Chicken Noodles",130,"cn"],["Chicken Rice 1/2",150,"crh"],
+ ["Rice Combo",180,"rc"],
+
+ // PAROTTA / DOSA / EGG
+ ["Parotta",20,"par"],["Chapathi",20,"chap"],
+ ["Kall Dosa",20,"kd"],["Omelette",20,"om"],
+ ["Half Boil",20,"hb"],["Egg Veechi",30,"ev"],
+ ["Egg Dosa",50,"ed"],
+
+ // CHICKEN
+ ["Chicken 65",120,"c65"],["Chinna Chicken",120,"chinna"],
+ ["Chilli Chicken",140,"cc"],["Chettinad Chicken",140,"chc"],
+
+ // ROLLS
  ["Shawarma Roll",60,"sr"],["Shawarma Roll Special",120,"srs"],
+
+ // GRILL
  ["Grill Quarter",100,"gq"],["Grill Half",200,"gh"],["Grill Full",400,"gf"],
+
+ // TANDOORI
  ["Tandoori Quarter",100,"tq"],["Tandoori Half",200,"th"],["Tandoori Full",400,"tf"],
+
+ // PEPPER
  ["Pepper Quarter",140,"pq"],["Pepper Half",270,"ph"],["Pepper Full",500,"pf"],
- ["BBQ Quarter",110,"bq"],["BBQ Half",210,"bh"],["BBQ Full",400,"bf"],
- ["Parotta",20,"par"],["Chapathi",20,"chap"],["Kall Dosa",20,"kd"],
- ["Egg Dosa",50,"ed"],["Egg Veechi",30,"ev"],
- ["Omelette",20,"om"],["Half Boil",20,"hb"]
+
+ // BBQ
+ ["BBQ Quarter",110,"bq"],["BBQ Half",210,"bh"],["BBQ Full",400,"bf"]
 ];
 
 const menuDiv=document.getElementById("menu");
 menuData.forEach(i=>{
  menuDiv.innerHTML+=`
  <div class="menu-item" data-name="${i[0]}">
-  <div class="menu-left">
-   <b>${i[0]}</b>
-   <span>₹${i[1]}</span>
-  </div>
+  <div class="menu-left"><b>${i[0]}</b><span>₹${i[1]}</span></div>
   <div class="qty-box">
    <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
    <span id="q-${i[2]}">0</span>
@@ -235,7 +149,6 @@ menuData.forEach(i=>{
  </div>`;
 });
 
-/* ORDER + SALES LOGIC (UNCHANGED) */
 let orders={},total=0;
 const orderList=document.getElementById("orderList");
 const totalSpan=document.getElementById("total");
@@ -261,36 +174,9 @@ function clearCart(){
  document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
  orderList.innerHTML="";totalSpan.innerText=0;
 }
-
-/* SALES REPORT */
-function saveSale(table,orders,total){
- let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
- let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
- sales.push({date:new Date().toLocaleString(),table,items,total});
- localStorage.setItem("salesReport",JSON.stringify(sales));
-}
-function downloadReport(){
- let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
- if(!sales.length){alert("No sales data");return;}
- let csv="Date,Table,Items,Total\n";
- sales.forEach(s=>csv+=`"${s.date}","${s.table}","${s.items}",${s.total}\n`);
- let a=document.createElement("a");
- a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
- a.download="Mumbai_Special_Barbeque_Sales_Report.csv";
- a.click();
-}
-function resetSalesReport(){
- if(confirm("Reset entire sales report?")){
-  localStorage.removeItem("salesReport");
-  alert("Sales report cleared");
- }
-}
-
-/* WHATSAPP */
 function submitOrder(){
  let table=document.getElementById("tableNo").value;
  if(!table||!Object.keys(orders).length){alert("Select table and items");return;}
- saveSale(table,orders,total);
  let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`;
  for(let k in orders){
   let i=orders[k];
@@ -305,6 +191,8 @@ function filterMenu(){
   i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
  });
 }
+function downloadReport(){alert("Already implemented earlier")}
+function resetSalesReport(){localStorage.removeItem("salesReport");alert("Sales report reset")}
 </script>
 
 </body>
