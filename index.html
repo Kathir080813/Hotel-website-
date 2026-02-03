@@ -6,27 +6,165 @@
 <title>Mumbai Special Barbeque – Cashier Kathiravan</title>
 
 <style>
-:root{--dark:#263238;--bg:#f4f6f8;--green:#2e7d32}
+:root{
+  --primary:#6d1b1b;      /* Thalappakatti maroon */
+  --secondary:#f3efe9;    /* Warm beige */
+  --card:#ffffff;
+  --accent:#c62828;
+  --green:#2e7d32;
+}
+
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:var(--bg)}
-.header{background:var(--dark);color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.header h1{font-size:18px;margin:0}
-.header input{padding:8px;border-radius:8px;border:none}
-.container{max-width:1000px;margin:auto;padding:10px}
-select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px;width:100%}
-.menu{display:grid;gap:10px}
-.menu-item{background:#fff;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center}
-.menu-left b{font-size:16px}
-.menu-left span{color:#555}
-.qty-box{display:flex;align-items:center;border:1px solid #ccc;border-radius:12px;overflow:hidden}
-.qty-box button{border:none;background:#f5f5f5;padding:8px 14px;font-size:18px}
-.qty-box span{min-width:30px;text-align:center;font-weight:bold}
-.order{background:#fff;padding:12px;border-radius:14px;margin-top:14px}
-.total{font-size:18px;font-weight:bold}
-.submit-btn{width:100%;padding:14px;border:none;border-radius:14px;background:var(--green);color:#fff;font-size:18px;margin-top:8px}
-.clear-btn{width:100%;padding:12px;border:none;border-radius:14px;background:#b71c1c;color:#fff;margin-top:6px}
-.report-btn{width:100%;padding:12px;border:none;border-radius:14px;background:#1565c0;color:#fff;margin-top:6px}
-.note{text-align:center;font-size:12px;color:#555}
+
+body{
+  margin:0;
+  font-family:"Segoe UI", Arial, sans-serif;
+  background:var(--secondary);
+}
+
+/* HEADER */
+.header{
+  background:var(--primary);
+  color:#fff;
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.3);
+}
+.header h1{
+  font-size:18px;
+  margin:0;
+  letter-spacing:.5px;
+}
+.header input{
+  padding:8px 12px;
+  border-radius:20px;
+  border:none;
+  outline:none;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:12px;
+}
+
+/* TABLE SELECT */
+select{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  margin-bottom:12px;
+  font-size:15px;
+}
+
+/* MENU */
+.menu{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;
+}
+
+.menu-item{
+  background:var(--card);
+  padding:14px;
+  border-radius:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
+}
+
+.menu-left b{
+  font-size:16px;
+  color:#3a1b1b;
+}
+.menu-left span{
+  display:block;
+  color:#666;
+  margin-top:4px;
+}
+
+/* QTY */
+.qty-box{
+  display:flex;
+  align-items:center;
+  border:1px solid #ddd;
+  border-radius:20px;
+  overflow:hidden;
+}
+.qty-box button{
+  border:none;
+  background:#f5f5f5;
+  padding:6px 14px;
+  font-size:18px;
+}
+.qty-box span{
+  min-width:30px;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* ORDER PANEL */
+.order{
+  background:#fff;
+  margin-top:16px;
+  padding:16px;
+  border-radius:18px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+.order h3{
+  margin-top:0;
+  color:var(--primary);
+}
+
+.total{
+  font-size:20px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+/* BUTTONS */
+.submit-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:18px;
+  background:var(--green);
+  color:#fff;
+  font-size:18px;
+  margin-top:10px;
+}
+
+.clear-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:18px;
+  background:var(--accent);
+  color:#fff;
+  margin-top:8px;
+}
+
+.report-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:18px;
+  background:#283593;
+  color:#fff;
+  margin-top:8px;
+}
+
+.note{
+  text-align:center;
+  font-size:12px;
+  color:#555;
+  margin-top:6px;
+}
 </style>
 </head>
 
@@ -50,23 +188,23 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px;
 <div class="menu" id="menu"></div>
 
 <div class="order">
-<h3>Order</h3>
-<ul id="orderList"></ul>
-<div class="total">Total: ₹<span id="total">0</span></div>
+  <h3>Order Summary</h3>
+  <ul id="orderList"></ul>
+  <div class="total">Total: ₹<span id="total">0</span></div>
 
-<button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
-<button class="clear-btn" onclick="clearCart()">Clear Cart</button>
-<button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
-<button class="clear-btn" onclick="resetSalesReport()">Reset Sales Report</button>
+  <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
+  <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+  <button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
+  <button class="clear-btn" onclick="resetSalesReport()">Reset Sales Report</button>
 
-<div class="note">WhatsApp opens with message – tap Send</div>
+  <div class="note">Professional restaurant cashier system</div>
 </div>
 
 </div>
 
 <script>
-// -------- MENU DATA (REORDERED) --------
-const menuData = [
+/* MENU DATA */
+const menuData=[
  ["Chicken Rice",130,"cr"],["Chicken Noodles",130,"cn"],["Egg Rice",100,"er"],
  ["Plain Briyani",100,"pb"],["Chicken Rice 1/2",150,"crh"],["Rice Combo",180,"rc"],
  ["Chicken 65",120,"c65"],["Chilli Chicken",140,"cc"],
@@ -81,12 +219,14 @@ const menuData = [
  ["Omelette",20,"om"],["Half Boil",20,"hb"]
 ];
 
-// -------- BUILD MENU --------
 const menuDiv=document.getElementById("menu");
 menuData.forEach(i=>{
  menuDiv.innerHTML+=`
  <div class="menu-item" data-name="${i[0]}">
-  <div class="menu-left"><b>${i[0]}</b><span>₹${i[1]}</span></div>
+  <div class="menu-left">
+   <b>${i[0]}</b>
+   <span>₹${i[1]}</span>
+  </div>
   <div class="qty-box">
    <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
    <span id="q-${i[2]}">0</span>
@@ -95,8 +235,8 @@ menuData.forEach(i=>{
  </div>`;
 });
 
-// -------- ORDER SYSTEM --------
-let orders={}, total=0;
+/* ORDER + SALES LOGIC (UNCHANGED) */
+let orders={},total=0;
 const orderList=document.getElementById("orderList");
 const totalSpan=document.getElementById("total");
 
@@ -108,7 +248,6 @@ function changeQty(k,n,p,d){
  document.getElementById("q-"+k).innerText=orders[k]?orders[k].qty:0;
  total+=p*d;if(total<0)total=0;render();
 }
-
 function render(){
  orderList.innerHTML="";
  for(let k in orders){
@@ -117,48 +256,41 @@ function render(){
  }
  totalSpan.innerText=total;
 }
-
 function clearCart(){
- orders={}; total=0;
+ orders={};total=0;
  document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
- orderList.innerHTML=""; totalSpan.innerText=0;
+ orderList.innerHTML="";totalSpan.innerText=0;
 }
 
-// -------- SALES REPORT --------
+/* SALES REPORT */
 function saveSale(table,orders,total){
  let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
  let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
  sales.push({date:new Date().toLocaleString(),table,items,total});
  localStorage.setItem("salesReport",JSON.stringify(sales));
 }
-
 function downloadReport(){
  let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
- if(sales.length===0){alert("No sales data available");return;}
+ if(!sales.length){alert("No sales data");return;}
  let csv="Date,Table,Items,Total\n";
  sales.forEach(s=>csv+=`"${s.date}","${s.table}","${s.items}",${s.total}\n`);
- let blob=new Blob([csv],{type:"text/csv"});
  let a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
+ a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
  a.download="Mumbai_Special_Barbeque_Sales_Report.csv";
  a.click();
 }
-
 function resetSalesReport(){
- if(confirm("Are you sure you want to reset the sales report?")){
+ if(confirm("Reset entire sales report?")){
   localStorage.removeItem("salesReport");
-  alert("Sales report reset successfully");
+  alert("Sales report cleared");
  }
 }
 
-// -------- WHATSAPP --------
+/* WHATSAPP */
 function submitOrder(){
  let table=document.getElementById("tableNo").value;
- if(!table||Object.keys(orders).length===0){
-  alert("Select table and items");return;
- }
+ if(!table||!Object.keys(orders).length){alert("Select table and items");return;}
  saveSale(table,orders,total);
-
  let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`;
  for(let k in orders){
   let i=orders[k];
@@ -167,8 +299,6 @@ function submitOrder(){
  msg+=`Total: ₹${total}`;
  window.location.href=`https://wa.me/918608776956?text=${msg}`;
 }
-
-// -------- SEARCH --------
 function filterMenu(){
  let q=document.getElementById("search").value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
