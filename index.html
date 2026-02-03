@@ -160,6 +160,7 @@ select{
 </div>
 
 <script>
+/* ---------- MENU BUILDER ---------- */
 function itemHTML(name,price,key){
  return `<div class="menu-item" data-name="${name}">
   <div class="menu-left"><b>${name}</b><span>₹${price}</span></div>
@@ -171,7 +172,7 @@ function itemHTML(name,price,key){
  </div>`;
 }
 
-/* ITEMS (ALL INCLUDED) */
+/* ---------- ITEMS ---------- */
 rice.innerHTML+=
  itemHTML("Plain Briyani",90,"pb90")+
  itemHTML("Egg Briyani",100,"eb100")+
@@ -234,7 +235,7 @@ noodles.innerHTML+=
  itemHTML("Chicken Noodles",130,"cn130")+
  itemHTML("Chicken Schezwan Noodles",140,"csn140");
 
-/* ORDER LOGIC */
+/* ---------- ORDER LOGIC ---------- */
 let orders={}, total=0;
 const totalEl=document.getElementById("total");
 
@@ -257,7 +258,7 @@ function clearCart(){
  render();
 }
 
-/* SALES REPORT */
+/* ---------- SALES REPORT ---------- */
 function saveSale(table,orders,total){
  let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
  let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
@@ -281,14 +282,14 @@ function resetSalesReport(){
  }
 }
 
-/* WHATSAPP SEND (FIXED) */
+/* ---------- WHATSAPP (LOCKED TO YOUR NUMBER) ---------- */
 function submitOrder(){
  let table = tableNo.value;
  if(!table || !Object.keys(orders).length){
-  alert("Select table and items"); return;
+  alert("Select table and items");return;
  }
 
- saveSale(table, orders, total);
+ saveSale(table,orders,total);
 
  let msg = `Mumbai Special Barbeque%0A`;
  msg += `Table: ${table}%0A%0A`;
@@ -298,13 +299,15 @@ function submitOrder(){
  }
  msg += `%0ATotal: ₹${total}`;
 
+ const OWNER_NUMBER = "918608776956"; // 🔒 YOUR NUMBER
+
  window.open(
-  `https://wa.me/918608776956?text=${msg}`,
+  `https://wa.me/${OWNER_NUMBER}?text=${msg}`,
   "_blank"
  );
 }
 
-/* SEARCH */
+/* ---------- SEARCH ---------- */
 function filterMenu(){
  let q=search.value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
