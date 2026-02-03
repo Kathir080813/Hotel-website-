@@ -6,7 +6,7 @@
 <title>Mumbai Special Barbeque – Cashier Kathiravan</title>
 
 <style>
-:root{--dark:#263238;--bg:#f4f6f8;--card:#fff;--green:#2e7d32}
+:root{--dark:#263238;--bg:#f4f6f8;--green:#2e7d32}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:var(--bg)}
 .header{background:var(--dark);color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
@@ -17,7 +17,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px;
 .menu{display:grid;gap:10px}
 .menu-item{background:#fff;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center}
 .menu-left b{font-size:16px}
-.menu-left span{color:#555;display:block}
+.menu-left span{color:#555}
 .qty-box{display:flex;align-items:center;border:1px solid #ccc;border-radius:12px;overflow:hidden}
 .qty-box button{border:none;background:#f5f5f5;padding:8px 14px;font-size:18px}
 .qty-box span{min-width:30px;text-align:center;font-weight:bold}
@@ -57,6 +57,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px;
 <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
 <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
 <button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
+<button class="clear-btn" onclick="resetSalesReport()">Reset Sales Report</button>
 
 <div class="note">WhatsApp opens with message – tap Send</div>
 </div>
@@ -64,7 +65,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px;
 </div>
 
 <script>
-// ---------------- MENU DATA ----------------
+// -------- MENU DATA (REORDERED) --------
 const menuData = [
  ["Chicken Rice",130,"cr"],["Chicken Noodles",130,"cn"],["Egg Rice",100,"er"],
  ["Plain Briyani",100,"pb"],["Chicken Rice 1/2",150,"crh"],["Rice Combo",180,"rc"],
@@ -80,14 +81,12 @@ const menuData = [
  ["Omelette",20,"om"],["Half Boil",20,"hb"]
 ];
 
-// ---------------- BUILD MENU ----------------
+// -------- BUILD MENU --------
 const menuDiv=document.getElementById("menu");
 menuData.forEach(i=>{
  menuDiv.innerHTML+=`
  <div class="menu-item" data-name="${i[0]}">
-  <div class="menu-left">
-   <b>${i[0]}</b><span>₹${i[1]}</span>
-  </div>
+  <div class="menu-left"><b>${i[0]}</b><span>₹${i[1]}</span></div>
   <div class="qty-box">
    <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
    <span id="q-${i[2]}">0</span>
@@ -96,7 +95,7 @@ menuData.forEach(i=>{
  </div>`;
 });
 
-// ---------------- ORDER SYSTEM ----------------
+// -------- ORDER SYSTEM --------
 let orders={}, total=0;
 const orderList=document.getElementById("orderList");
 const totalSpan=document.getElementById("total");
@@ -125,26 +124,19 @@ function clearCart(){
  orderList.innerHTML=""; totalSpan.innerText=0;
 }
 
-// ---------------- SALES REPORT ----------------
+// -------- SALES REPORT --------
 function saveSale(table,orders,total){
  let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
  let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
- sales.push({
-  date:new Date().toLocaleString(),
-  table:table,
-  items:items,
-  total:total
- });
+ sales.push({date:new Date().toLocaleString(),table,items,total});
  localStorage.setItem("salesReport",JSON.stringify(sales));
 }
 
 function downloadReport(){
  let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
- if(sales.length===0){alert("No sales data");return;}
+ if(sales.length===0){alert("No sales data available");return;}
  let csv="Date,Table,Items,Total\n";
- sales.forEach(s=>{
-  csv+=`"${s.date}","${s.table}","${s.items}",${s.total}\n`;
- });
+ sales.forEach(s=>csv+=`"${s.date}","${s.table}","${s.items}",${s.total}\n`);
  let blob=new Blob([csv],{type:"text/csv"});
  let a=document.createElement("a");
  a.href=URL.createObjectURL(blob);
@@ -152,11 +144,18 @@ function downloadReport(){
  a.click();
 }
 
-// ---------------- WHATSAPP ----------------
+function resetSalesReport(){
+ if(confirm("Are you sure you want to reset the sales report?")){
+  localStorage.removeItem("salesReport");
+  alert("Sales report reset successfully");
+ }
+}
+
+// -------- WHATSAPP --------
 function submitOrder(){
  let table=document.getElementById("tableNo").value;
  if(!table||Object.keys(orders).length===0){
-  alert("Select table and items"); return;
+  alert("Select table and items");return;
  }
  saveSale(table,orders,total);
 
@@ -169,7 +168,7 @@ function submitOrder(){
  window.location.href=`https://wa.me/918608776956?text=${msg}`;
 }
 
-// ---------------- SEARCH ----------------
+// -------- SEARCH --------
 function filterMenu(){
  let q=document.getElementById("search").value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
