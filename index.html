@@ -6,7 +6,7 @@
 <title>Mumbai Special Barbeque – Cashier Kathiravan</title>
 
 <style>
-:root{--dark:#263238;--bg:#f4f6f8;--card:#ffffff;--green:#2e7d32}
+:root{--dark:#263238;--bg:#f4f6f8;--card:#fff;--green:#2e7d32}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:var(--bg)}
 .header{background:var(--dark);color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
@@ -49,42 +49,26 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
 <div class="menu">
 
 <!-- FAST MOVING -->
-<div class="menu-item" data-name="Chicken Rice">
-<div class="menu-left"><b>Chicken Rice</b><span>₹130</span></div>
-<div class="qty-box"><button onclick="changeQty('cr','Chicken Rice',130,-1)">−</button><span id="q-cr">0</span><button onclick="changeQty('cr','Chicken Rice',130,1)">+</button></div>
-</div>
-
-<div class="menu-item" data-name="Chicken Noodles">
-<div class="menu-left"><b>Chicken Noodles</b><span>₹130</span></div>
-<div class="qty-box"><button onclick="changeQty('cn','Chicken Noodles',130,-1)">−</button><span id="q-cn">0</span><button onclick="changeQty('cn','Chicken Noodles',130,1)">+</button></div>
-</div>
-
-<div class="menu-item" data-name="Egg Rice">
-<div class="menu-left"><b>Egg Rice</b><span>₹100</span></div>
-<div class="qty-box"><button onclick="changeQty('er','Egg Rice',100,-1)">−</button><span id="q-er">0</span><button onclick="changeQty('er','Egg Rice',100,1)">+</button></div>
-</div>
-
-<!-- CHICKEN VARIETIES -->
-<div class="menu-item" data-name="Chilli Chicken">
-<div class="menu-left"><b>Chilli Chicken</b><span>₹140</span></div>
-<div class="qty-box"><button onclick="changeQty('cc','Chilli Chicken',140,-1)">−</button><span id="q-cc">0</span><button onclick="changeQty('cc','Chilli Chicken',140,1)">+</button></div>
-</div>
-
-<div class="menu-item" data-name="Chettinad Chicken">
-<div class="menu-left"><b>Chettinad Chicken</b><span>₹140</span></div>
-<div class="qty-box"><button onclick="changeQty('chc','Chettinad Chicken',140,-1)">−</button><span id="q-chc">0</span><button onclick="changeQty('chc','Chettinad Chicken',140,1)">+</button></div>
-</div>
-
-<div class="menu-item" data-name="Chinna Chicken">
-<div class="menu-left"><b>Chinna Chicken</b><span>₹120</span></div>
-<div class="qty-box"><button onclick="changeQty('chinna','Chinna Chicken',120,-1)">−</button><span id="q-chinna">0</span><button onclick="changeQty('chinna','Chinna Chicken',120,1)">+</button></div>
-</div>
-
-<!-- ROLLS -->
-<div class="menu-item" data-name="Shawarma Roll">
-<div class="menu-left"><b>Shawarma Roll</b><span>₹60</span></div>
-<div class="qty-box"><button onclick="changeQty('shaw60','Shawarma Roll',60,-1)">−</button><span id="q-shaw60">0</span><button onclick="changeQty('shaw60','Shawarma Roll',60,1)">+</button></div>
-</div>
+${[
+["Chicken Rice",130,"cr"],["Chicken Noodles",130,"cn"],["Egg Rice",100,"er"],
+["Plain Briyani",100,"pb"],["Chicken Rice 1/2",150,"crh"],["Rice Combo",180,"rc"],
+["Chicken 65",120,"c65"],["Chilli Chicken",140,"cc"],
+["Chettinad Chicken",140,"chc"],["Chinna Chicken",120,"chinna"],
+["Shawarma Roll",60,"sr"],["Shawarma Roll Special",120,"srs"],
+["Grill Quarter",100,"gq"],["Grill Half",200,"gh"],["Grill Full",400,"gf"],
+["Tandoori Quarter",100,"tq"],["Tandoori Half",200,"th"],["Tandoori Full",400,"tf"],
+["Pepper Quarter",140,"pq"],["Pepper Half",270,"ph"],["Pepper Full",500,"pf"],
+["BBQ Quarter",110,"bq"],["BBQ Half",210,"bh"],["BBQ Full",400,"bf"],
+["Parotta",20,"par"],["Chapathi",20,"chap"],["Kall Dosa",20,"kd"],
+["Egg Dosa",50,"ed"],["Egg Veechi",30,"ev"],["Omelette",20,"om"],["Half Boil",20,"hb"]
+].map(i=>`
+<div class="menu-item" data-name="${i[0]}">
+<div class="menu-left"><b>${i[0]}</b><span>₹${i[1]}</span></div>
+<div class="qty-box">
+<button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
+<span id="q-${i[2]}">0</span>
+<button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},1)">+</button>
+</div></div>`).join("")}
 
 </div>
 
@@ -105,44 +89,44 @@ const orderList=document.getElementById("orderList");
 const totalSpan=document.getElementById("total");
 
 function changeQty(k,n,p,d){
-  if(!orders[k]&&d<0)return;
-  if(!orders[k])orders[k]={name:n,price:p,qty:0};
-  orders[k].qty+=d;
-  if(orders[k].qty<=0)delete orders[k];
-  document.getElementById("q-"+k).innerText=orders[k]?orders[k].qty:0;
-  total+=p*d; if(total<0)total=0; render();
+ if(!orders[k]&&d<0)return;
+ if(!orders[k])orders[k]={name:n,price:p,qty:0};
+ orders[k].qty+=d;
+ if(orders[k].qty<=0)delete orders[k];
+ document.getElementById("q-"+k).innerText=orders[k]?orders[k].qty:0;
+ total+=p*d;if(total<0)total=0;render();
 }
 function render(){
-  orderList.innerHTML="";
-  for(let k in orders){
-    let i=orders[k];
-    let li=document.createElement("li");
-    li.textContent=`${i.name} x ${i.qty} = ₹${i.qty*i.price}`;
-    orderList.appendChild(li);
-  }
-  totalSpan.innerText=total;
+ orderList.innerHTML="";
+ for(let k in orders){
+  let i=orders[k];
+  let li=document.createElement("li");
+  li.textContent=`${i.name} x ${i.qty} = ₹${i.qty*i.price}`;
+  orderList.appendChild(li);
+ }
+ totalSpan.innerText=total;
 }
 function clearCart(){
-  orders={}; total=0;
-  document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
-  orderList.innerHTML=""; totalSpan.innerText=0;
+ orders={};total=0;
+ document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
+ orderList.innerHTML="";totalSpan.innerText=0;
 }
 function submitOrder(){
-  let t=document.getElementById("tableNo").value;
-  if(!t||Object.keys(orders).length==0){alert("Select table and items");return;}
-  let msg=`Mumbai Special Barbeque%0ATable: ${t}%0A`;
-  for(let k in orders){
-    let i=orders[k];
-    msg+=`${i.name} x ${i.qty} - ₹${i.qty*i.price}%0A`;
-  }
-  msg+=`Total: ₹${total}`;
-  window.location.href=`https://wa.me/918608776956?text=${msg}`;
+ let t=document.getElementById("tableNo").value;
+ if(!t||Object.keys(orders).length==0){alert("Select table and items");return;}
+ let msg=`Mumbai Special Barbeque%0ATable: ${t}%0A`;
+ for(let k in orders){
+  let i=orders[k];
+  msg+=`${i.name} x ${i.qty} - ₹${i.qty*i.price}%0A`;
+ }
+ msg+=`Total: ₹${total}`;
+ window.location.href=`https://wa.me/918608776956?text=${msg}`;
 }
 function filterMenu(){
-  let q=document.getElementById("search").value.toLowerCase();
-  document.querySelectorAll(".menu-item").forEach(i=>{
-    i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
-  });
+ let q=document.getElementById("search").value.toLowerCase();
+ document.querySelectorAll(".menu-item").forEach(i=>{
+  i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
+ });
 }
 </script>
 
