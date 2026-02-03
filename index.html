@@ -13,7 +13,7 @@ body{margin:0;font-family:Arial;background:var(--bg)}
 .header h1{font-size:18px;margin:0}
 .header input{padding:8px;border-radius:8px;border:none}
 .container{max-width:1000px;margin:auto;padding:10px}
-select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
+select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px;width:100%}
 .menu{display:grid;gap:10px}
 .menu-item{background:#fff;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center}
 .menu-left b{font-size:16px}
@@ -25,6 +25,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
 .total{font-size:18px;font-weight:bold}
 .submit-btn{width:100%;padding:14px;border:none;border-radius:14px;background:var(--green);color:#fff;font-size:18px;margin-top:8px}
 .clear-btn{width:100%;padding:12px;border:none;border-radius:14px;background:#b71c1c;color:#fff;margin-top:6px}
+.report-btn{width:100%;padding:12px;border:none;border-radius:14px;background:#1565c0;color:#fff;margin-top:6px}
 .note{text-align:center;font-size:12px;color:#555}
 </style>
 </head>
@@ -52,71 +53,50 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
 <h3>Order</h3>
 <ul id="orderList"></ul>
 <div class="total">Total: ₹<span id="total">0</span></div>
+
 <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
 <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+<button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
+
 <div class="note">WhatsApp opens with message – tap Send</div>
 </div>
 
 </div>
 
 <script>
+// ---------------- MENU DATA ----------------
 const menuData = [
- ["Chicken Rice",130,"cr"],
- ["Chicken Noodles",130,"cn"],
- ["Egg Rice",100,"er"],
- ["Plain Briyani",100,"pb"],
- ["Chicken Rice 1/2",150,"crh"],
- ["Rice Combo",180,"rc"],
-
- ["Chicken 65",120,"c65"],
- ["Chilli Chicken",140,"cc"],
- ["Chettinad Chicken",140,"chc"],
- ["Chinna Chicken",120,"chinna"],
-
- ["Shawarma Roll",60,"sr"],
- ["Shawarma Roll Special",120,"srs"],
-
- ["Grill Quarter",100,"gq"],
- ["Grill Half",200,"gh"],
- ["Grill Full",400,"gf"],
-
- ["Tandoori Quarter",100,"tq"],
- ["Tandoori Half",200,"th"],
- ["Tandoori Full",400,"tf"],
-
- ["Pepper Quarter",140,"pq"],
- ["Pepper Half",270,"ph"],
- ["Pepper Full",500,"pf"],
-
- ["BBQ Quarter",110,"bq"],
- ["BBQ Half",210,"bh"],
- ["BBQ Full",400,"bf"],
-
- ["Parotta",20,"par"],
- ["Chapathi",20,"chap"],
- ["Kall Dosa",20,"kd"],
- ["Egg Dosa",50,"ed"],
- ["Egg Veechi",30,"ev"],
- ["Omelette",20,"om"],
- ["Half Boil",20,"hb"]
+ ["Chicken Rice",130,"cr"],["Chicken Noodles",130,"cn"],["Egg Rice",100,"er"],
+ ["Plain Briyani",100,"pb"],["Chicken Rice 1/2",150,"crh"],["Rice Combo",180,"rc"],
+ ["Chicken 65",120,"c65"],["Chilli Chicken",140,"cc"],
+ ["Chettinad Chicken",140,"chc"],["Chinna Chicken",120,"chinna"],
+ ["Shawarma Roll",60,"sr"],["Shawarma Roll Special",120,"srs"],
+ ["Grill Quarter",100,"gq"],["Grill Half",200,"gh"],["Grill Full",400,"gf"],
+ ["Tandoori Quarter",100,"tq"],["Tandoori Half",200,"th"],["Tandoori Full",400,"tf"],
+ ["Pepper Quarter",140,"pq"],["Pepper Half",270,"ph"],["Pepper Full",500,"pf"],
+ ["BBQ Quarter",110,"bq"],["BBQ Half",210,"bh"],["BBQ Full",400,"bf"],
+ ["Parotta",20,"par"],["Chapathi",20,"chap"],["Kall Dosa",20,"kd"],
+ ["Egg Dosa",50,"ed"],["Egg Veechi",30,"ev"],
+ ["Omelette",20,"om"],["Half Boil",20,"hb"]
 ];
 
-const menuDiv = document.getElementById("menu");
+// ---------------- BUILD MENU ----------------
+const menuDiv=document.getElementById("menu");
 menuData.forEach(i=>{
-  menuDiv.innerHTML += `
-  <div class="menu-item" data-name="${i[0]}">
-    <div class="menu-left">
-      <b>${i[0]}</b>
-      <span>₹${i[1]}</span>
-    </div>
-    <div class="qty-box">
-      <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
-      <span id="q-${i[2]}">0</span>
-      <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},1)">+</button>
-    </div>
-  </div>`;
+ menuDiv.innerHTML+=`
+ <div class="menu-item" data-name="${i[0]}">
+  <div class="menu-left">
+   <b>${i[0]}</b><span>₹${i[1]}</span>
+  </div>
+  <div class="qty-box">
+   <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
+   <span id="q-${i[2]}">0</span>
+   <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},1)">+</button>
+  </div>
+ </div>`;
 });
 
+// ---------------- ORDER SYSTEM ----------------
 let orders={}, total=0;
 const orderList=document.getElementById("orderList");
 const totalSpan=document.getElementById("total");
@@ -129,6 +109,7 @@ function changeQty(k,n,p,d){
  document.getElementById("q-"+k).innerText=orders[k]?orders[k].qty:0;
  total+=p*d;if(total<0)total=0;render();
 }
+
 function render(){
  orderList.innerHTML="";
  for(let k in orders){
@@ -137,15 +118,49 @@ function render(){
  }
  totalSpan.innerText=total;
 }
+
 function clearCart(){
- orders={};total=0;
+ orders={}; total=0;
  document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
- orderList.innerHTML="";totalSpan.innerText=0;
+ orderList.innerHTML=""; totalSpan.innerText=0;
 }
+
+// ---------------- SALES REPORT ----------------
+function saveSale(table,orders,total){
+ let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
+ let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
+ sales.push({
+  date:new Date().toLocaleString(),
+  table:table,
+  items:items,
+  total:total
+ });
+ localStorage.setItem("salesReport",JSON.stringify(sales));
+}
+
+function downloadReport(){
+ let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
+ if(sales.length===0){alert("No sales data");return;}
+ let csv="Date,Table,Items,Total\n";
+ sales.forEach(s=>{
+  csv+=`"${s.date}","${s.table}","${s.items}",${s.total}\n`;
+ });
+ let blob=new Blob([csv],{type:"text/csv"});
+ let a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="Mumbai_Special_Barbeque_Sales_Report.csv";
+ a.click();
+}
+
+// ---------------- WHATSAPP ----------------
 function submitOrder(){
- let t=document.getElementById("tableNo").value;
- if(!t||Object.keys(orders).length==0){alert("Select table and items");return;}
- let msg=`Mumbai Special Barbeque%0ATable: ${t}%0A`;
+ let table=document.getElementById("tableNo").value;
+ if(!table||Object.keys(orders).length===0){
+  alert("Select table and items"); return;
+ }
+ saveSale(table,orders,total);
+
+ let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A`;
  for(let k in orders){
   let i=orders[k];
   msg+=`${i.name} x ${i.qty} - ₹${i.qty*i.price}%0A`;
@@ -153,6 +168,8 @@ function submitOrder(){
  msg+=`Total: ₹${total}`;
  window.location.href=`https://wa.me/918608776956?text=${msg}`;
 }
+
+// ---------------- SEARCH ----------------
 function filterMenu(){
  let q=document.getElementById("search").value.toLowerCase();
  document.querySelectorAll(".menu-item").forEach(i=>{
