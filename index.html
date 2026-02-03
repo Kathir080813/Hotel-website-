@@ -17,7 +17,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
 .menu{display:grid;gap:10px}
 .menu-item{background:#fff;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center}
 .menu-left b{font-size:16px}
-.menu-left span{color:#555}
+.menu-left span{color:#555;display:block}
 .qty-box{display:flex;align-items:center;border:1px solid #ccc;border-radius:12px;overflow:hidden}
 .qty-box button{border:none;background:#f5f5f5;padding:8px 14px;font-size:18px}
 .qty-box span{min-width:30px;text-align:center;font-weight:bold}
@@ -46,31 +46,7 @@ select{padding:10px;border-radius:10px;border:1px solid #ccc;margin-bottom:10px}
   <option>Table 10</option>
 </select>
 
-<div class="menu">
-
-<!-- FAST MOVING -->
-${[
-["Chicken Rice",130,"cr"],["Chicken Noodles",130,"cn"],["Egg Rice",100,"er"],
-["Plain Briyani",100,"pb"],["Chicken Rice 1/2",150,"crh"],["Rice Combo",180,"rc"],
-["Chicken 65",120,"c65"],["Chilli Chicken",140,"cc"],
-["Chettinad Chicken",140,"chc"],["Chinna Chicken",120,"chinna"],
-["Shawarma Roll",60,"sr"],["Shawarma Roll Special",120,"srs"],
-["Grill Quarter",100,"gq"],["Grill Half",200,"gh"],["Grill Full",400,"gf"],
-["Tandoori Quarter",100,"tq"],["Tandoori Half",200,"th"],["Tandoori Full",400,"tf"],
-["Pepper Quarter",140,"pq"],["Pepper Half",270,"ph"],["Pepper Full",500,"pf"],
-["BBQ Quarter",110,"bq"],["BBQ Half",210,"bh"],["BBQ Full",400,"bf"],
-["Parotta",20,"par"],["Chapathi",20,"chap"],["Kall Dosa",20,"kd"],
-["Egg Dosa",50,"ed"],["Egg Veechi",30,"ev"],["Omelette",20,"om"],["Half Boil",20,"hb"]
-].map(i=>`
-<div class="menu-item" data-name="${i[0]}">
-<div class="menu-left"><b>${i[0]}</b><span>₹${i[1]}</span></div>
-<div class="qty-box">
-<button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
-<span id="q-${i[2]}">0</span>
-<button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},1)">+</button>
-</div></div>`).join("")}
-
-</div>
+<div class="menu" id="menu"></div>
 
 <div class="order">
 <h3>Order</h3>
@@ -84,6 +60,63 @@ ${[
 </div>
 
 <script>
+const menuData = [
+ ["Chicken Rice",130,"cr"],
+ ["Chicken Noodles",130,"cn"],
+ ["Egg Rice",100,"er"],
+ ["Plain Briyani",100,"pb"],
+ ["Chicken Rice 1/2",150,"crh"],
+ ["Rice Combo",180,"rc"],
+
+ ["Chicken 65",120,"c65"],
+ ["Chilli Chicken",140,"cc"],
+ ["Chettinad Chicken",140,"chc"],
+ ["Chinna Chicken",120,"chinna"],
+
+ ["Shawarma Roll",60,"sr"],
+ ["Shawarma Roll Special",120,"srs"],
+
+ ["Grill Quarter",100,"gq"],
+ ["Grill Half",200,"gh"],
+ ["Grill Full",400,"gf"],
+
+ ["Tandoori Quarter",100,"tq"],
+ ["Tandoori Half",200,"th"],
+ ["Tandoori Full",400,"tf"],
+
+ ["Pepper Quarter",140,"pq"],
+ ["Pepper Half",270,"ph"],
+ ["Pepper Full",500,"pf"],
+
+ ["BBQ Quarter",110,"bq"],
+ ["BBQ Half",210,"bh"],
+ ["BBQ Full",400,"bf"],
+
+ ["Parotta",20,"par"],
+ ["Chapathi",20,"chap"],
+ ["Kall Dosa",20,"kd"],
+ ["Egg Dosa",50,"ed"],
+ ["Egg Veechi",30,"ev"],
+ ["Omelette",20,"om"],
+ ["Half Boil",20,"hb"]
+];
+
+const menuDiv = document.getElementById("menu");
+menuData.forEach(i=>{
+  menuDiv.innerHTML += `
+  <div class="menu-item" data-name="${i[0]}">
+    <div class="menu-left">
+      <b>${i[0]}</b>
+      <span>₹${i[1]}</span>
+    </div>
+    <div class="qty-box">
+      <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},-1)">−</button>
+      <span id="q-${i[2]}">0</span>
+      <button onclick="changeQty('${i[2]}','${i[0]}',${i[1]},1)">+</button>
+    </div>
+  </div>`;
+});
+
 let orders={}, total=0;
 const orderList=document.getElementById("orderList");
 const totalSpan=document.getElementById("total");
@@ -100,9 +133,7 @@ function render(){
  orderList.innerHTML="";
  for(let k in orders){
   let i=orders[k];
-  let li=document.createElement("li");
-  li.textContent=`${i.name} x ${i.qty} = ₹${i.qty*i.price}`;
-  orderList.appendChild(li);
+  orderList.innerHTML+=`<li>${i.name} x ${i.qty} = ₹${i.qty*i.price}</li>`;
  }
  totalSpan.innerText=total;
 }
