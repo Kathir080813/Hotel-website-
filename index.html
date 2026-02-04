@@ -3,123 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mumbai Special Barbeque</title>
+<title>Mumbai Special Barbeque – POS</title>
 
 <style>
-:root{
-  --primary:#6d1b1b;
-  --bg:#f3efe9;
-  --card:#ffffff;
-  --accent:#c62828;
-  --green:#2e7d32;
+/* ===== NORMAL SCREEN ===== */
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f3efe9;
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:Segoe UI,Arial;background:var(--bg)}
-
 .header{
-  background:var(--primary);
+  background:#6d1b1b;
   color:#fff;
-  padding:16px;
+  padding:12px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px
 }
-.header h1{margin:0;font-size:20px}
-
-.header-right{
-  display:flex;
-  gap:8px;
-  align-items:center
-}
+.header h1{margin:0;font-size:18px}
+.header-right{display:flex;gap:6px;align-items:center}
 .header-right input{
-  padding:8px 14px;
-  border-radius:20px;
-  border:none
+  padding:6px 10px;border-radius:16px;border:none
 }
 .header-right button{
-  padding:8px 12px;
-  border:none;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer
+  padding:6px 10px;border:none;border-radius:8px;
+  font-weight:bold;cursor:pointer
 }
-.btn-clear{background:#fff;color:#c62828}
-.btn-report{background:#283593;color:#fff}
-.btn-reset{background:#c62828;color:#fff}
+.clear{background:#fff;color:#c62828}
+.report{background:#283593;color:#fff}
+.reset{background:#c62828;color:#fff}
 
-.container{max-width:1200px;margin:auto;padding:14px}
+.container{max-width:1200px;margin:auto;padding:12px}
 
-select{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  margin-bottom:14px
-}
-
-.category{margin-top:22px}
 .category h2{
-  color:var(--primary);
-  border-left:6px solid var(--accent);
-  padding-left:10px;
-  font-size:18px;
-  margin-bottom:10px
+  color:#6d1b1b;
+  border-left:5px solid #c62828;
+  padding-left:8px;
+  font-size:16px;
 }
-
 .menu{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:12px
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
 }
-.menu-item{
-  background:var(--card);
-  padding:14px;
-  border-radius:16px;
+.item{
+  background:#fff;
+  padding:10px;
+  border-radius:14px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 2px 6px rgba(0,0,0,.12)
 }
-.menu-left b{font-size:16px;color:#3a1b1b}
-.menu-left span{display:block;color:#666;margin-top:4px}
-
-.qty-box{
-  display:flex;
-  align-items:center;
-  border:1px solid #ddd;
-  border-radius:20px;
-  overflow:hidden
+.qty button{
+  padding:4px 10px;font-size:16px
 }
-.qty-box button{
-  border:none;
-  background:#f5f5f5;
-  padding:6px 14px;
-  font-size:18px
-}
-.qty-box span{
-  min-width:30px;
+.qty span{
+  min-width:22px;
+  display:inline-block;
   text-align:center;
   font-weight:bold
 }
 
 .order{
   background:#fff;
-  margin-top:24px;
-  padding:16px;
-  border-radius:18px
+  margin-top:18px;
+  padding:12px;
+  border-radius:16px;
 }
-.total{font-size:20px;font-weight:bold;margin-top:8px}
+.order h3{text-align:center;margin:6px 0}
+.total{font-size:20px;font-weight:bold;text-align:right}
 
-.submit-btn{
+.action-btn{
   width:100%;
-  padding:14px;
+  padding:12px;
+  margin-top:8px;
   border:none;
-  border-radius:18px;
-  background:var(--green);
+  border-radius:14px;
+  font-size:16px;
   color:#fff;
-  font-size:18px;
-  margin-top:10px
+}
+.whatsapp{background:#2e7d32}
+.print{background:#1565c0}
+
+/* ===== THERMAL PRINT ONLY ===== */
+@media print {
+  body * { display:none; }
+
+  .order, .order * {
+    display:block;
+  }
+
+  .order{
+    width:58mm;        /* 58mm thermal roll */
+    margin:0;
+    padding:0;
+    font-size:12px;
+  }
+
+  .order h3{
+    text-align:center;
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .total{
+    font-size:14px;
+    border-top:1px dashed #000;
+    margin-top:6px;
+    padding-top:4px;
+  }
 }
 </style>
 </head>
@@ -129,191 +121,156 @@ select{
 <!-- HEADER -->
 <div class="header">
   <h1>Mumbai Special Barbeque</h1>
-
   <div class="header-right">
-    <input type="text" id="search" placeholder="Search item" oninput="filterMenu()">
-
-    <button class="btn-clear" onclick="clearCart()">Clear</button>
-    <button class="btn-report" onclick="downloadReport()">Report</button>
-    <button class="btn-reset" onclick="resetSalesReport()">Reset</button>
+    <input type="text" placeholder="Search" oninput="filterMenu(this.value)">
+    <button class="clear" onclick="clearCart()">Clear</button>
+    <button class="report" onclick="downloadReport()">Report</button>
+    <button class="reset" onclick="resetSalesReport()">Reset</button>
   </div>
 </div>
 
 <div class="container">
 
-<select id="tableNo">
-  <option value="">Select Table</option>
-  <option>Table 1</option><option>Table 2</option><option>Table 3</option>
-  <option>Table 4</option><option>Table 5</option>
-</select>
+<!-- MENU -->
+<div class="category"><h2>Rice / Briyani</h2>
+<div class="menu" id="rice"></div></div>
 
-<div class="category"><h2>🍚 Rice / Briyani</h2><div class="menu" id="rice"></div></div>
-<div class="category"><h2>🫓 Dosa / Parotta / Egg</h2><div class="menu" id="dosa"></div></div>
-<div class="category"><h2>🍗 Starters</h2><div class="menu" id="starters"></div></div>
-<div class="category"><h2>🌯 Rolls</h2><div class="menu" id="rolls"></div></div>
-<div class="category"><h2>🔥 Grill</h2><div class="menu" id="grill"></div></div>
-<div class="category"><h2>🔥 Tandoori</h2><div class="menu" id="tandoori"></div></div>
-<div class="category"><h2>🌶️ Pepper</h2><div class="menu" id="pepper"></div></div>
-<div class="category"><h2>🍖 BBQ</h2><div class="menu" id="bbq"></div></div>
-<div class="category"><h2>🍜 Noodles</h2><div class="menu" id="noodles"></div></div>
+<div class="category"><h2>Dosa / Parotta / Egg</h2>
+<div class="menu" id="dosa"></div></div>
 
-<div class="order">
-<h3>Order Summary</h3>
+<div class="category"><h2>Starters</h2>
+<div class="menu" id="starters"></div></div>
+
+<div class="category"><h2>Rolls</h2>
+<div class="menu" id="rolls"></div></div>
+
+<div class="category"><h2>Grill</h2>
+<div class="menu" id="grill"></div></div>
+
+<div class="category"><h2>Tandoori</h2>
+<div class="menu" id="tandoori"></div></div>
+
+<div class="category"><h2>Pepper</h2>
+<div class="menu" id="pepper"></div></div>
+
+<div class="category"><h2>BBQ</h2>
+<div class="menu" id="bbq"></div></div>
+
+<div class="category"><h2>Noodles</h2>
+<div class="menu" id="noodles"></div></div>
+
+<!-- BILL -->
+<div class="order" id="billArea">
+<h3>MUMBAI SPECIAL BARBEQUE</h3>
 <ul id="orderList"></ul>
-<div class="total">Total: ₹<span id="total">0</span></div>
+<div class="total">TOTAL ₹ <span id="total">0</span></div>
 
-<button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
+<button class="action-btn whatsapp" onclick="sendWA()">Send WhatsApp</button>
+<button class="action-btn print" onclick="window.print()">Print Bill</button>
 </div>
 
 </div>
 
 <script>
-function itemHTML(name,price,key){
- return `<div class="menu-item" data-name="${name}">
-  <div class="menu-left"><b>${name}</b><span>₹${price}</span></div>
-  <div class="qty-box">
-   <button onclick="changeQty('${key}','${name}',${price},-1)">−</button>
-   <span id="q-${key}">0</span>
-   <button onclick="changeQty('${key}','${name}',${price},1)">+</button>
+function item(name,price){
+ return `<div class="item" data-name="${name}">
+  <div><b>${name}</b><br>₹${price}</div>
+  <div class="qty">
+    <button onclick="qty('${name}',${price},-1)">−</button>
+    <span id="q-${name}">0</span>
+    <button onclick="qty('${name}',${price},1)">+</button>
   </div>
  </div>`;
 }
 
-/* ITEMS */
+/* ALL ITEMS */
 rice.innerHTML+=
- itemHTML("Plain Briyani",90,"pb90")+
- itemHTML("Egg Briyani",100,"eb100")+
- itemHTML("Veg Rice",100,"vr100")+
- itemHTML("Egg Rice",100,"er100")+
- itemHTML("Chicken Rice",130,"cr130")+
- itemHTML("Chicken Briyani",130,"cb130")+
- itemHTML("Chicken Schezwan Rice",140,"csr140")+
- itemHTML("65 Briyani",150,"b65150")+
- itemHTML("Rice Combo",180,"rc180");
+item("Plain Briyani",90)+item("Egg Briyani",100)+item("Veg Rice",100)+
+item("Egg Rice",100)+item("Chicken Rice",130)+item("Chicken Briyani",130)+
+item("Chicken Schezwan Rice",140)+item("65 Briyani",150)+item("Rice Combo",180);
 
 dosa.innerHTML+=
- itemHTML("Parotta",20,"par20")+
- itemHTML("Chapathi",20,"chap20")+
- itemHTML("Kalakki",20,"kal20")+
- itemHTML("Plain Dosa",40,"pd40")+
- itemHTML("Egg Podimas",40,"ep40")+
- itemHTML("Double Omelette",40,"do40")+
- itemHTML("Egg Kall Dosa",50,"ekd50")+
- itemHTML("Egg Dosa",50,"ed50")+
- itemHTML("Onion Uthappam",60,"ou60")+
- itemHTML("Kari Dosa",100,"kd100");
+item("Parotta",20)+item("Chapathi",20)+item("Kalakki",20)+
+item("Plain Dosa",40)+item("Egg Podimas",40)+item("Double Omelette",40)+
+item("Egg Dosa",50)+item("Egg Kall Dosa",50)+item("Onion Uthappam",60)+
+item("Kari Dosa",100);
 
 starters.innerHTML+=
- itemHTML("Chicken 65",120,"c65120")+
- itemHTML("Chinna Chicken",120,"ch120")+
- itemHTML("Chilli Chicken",140,"cc140")+
- itemHTML("Chettinad Chicken",140,"chc140");
+item("Chicken 65",120)+item("Chinna Chicken",120)+
+item("Chilli Chicken",140)+item("Chettinad Chicken",140);
 
 rolls.innerHTML+=
- itemHTML("Shawarma Roll",60,"sr60")+
- itemHTML("Shawarma Roll Special",120,"srs120");
+item("Shawarma Roll",60)+item("Shawarma Roll Special",120);
 
 grill.innerHTML+=
- itemHTML("Grill Quarter",100,"gq100")+
- itemHTML("Grill Half",200,"gh200")+
- itemHTML("Grill Full",400,"gf400");
+item("Grill Quarter",100)+item("Grill Half",200)+item("Grill Full",400);
 
 tandoori.innerHTML+=
- itemHTML("Tandoori Quarter",100,"tq100")+
- itemHTML("Tandoori Half",200,"th200")+
- itemHTML("Tandoori Full",400,"tf400");
+item("Tandoori Quarter",100)+item("Tandoori Half",200)+item("Tandoori Full",400);
 
 pepper.innerHTML+=
- itemHTML("Pepper Quarter",140,"pq140")+
- itemHTML("Pepper Half",270,"ph270")+
- itemHTML("Pepper Full",500,"pf500");
+item("Pepper Quarter",140)+item("Pepper Half",270)+item("Pepper Full",500);
 
 bbq.innerHTML+=
- itemHTML("BBQ Quarter",110,"bq110")+
- itemHTML("BBQ Half",210,"bh210")+
- itemHTML("BBQ Full",400,"bf400");
+item("BBQ Quarter",110)+item("BBQ Half",210)+item("BBQ Full",400);
 
 noodles.innerHTML+=
- itemHTML("Veg Noodles",100,"vn100")+
- itemHTML("Egg Schezwan Noodles",110,"esn110")+
- itemHTML("Gobi Noodles",120,"gn120")+
- itemHTML("Mushroom Noodles",120,"mn120")+
- itemHTML("Paneer Noodles",120,"pn120")+
- itemHTML("Chicken Noodles",130,"cn130")+
- itemHTML("Chicken Schezwan Noodles",140,"csn140");
+item("Veg Noodles",100)+item("Egg Schezwan Noodles",110)+
+item("Gobi Noodles",120)+item("Mushroom Noodles",120)+
+item("Paneer Noodles",120)+item("Chicken Noodles",130)+
+item("Chicken Schezwan Noodles",140);
 
-/* ORDER LOGIC */
-let orders={}, total=0;
-const totalEl=document.getElementById("total");
+/* BILL LOGIC */
+let cart={},total=0;
 
-function changeQty(k,n,p,d){
- if(!orders[k]&&d<0)return;
- if(!orders[k])orders[k]={name:n,price:p,qty:0};
- orders[k].qty+=d;
- if(orders[k].qty<=0)delete orders[k];
- document.getElementById("q-"+k).innerText=orders[k]?orders[k].qty:0;
- total+=p*d;if(total<0)total=0;render();
-}
-function render(){
- orderList.innerHTML=Object.values(orders)
-  .map(i=>`<li>${i.name} x ${i.qty} = ₹${i.qty*i.price}</li>`).join("");
- totalEl.innerText=total;
-}
-function clearCart(){
- orders={};total=0;
- document.querySelectorAll(".qty-box span").forEach(s=>s.innerText=0);
+function qty(name,price,change){
+ if(!cart[name]&&change<0)return;
+ if(!cart[name])cart[name]={name,price,qty:0};
+ cart[name].qty+=change;
+ if(cart[name].qty<=0)delete cart[name];
+ document.getElementById("q-"+name).innerText=cart[name]?cart[name].qty:0;
  render();
 }
 
-/* SALES */
-function saveSale(table,orders,total){
- let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
- let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
- sales.push({date:new Date().toLocaleString(),table,items,total});
- localStorage.setItem("salesReport",JSON.stringify(sales));
-}
-function downloadReport(){
- let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
- if(!sales.length){alert("No sales data");return;}
- let csv="Date,Table,Items,Total\n";
- sales.forEach(s=>csv+=`"${s.date}","${s.table}","${s.items}",${s.total}\n`);
- let a=document.createElement("a");
- a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
- a.download="Mumbai_Special_Barbeque_Sales_Report.csv";
- a.click();
-}
-function resetSalesReport(){
- if(confirm("Reset all sales data?")){
-  localStorage.removeItem("salesReport");
-  alert("Sales report reset");
+function render(){
+ orderList.innerHTML="";
+ total=0;
+ for(let k in cart){
+  let i=cart[k];
+  let amt=i.qty*i.price;
+  total+=amt;
+  orderList.innerHTML+=`<li>${i.name} x ${i.qty} = ₹${amt}</li>`;
  }
+ document.getElementById("total").innerText=total;
 }
 
-/* WHATSAPP */
-function submitOrder(){
- let table = tableNo.value;
- if(!table || !Object.keys(orders).length){
-  alert("Select table and items");return;
- }
- saveSale(table,orders,total);
+function clearCart(){
+ cart={};total=0;
+ document.querySelectorAll(".qty span").forEach(s=>s.innerText=0);
+ render();
+}
 
- let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A%0A`;
- for(let k in orders){
-  let i=orders[k];
+function sendWA(){
+ if(!total){alert("No items");return;}
+ let msg="Mumbai Special Barbeque%0A";
+ for(let k in cart){
+  let i=cart[k];
   msg+=`${i.name} x ${i.qty} = ₹${i.qty*i.price}%0A`;
  }
  msg+=`%0ATotal: ₹${total}`;
-
- window.open(`https://wa.me/918608776956?text=${msg}`,"_blank");
+ window.open("https://wa.me/918608776956?text="+msg,"_blank");
 }
 
-/* SEARCH */
-function filterMenu(){
- let q=search.value.toLowerCase();
- document.querySelectorAll(".menu-item").forEach(i=>{
+function filterMenu(q){
+ q=q.toLowerCase();
+ document.querySelectorAll(".item").forEach(i=>{
   i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
  });
 }
+
+/* dummy report funcs */
+function downloadReport(){}
+function resetSalesReport(){}
 </script>
 
 </body>
