@@ -22,10 +22,31 @@ body{margin:0;font-family:Segoe UI,Arial;background:var(--bg)}
   padding:16px;
   display:flex;
   justify-content:space-between;
-  align-items:center
+  align-items:center;
+  gap:10px
 }
 .header h1{margin:0;font-size:20px}
-.header input{padding:8px 14px;border-radius:20px;border:none}
+
+.header-right{
+  display:flex;
+  gap:8px;
+  align-items:center
+}
+.header-right input{
+  padding:8px 14px;
+  border-radius:20px;
+  border:none
+}
+.header-right button{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer
+}
+.btn-clear{background:#fff;color:#c62828}
+.btn-report{background:#283593;color:#fff}
+.btn-reset{background:#c62828;color:#fff}
 
 .container{max-width:1200px;margin:auto;padding:14px}
 
@@ -100,32 +121,22 @@ select{
   font-size:18px;
   margin-top:10px
 }
-.clear-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:18px;
-  background:var(--accent);
-  color:#fff;
-  margin-top:8px
-}
-.report-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:18px;
-  background:#283593;
-  color:#fff;
-  margin-top:8px
-}
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <h1>Mumbai Special Barbeque</h1>
-  <input type="text" id="search" placeholder="Search item" oninput="filterMenu()">
+
+  <div class="header-right">
+    <input type="text" id="search" placeholder="Search item" oninput="filterMenu()">
+
+    <button class="btn-clear" onclick="clearCart()">Clear</button>
+    <button class="btn-report" onclick="downloadReport()">Report</button>
+    <button class="btn-reset" onclick="resetSalesReport()">Reset</button>
+  </div>
 </div>
 
 <div class="container">
@@ -152,9 +163,6 @@ select{
 <div class="total">Total: ₹<span id="total">0</span></div>
 
 <button class="submit-btn" onclick="submitOrder()">Send Order to WhatsApp</button>
-<button class="clear-btn" onclick="clearCart()">Clear Cart</button>
-<button class="report-btn" onclick="downloadReport()">Download Sales Report</button>
-<button class="clear-btn" onclick="resetSalesReport()">Reset Sales Report</button>
 </div>
 
 </div>
@@ -171,7 +179,7 @@ function itemHTML(name,price,key){
  </div>`;
 }
 
-/* ITEMS (ALL INCLUDED) */
+/* ITEMS */
 rice.innerHTML+=
  itemHTML("Plain Briyani",90,"pb90")+
  itemHTML("Egg Briyani",100,"eb100")+
@@ -257,7 +265,7 @@ function clearCart(){
  render();
 }
 
-/* SALES REPORT */
+/* SALES */
 function saveSale(table,orders,total){
  let sales=JSON.parse(localStorage.getItem("salesReport"))||[];
  let items=Object.values(orders).map(i=>`${i.name} x ${i.qty}`).join(", ");
@@ -281,27 +289,22 @@ function resetSalesReport(){
  }
 }
 
-/* WHATSAPP SEND (FIXED) */
+/* WHATSAPP */
 function submitOrder(){
  let table = tableNo.value;
  if(!table || !Object.keys(orders).length){
-  alert("Select table and items"); return;
+  alert("Select table and items");return;
  }
+ saveSale(table,orders,total);
 
- saveSale(table, orders, total);
-
- let msg = `Mumbai Special Barbeque%0A`;
- msg += `Table: ${table}%0A%0A`;
+ let msg=`Mumbai Special Barbeque%0ATable: ${table}%0A%0A`;
  for(let k in orders){
-  let i = orders[k];
-  msg += `${i.name} x ${i.qty} = ₹${i.qty*i.price}%0A`;
+  let i=orders[k];
+  msg+=`${i.name} x ${i.qty} = ₹${i.qty*i.price}%0A`;
  }
- msg += `%0ATotal: ₹${total}`;
+ msg+=`%0ATotal: ₹${total}`;
 
- window.open(
-  `https://wa.me/918608776956?text=${msg}`,
-  "_blank"
- );
+ window.open(`https://wa.me/918608776956?text=${msg}`,"_blank");
 }
 
 /* SEARCH */
