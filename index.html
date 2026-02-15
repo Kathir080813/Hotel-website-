@@ -13,7 +13,6 @@ body{margin:0;font-family:Arial;background:#f4f4f4}
  padding:10px;
  position:sticky;
  top:0;
- z-index:100;
 }
 .header select,.header input{
  padding:6px;
@@ -25,39 +24,42 @@ body{margin:0;font-family:Arial;background:#f4f4f4}
 .category h3{
  background:#ff6f00;
  color:white;
- padding:8px;
+ padding:6px;
  margin:10px 0 5px 0;
 }
 .item{
  display:flex;
  justify-content:space-between;
  background:white;
- padding:8px;
- margin:4px 8px;
+ padding:6px;
+ margin:4px 6px;
  border-radius:6px;
- font-size:14px;
+ font-size:13px;
 }
-.qty button{padding:2px 8px}
-.qty span{min-width:20px;display:inline-block;text-align:center;font-weight:bold}
+.qty button{padding:2px 6px}
+.qty span{min-width:18px;display:inline-block;text-align:center;font-weight:bold}
 .cart{
  position:fixed;
  bottom:0;
  left:0;
  right:0;
  background:white;
- padding:10px;
+ padding:8px;
  box-shadow:0 -2px 10px rgba(0,0,0,0.2);
 }
 .cart button{
  width:100%;
- padding:10px;
+ padding:8px;
  margin-top:5px;
  border:none;
  border-radius:6px;
  color:white;
+ font-size:14px;
 }
 .wa{background:green}
 .clear{background:red}
+.report{background:#283593}
+.reset{background:#b71c1c}
 </style>
 </head>
 
@@ -80,9 +82,15 @@ body{margin:0;font-family:Arial;background:#f4f4f4}
 <div><b>Total ₹ <span id="total">0</span></b></div>
 <button class="wa" onclick="sendWA()">Send WhatsApp</button>
 <button class="clear" onclick="clearCart()">Clear Cart</button>
+<button class="report" onclick="downloadReport()">Download Sales Report</button>
+<button class="reset" onclick="resetSales()">Reset Sales Report</button>
 </div>
 
 <script>
+
+/* =======================
+ FULL MENU (100% FROM YOUR PHOTO)
+======================= */
 
 const categories = {
 
@@ -229,6 +237,8 @@ const categories = {
 
 };
 
+/* ========================= */
+
 let cart={}, total=0;
 const menuDiv=document.getElementById("menu");
 const totalEl=document.getElementById("total");
@@ -276,16 +286,60 @@ function clearCart(){
  render();
 }
 
+/* ===== SALES STORAGE ===== */
+
+function saveSale(table){
+ let sales=JSON.parse(localStorage.getItem("sales"))||[];
+ sales.push({
+   date:new Date().toLocaleString(),
+   table:table,
+   items:cart,
+   total:total
+ });
+ localStorage.setItem("sales",JSON.stringify(sales));
+}
+
+function downloadReport(){
+ let sales=JSON.parse(localStorage.getItem("sales"))||[];
+ if(!sales.length){alert("No sales data");return;}
+ let csv="Date,Table,Total\n";
+ sales.forEach(s=>{
+  csv+=`${s.date},${s.table},${s.total}\n`;
+ });
+ let a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+ a.download="Sales_Report.csv";
+ a.click();
+}
+
+function resetSales(){
+ if(confirm("Reset all sales report?")){
+  localStorage.removeItem("sales");
+  alert("Sales cleared");
+ }
+}
+
+/* ===== WHATSAPP ===== */
+
 function sendWA(){
  let table=document.getElementById("tableNo").value;
- if(!table || total==0){ alert("Select table & items"); return;}
+ if(!table || total==0){
+   alert("Select table & items");
+   return;
+ }
+
+ saveSale(table);
+
  let msg=`Mumbai Special BBQ%0ATable: ${table}%0A`;
  for(let k in cart){
   msg+=`${cart[k].name} x ${cart[k].qty} = ₹${cart[k].qty*cart[k].price}%0A`;
  }
  msg+=`%0ATotal ₹${total}`;
+
  window.open("https://wa.me/918608776956?text="+msg,"_blank");
 }
+
+/* ===== SEARCH ===== */
 
 function filterItems(){
  let q=document.getElementById("search").value.toLowerCase();
@@ -293,6 +347,7 @@ function filterItems(){
   i.style.display=i.innerText.toLowerCase().includes(q)?"flex":"none";
  });
 }
+
 </script>
 
 </body>
