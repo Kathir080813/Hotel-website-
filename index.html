@@ -8,23 +8,28 @@
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:#f4f4f4;
+  font-family:Arial, sans-serif;
+  background:#f3f3f3;
 }
 
 .header{
   background:#6d1b1b;
   color:white;
-  padding:12px;
+  padding:10px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
 .header input{
-  padding:6px 10px;
-  border-radius:6px;
+  padding:5px 10px;
+  border-radius:5px;
   border:none;
+}
+
+.header select{
+  padding:5px;
+  margin-top:5px;
 }
 
 .main{
@@ -72,6 +77,13 @@ body{
   padding:2px 6px;
 }
 
+.qty span{
+  min-width:20px;
+  display:inline-block;
+  text-align:center;
+  font-weight:bold;
+}
+
 .bill-list{
   flex:1;
   overflow-y:auto;
@@ -80,6 +92,7 @@ body{
 .total{
   font-weight:bold;
   font-size:18px;
+  margin-top:5px;
 }
 
 button{
@@ -96,9 +109,9 @@ button{
 .report{background:#283593;}
 .reset{background:#444;}
 
-select{
-  padding:5px;
-  margin-bottom:5px;
+@media (max-width:768px){
+  .main{flex-direction:column;}
+  .left,.right{width:100%;height:50%;}
 }
 </style>
 </head>
@@ -124,7 +137,6 @@ select{
 </div>
 
 <div class="main">
-
 <div class="left" id="menu"></div>
 
 <div class="right">
@@ -137,60 +149,169 @@ select{
   <button class="report" onclick="downloadReport()">Download Sales Report</button>
   <button class="reset" onclick="resetSales()">Reset Sales Report</button>
 </div>
-
 </div>
 
 <script>
 
 const categories = {
-"🍚 Biryani":[
+
+"🍚 BIRYANI":[
 ["Chicken Biriyani",130],
+["Chicken Biriyani Qty",100],
 ["65 Biriyani",150],
 ["Egg Biriyani",100],
 ["Plain Biriyani",90]
 ],
-"🍗 Starters":[
+
+"🍗 INDIAN CHICKEN GRAVY":[
+["Butter Chicken Masala",180],
+["Chicken Masala",160],
+["Pepper Chicken Masala",170],
+["Kadai Chicken Masala",160],
+["Hyderabad Chicken Masala",170],
+["Panjabi Chicken Masala",180],
+["Chettinadu Chicken Masala",130]
+],
+
+"🥦 VEG GRAVY":[
+["Gopi Manchurian Gravy",130],
+["Gopi Chilli Gravy",130],
+["Mushroom Manchurian Gravy",130],
+["Mushroom Chilli Gravy",130],
+["Paneer Manchurian Gravy",150],
+["Kadai Paneer Masala",170],
+["Paneer Pepper Masala",160],
+["Paneer Butter Masala",200],
+["Mushroom Masala",160],
+["Pepper Mushroom Masala",180]
+],
+
+"🍖 STARTERS":[
 ["Chicken 65 (5 Pcs)",130],
+["Chicken Lollipop (5 Pcs)",130],
+["Chicken 65 B/I (7 Pcs)",150],
 ["Chilli Chicken Dry",140],
 ["Chilli Chicken Gravy",150],
 ["Pepper Chicken Dry",140],
 ["Pepper Chicken Gravy",150],
+["Garlic Chicken Gravy",150],
+["Ginger Chicken Gravy",150],
+["Lemon Chicken Gravy",150],
+["Lollipop Sauce",150],
+["China Chilly Chicken",130],
+["Gopi 65",110],
+["Mushroom 65",120],
 ["Paneer 65",150]
 ],
-"🔥 Grill":[
-["Grill Qty",100],
-["Grill Half",200],
-["Grill Full",400]
-],
-"🔥 Tandoori":[
+
+"🔥 TANDOORI":[
 ["Tandoori Qty",100],
 ["Tandoori Half",200],
 ["Tandoori Full",400]
 ],
-"🍜 Noodles":[
-["Chicken Noodles",130],
-["Chicken Schezwan Noodles",140],
-["Egg Noodles",100],
-["Veg Noodles",100]
+
+"🔥 GRILL":[
+["Grill Qty",100],
+["Grill Half",200],
+["Grill Full",400]
 ],
-"🌯 Shawarma":[
+
+"🍜 NOODLES":[
+["Chicken Noodles",130],
+["Singapore Chicken Noodles",150],
+["Chicken Schezwan Noodles",140],
+["Chicken Noodles (1/2)",150],
+["Egg Noodles",100],
+["Veg Noodles",100],
+["Gopi Noodles",110],
+["Mushroom Noodles",120],
+["Paneer Noodles",130]
+],
+
+"🍛 FRIED RICE":[
+["Chicken Fried Rice",130],
+["Chicken Schezwan Rice",140],
+["Mixed Chicken Rice & Noodles",150],
+["Chicken Rice Half",100],
+["Chicken Rice (1/2)",150],
+["Chicken Rice (2/3)",300],
+["Egg Fried Rice",100],
+["Egg Schezwan Rice",110],
+["Veg Fried Rice",100],
+["Gopi Fried Rice",110],
+["Mushroom Fried Rice",120],
+["Paneer Fried Rice",130]
+],
+
+"🍗 BARBEQUE CHICKEN":[
+["Barbeque Chicken Full",450],
+["Barbeque Chicken Half",220],
+["Barbeque Chicken Qty",110],
+["Pepper Barbeque Chicken Full",550],
+["Pepper Barbeque Chicken Half",270],
+["Pepper Barbeque Chicken Qty",140],
+["Spl Barbeque Chicken Full",550],
+["Spl Barbeque Chicken Half",270],
+["Spl Barbeque Chicken Qty",140],
+["Hara Bhara BBQ Chicken Full",550],
+["Hara Bhara BBQ Chicken Half",270],
+["Hara Bhara BBQ Chicken Qty",140]
+],
+
+"🌯 SHAWARMA":[
 ["Shawarma Roll",60],
 ["Shawarma Plate",130],
-["Shawarma Spl Roll",100]
+["Shawarma Spl Roll",100],
+["Shawarma Spl Plate",160],
+["Shawarma Peri Peri Roll",70]
 ],
-"🫓 Dosa":[
+
+"🫓 TAWA SPECIAL PAROTTA":[
+["Parotta (2 Pcs)",40],
+["Egg Vachu Parotta",40],
+["Plain Vachu Parotta",35],
+["Chapathi (2 Pcs)",25],
+["Veg Kothu Parotta",90],
+["Paneer Kothu Parotta",150],
+["Mushroom Kothu Parotta",140],
+["Egg Kothu Parotta",100],
+["Chicken Kothu Parotta",130],
+["Egg Stuff",120],
+["Chicken Stuff",160],
+["Chilli Parotta",110],
+["Chicken Chilly Parotta",150]
+],
+
+"🥞 DOSA CORNER":[
 ["Plain Dosai",40],
 ["Kal Dosai",20],
 ["Egg Dosai",50],
-["Kari Dosai",100]
+["Egg Kal Dosai",40],
+["Kari Dosai",100],
+["Onion Dosai",50],
+["Onion Uthappam",60]
 ],
-"🥚 Egg":[
+
+"🥚 EGG SPECIAL":[
 ["Masala Omelette Single",30],
 ["Masala Omelette Double",60],
 ["Egg Podimas",40],
+["Plain Omelette Single",20],
+["Plain Omelette Double",40],
 ["Half Boiled",20],
 ["Kalaki",20]
+],
+
+"🍞 NAAN / ROTI":[
+["Plain Naan",30],
+["Butter Naan",40],
+["Garlic Naan",45],
+["Pudhin Naan",40],
+["Butter Roti",40],
+["Plain Roti",30],
+["Kulcha",30]
 ]
+
 };
 
 let cart={}, total=0;
@@ -269,7 +390,7 @@ function downloadReport(){
  sales.forEach(s=>csv+=`${s.date},${s.table},${s.total}\n`);
  let a=document.createElement("a");
  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
- a.download="Sales_Report.csv";
+ a.download="Mumbai_Special_Sales_Report.csv";
  a.click();
 }
 
@@ -288,6 +409,5 @@ function filterItems(){
 }
 
 </script>
-
 </body>
 </html>
