@@ -13,6 +13,7 @@ body{margin:0;font-family:Arial;background:#f4f4f4}
  padding:10px;
  position:sticky;
  top:0;
+ z-index:100;
 }
 .header select,.header input{
  padding:6px;
@@ -60,10 +61,10 @@ body{margin:0;font-family:Arial;background:#f4f4f4}
 }
 
 .green{background:green}
-.red{background:red}
+.orange{background:#ef6c00}
 .blue{background:#283593}
 .dark{background:#444}
-.orange{background:#ef6c00}
+.red{background:#b71c1c}
 </style>
 </head>
 
@@ -93,33 +94,180 @@ body{margin:0;font-family:Arial;background:#f4f4f4}
 
 <div class="cart">
 <div><b>Total ₹ <span id="total">0</span></b></div>
-
 <button class="green" onclick="sendWA()">Send WhatsApp</button>
 <button class="orange" onclick="clearCurrentTable()">Clear Current Table</button>
 <button class="blue" onclick="closeTable()">Close Table (Save & Clear)</button>
 <button class="dark" onclick="downloadReport()">Download Sales Report</button>
 <button class="red" onclick="resetSales()">Reset Sales Report</button>
-
 </div>
 
 <script>
 
-/* ===== MENU SAME AS BEFORE (FULL MENU) ===== */
-/* For space saving I keep short here, you paste your full categories from previous code */
+/* ================= FULL MENU ================= */
 
 const categories = {
-"BIRYANI":[["Chicken Biriyani",130],["65 Biriyani",150],["Egg Biriyani",100],["Plain Biriyani",90]],
-"TANDOORI":[["Tandoori Qty",100],["Tandoori Half",200],["Tandoori Full",400]],
-"GRILL":[["Grill Qty",100],["Grill Half",200],["Grill Full",400]],
-"NOODLES":[["Chicken Noodles",130],["Egg Noodles",100],["Veg Noodles",100]],
-"SHAWARMA":[["Shawarma Roll",60],["Shawarma Plate",130]]
+
+/* BIRYANI */
+"BIRYANI":[
+["Chicken Biriyani",130],
+["Chicken Biriyani Qty",100],
+["65 Biriyani",150],
+["Egg Biriyani",100],
+["Plain Biriyani",90]
+],
+
+/* INDIAN CHICKEN GRAVY */
+"INDIAN CHICKEN GRAVY":[
+["Butter Chicken Masala",180],
+["Chicken Masala",160],
+["Pepper Chicken Masala",170],
+["Kadai Chicken Masala",160],
+["Hyderabad Chicken Masala",170],
+["Panjabi Chicken Masala",180],
+["Chettinadu Chicken Masala",130]
+],
+
+/* VEG GRAVY */
+"VEG GRAVY":[
+["Gopi Manchurian Gravy",130],
+["Gopi Chilli Gravy",130],
+["Mushroom Manchurian Gravy",130],
+["Mushroom Chilli Gravy",130],
+["Paneer Manchurian Gravy",150],
+["Kadai Paneer Masala",170],
+["Paneer Pepper Masala",160],
+["Paneer Butter Masala",200],
+["Mushroom Masala",160],
+["Pepper Mushroom Masala",180]
+],
+
+/* STARTERS */
+"STARTERS":[
+["Chicken 65 (5 Pcs)",130],
+["Chicken Lollipop (5 Pcs)",130],
+["Chicken 65 B/I (7 Pcs)",150],
+["Chilli Chicken Dry",140],
+["Chilli Chicken Gravy",150],
+["Pepper Chicken Dry",140],
+["Pepper Chicken Gravy",150],
+["Garlic Chicken Gravy",150],
+["Ginger Chicken Gravy",150],
+["Lemon Chicken Gravy",150],
+["Lollipop Sauce",150],
+["China Chilly Chicken",130],
+["Gopi 65",110],
+["Mushroom 65",120],
+["Paneer 65",150]
+],
+
+/* TANDOORI */
+"TANDOORI":[
+["Tandoori Qty",100],
+["Tandoori Half",200],
+["Tandoori Full",400]
+],
+
+/* GRILL */
+"GRILL":[
+["Grill Qty",100],
+["Grill Half",200],
+["Grill Full",400]
+],
+
+/* FRIED RICE */
+"FRIED RICE":[
+["Chicken Fried Rice",130],
+["Chicken Schezwan Rice",140],
+["Mixed Chicken Rice & Noodles",150],
+["Chicken Rice Half",100],
+["Chicken Rice (1/2)",150],
+["Chicken Rice (2/3)",300],
+["Egg Fried Rice",100],
+["Egg Schezwan Rice",110],
+["Veg Fried Rice",100],
+["Gopi Fried Rice",110],
+["Mushroom Fried Rice",120],
+["Paneer Fried Rice",130]
+],
+
+/* NOODLES */
+"NOODLES":[
+["Chicken Noodles",130],
+["Singapore Chicken Noodles",150],
+["Chicken Schezwan Noodles",140],
+["Chicken Noodles (1/2)",150],
+["Egg Noodles",100],
+["Veg Noodles",100],
+["Gopi Noodles",110],
+["Mushroom Noodles",120],
+["Paneer Noodles",130]
+],
+
+/* BARBEQUE CHICKEN */
+"BARBEQUE CHICKEN":[
+["Barbeque Chicken Full",450],
+["Barbeque Chicken Half",220],
+["Barbeque Chicken Qty",110],
+["Pepper Barbeque Chicken Full",550],
+["Pepper Barbeque Chicken Half",270],
+["Pepper Barbeque Chicken Qty",140],
+["Spl Barbeque Chicken Full",550],
+["Spl Barbeque Chicken Half",270],
+["Spl Barbeque Chicken Qty",140],
+["Hara Bhara BBQ Chicken Full",550],
+["Hara Bhara BBQ Chicken Half",270],
+["Hara Bhara BBQ Chicken Qty",140]
+],
+
+/* SHAWARMA */
+"SHAWARMA":[
+["Shawarma Roll",60],
+["Shawarma Plate",130],
+["Shawarma Spl Roll",100],
+["Shawarma Spl Plate",160],
+["Shawarma Peri Peri Roll",70]
+],
+
+/* DOSA */
+"DOSA CORNER":[
+["Plain Dosai",40],
+["Kal Dosai",20],
+["Egg Dosai",50],
+["Egg Kal Dosai",40],
+["Kari Dosai",100],
+["Onion Dosai",50],
+["Onion Uthappam",60]
+],
+
+/* EGG */
+"EGG SPECIAL":[
+["Masala Omelette Single",30],
+["Masala Omelette Double",60],
+["Egg Podimas",40],
+["Plain Omelette Single",20],
+["Plain Omelette Double",40],
+["Half Boiled / Full Boiled",20],
+["Kalakki",20]
+],
+
+/* NAAN */
+"NAAN / ROTI":[
+["Plain Naan",30],
+["Butter Naan",40],
+["Garlic Naan",45],
+["Pudhin Naan",40],
+["Butter Roti",40],
+["Plain Roti",30],
+["Kulcha",30]
+]
+
 };
 
-/* ===== TABLE SYSTEM ===== */
+/* ================= TABLE SYSTEM ================= */
 
-let tables = {};
-let currentTable = "";
-let total = 0;
+let tables={};
+let currentTable="";
+let total=0;
 
 const menuDiv=document.getElementById("menu");
 const totalEl=document.getElementById("total");
@@ -146,78 +294,61 @@ for(let cat in categories){
 
 function loadTable(){
  currentTable=document.getElementById("tableNo").value;
- if(!currentTable) return;
-
- if(!tables[currentTable]) tables[currentTable]={};
-
+ if(!currentTable)return;
+ if(!tables[currentTable])tables[currentTable]={};
  refreshUI();
 }
 
 function change(k,n,p,d){
  if(!currentTable){alert("Select Table First");return;}
  let table=tables[currentTable];
-
- if(!table[k] && d<0) return;
- if(!table[k]) table[k]={name:n,qty:0,price:p};
-
+ if(!table[k]&&d<0)return;
+ if(!table[k])table[k]={name:n,qty:0,price:p};
  table[k].qty+=d;
- if(table[k].qty<=0) delete table[k];
-
+ if(table[k].qty<=0)delete table[k];
  refreshUI();
 }
 
 function refreshUI(){
  total=0;
  document.querySelectorAll(".qty span").forEach(s=>s.innerText=0);
-
  let table=tables[currentTable]||{};
  for(let k in table){
    total+=table[k].qty*table[k].price;
-   let safe=k.replace(/[^a-zA-Z0-9]/g,"");
-   let el=document.getElementById("q-"+safe);
-   if(el) el.innerText=table[k].qty;
+   let el=document.getElementById("q-"+k);
+   if(el)el.innerText=table[k].qty;
  }
  totalEl.innerText=total;
 }
 
 function clearCurrentTable(){
- if(!currentTable) return;
+ if(!currentTable)return;
  tables[currentTable]={};
  refreshUI();
 }
 
 function closeTable(){
- if(!currentTable || total==0){
-   alert("No active order");
-   return;
- }
-
- if(!confirm("Close this table and save sale?")) return;
+ if(!currentTable||total==0){alert("No active order");return;}
+ if(!confirm("Close this table and save sale?"))return;
 
  let payment=document.getElementById("paymentType").value;
-
  let sales=JSON.parse(localStorage.getItem("sales"))||[];
 
  sales.push({
-   date:new Date().toLocaleString(),
-   table:currentTable,
-   total:total,
-   payment:payment
+  date:new Date().toLocaleString(),
+  table:currentTable,
+  total:total,
+  payment:payment
  });
 
  localStorage.setItem("sales",JSON.stringify(sales));
-
  tables[currentTable]={};
  refreshUI();
  alert("Table Closed & Saved");
 }
 
 function sendWA(){
- if(!currentTable || total==0){
-   alert("Select table & items");
-   return;
- }
-
+ if(!currentTable||total==0){alert("Select table & items");return;}
  let table=tables[currentTable];
  let msg=`Mumbai Special BBQ%0ATable: ${currentTable}%0A`;
  for(let k in table){
@@ -230,12 +361,10 @@ function sendWA(){
 function downloadReport(){
  let sales=JSON.parse(localStorage.getItem("sales"))||[];
  if(!sales.length){alert("No Sales Data");return;}
-
  let csv="Date,Table,Total,Payment\n";
  sales.forEach(s=>{
   csv+=`${s.date},${s.table},${s.total},${s.payment}\n`;
  });
-
  let a=document.createElement("a");
  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
  a.download="Sales_Report.csv";
