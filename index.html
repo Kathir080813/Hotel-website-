@@ -6,109 +6,117 @@
 <title>Mumbai Special BBQ</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4}
+body{
+margin:0;
+font-family:Arial;
+background:#f5f5f5;
+padding-bottom:260px;
+}
+
 .header{
- background:#7b1e1e;
- color:white;
- padding:10px;
- position:sticky;
- top:0;
- z-index:100;
+background:#8b0000;
+color:white;
+padding:10px;
 }
-.header select,.header input{
- padding:6px;
- border-radius:6px;
- border:none;
- margin-top:5px;
- width:100%;
+
+select,input{
+width:100%;
+padding:10px;
+margin-top:6px;
+border-radius:8px;
+border:1px solid #ccc;
 }
-.category h3{
- background:#ff6f00;
- color:white;
- padding:6px;
- margin:10px 0 5px 0;
+
+.category{
+background:#ff6f00;
+color:white;
+padding:8px;
+margin-top:15px;
+font-weight:bold;
 }
+
 .item{
- display:flex;
- justify-content:space-between;
- background:white;
- padding:6px;
- margin:4px 6px;
- border-radius:6px;
- font-size:13px;
+background:white;
+padding:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #ddd;
 }
-.qty button{padding:2px 6px}
-.qty span{min-width:18px;display:inline-block;text-align:center;font-weight:bold}
+
+.qty button{
+padding:5px 10px;
+}
+.qty span{
+padding:0 10px;
+font-weight:bold;
+}
 
 .cart{
- position:fixed;
- bottom:0;
- left:0;
- right:0;
- background:white;
- padding:8px;
- box-shadow:0 -2px 10px rgba(0,0,0,0.2);
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+padding:10px;
+box-shadow:0 -2px 8px rgba(0,0,0,0.2);
 }
 
 .cart button{
- width:100%;
- padding:8px;
- margin-top:5px;
- border:none;
- border-radius:6px;
- color:white;
- font-size:14px;
+width:100%;
+padding:10px;
+margin-top:5px;
+border:none;
+border-radius:6px;
+color:white;
+font-weight:bold;
 }
 
-.green{background:green}
-.orange{background:#ef6c00}
-.blue{background:#283593}
-.dark{background:#444}
-.red{background:#b71c1c}
+.green{background:green;}
+.orange{background:orange;}
+.blue{background:#3949ab;}
+.gray{background:#555;}
+.red{background:#c62828;}
 </style>
 </head>
-
 <body>
 
 <div class="header">
-<b>Mumbai Special BBQ</b>
-
-<select id="tableNo" onchange="loadTable()">
+<h2>Mumbai Special BBQ</h2>
+<select id="tableSelect">
 <option value="">Select Table</option>
-<option>TB1</option><option>TB2</option><option>TB3</option>
-<option>TB4</option><option>TB5</option><option>TB6</option>
-<option>TB7</option><option>TB8</option>
+<option>Table 1</option><option>Table 2</option>
+<option>Table 3</option><option>Table 4</option>
+<option>Table 5</option><option>Table 6</option>
+<option>Table 7</option><option>Table 8</option>
 </select>
 
-<select id="paymentType">
-<option value="Cash">Cash</option>
-<option value="GPay">GPay</option>
-<option value="PhonePe">PhonePe</option>
-<option value="Card">Card</option>
+<select id="payment">
+<option>Cash</option>
+<option>GPay</option>
+<option>PhonePe</option>
+<option>UPI</option>
+<option>Card</option>
 </select>
 
-<input type="text" id="search" placeholder="Search..." oninput="filterItems()">
+<input type="text" id="search" placeholder="Search..." oninput="searchItem()">
 </div>
 
 <div id="menu"></div>
 
 <div class="cart">
 <div><b>Total ₹ <span id="total">0</span></b></div>
-<button class="green" onclick="sendWA()">Send WhatsApp</button>
-<button class="orange" onclick="clearCurrentTable()">Clear Current Table</button>
+<button class="green" onclick="sendWhatsApp()">Send WhatsApp</button>
+<button class="orange" onclick="clearCurrent()">Clear Current Table</button>
 <button class="blue" onclick="closeTable()">Close Table (Save & Clear)</button>
-<button class="dark" onclick="downloadReport()">Download Sales Report</button>
-<button class="red" onclick="resetSales()">Reset Sales Report</button>
+<button class="gray" onclick="downloadReport()">Download Sales Report</button>
+<button class="red" onclick="resetReport()">Reset Sales Report</button>
 </div>
 
 <script>
 
-/* ================= FULL MENU ================= */
-
-const categories = {
-
-/* BIRYANI */
-"BIRYANI":[
+let data={
+"BRIYANI":[
 ["Chicken Biriyani",130],
 ["Chicken Biriyani Qty",100],
 ["65 Biriyani",150],
@@ -116,81 +124,43 @@ const categories = {
 ["Plain Biriyani",90]
 ],
 
-/* INDIAN CHICKEN GRAVY */
 "INDIAN CHICKEN GRAVY":[
 ["Butter Chicken Masala",180],
 ["Chicken Masala",160],
 ["Pepper Chicken Masala",170],
 ["Kadai Chicken Masala",160],
 ["Hyderabad Chicken Masala",170],
-["Panjabi Chicken Masala",180],
+["Punjabi Chicken Masala",180],
 ["Chettinadu Chicken Masala",130]
 ],
 
-/* VEG GRAVY */
-"VEG GRAVY":[
-["Gopi Manchurian Gravy",130],
-["Gopi Chilli Gravy",130],
-["Mushroom Manchurian Gravy",130],
-["Mushroom Chilli Gravy",130],
-["Paneer Manchurian Gravy",150],
-["Kadai Paneer Masala",170],
-["Paneer Pepper Masala",160],
-["Paneer Butter Masala",200],
-["Mushroom Masala",160],
-["Pepper Mushroom Masala",180]
-],
-
-/* STARTERS */
 "STARTERS":[
 ["Chicken 65 (5 Pcs)",130],
 ["Chicken Lollipop (5 Pcs)",130],
 ["Chicken 65 B/I (7 Pcs)",150],
-["Chilli Chicken Dry",140],
-["Chilli Chicken Gravy",150],
-["Pepper Chicken Dry",140],
-["Pepper Chicken Gravy",150],
+["Chilli Chicken Dry/Gravy",140],
+["Pepper Chicken Dry/Gravy",140],
 ["Garlic Chicken Gravy",150],
 ["Ginger Chicken Gravy",150],
 ["Lemon Chicken Gravy",150],
-["Lollipop Sauce",150],
 ["China Chilly Chicken",130],
 ["Gopi 65",110],
 ["Mushroom 65",120],
 ["Paneer 65",150]
 ],
 
-/* TANDOORI */
 "TANDOORI":[
 ["Tandoori Qty",100],
 ["Tandoori Half",200],
 ["Tandoori Full",400]
 ],
 
-/* GRILL */
 "GRILL":[
 ["Grill Qty",100],
 ["Grill Half",200],
 ["Grill Full",400]
 ],
 
-/* FRIED RICE */
-"FRIED RICE":[
-["Chicken Fried Rice",130],
-["Chicken Schezwan Rice",140],
-["Mixed Chicken Rice & Noodles",150],
-["Chicken Rice Half",100],
-["Chicken Rice (1/2)",150],
-["Chicken Rice (2/3)",300],
-["Egg Fried Rice",100],
-["Egg Schezwan Rice",110],
-["Veg Fried Rice",100],
-["Gopi Fried Rice",110],
-["Mushroom Fried Rice",120],
-["Paneer Fried Rice",130]
-],
-
-/* NOODLES */
 "NOODLES":[
 ["Chicken Noodles",130],
 ["Singapore Chicken Noodles",150],
@@ -203,32 +173,36 @@ const categories = {
 ["Paneer Noodles",130]
 ],
 
-/* BARBEQUE CHICKEN */
-"BARBEQUE CHICKEN":[
-["Barbeque Chicken Full",450],
-["Barbeque Chicken Half",220],
-["Barbeque Chicken Qty",110],
-["Pepper Barbeque Chicken Full",550],
-["Pepper Barbeque Chicken Half",270],
-["Pepper Barbeque Chicken Qty",140],
-["Spl Barbeque Chicken Full",550],
-["Spl Barbeque Chicken Half",270],
-["Spl Barbeque Chicken Qty",140],
-["Hara Bhara BBQ Chicken Full",550],
-["Hara Bhara BBQ Chicken Half",270],
-["Hara Bhara BBQ Chicken Qty",140]
+"FRIED RICE":[
+["Chicken Fried Rice",130],
+["Chicken Schezwan Rice",140],
+["Mixed Chicken Rice & Noodles",150],
+["Chicken Rice Half",100],
+["Chicken Rice (2/3)",300],
+["Egg Fried Rice",100],
+["Egg Schezwan Rice",110],
+["Veg Fried Rice",100],
+["Gopi Fried Rice",110],
+["Mushroom Fried Rice",120],
+["Paneer Fried Rice",130]
 ],
 
-/* SHAWARMA */
-"SHAWARMA":[
-["Shawarma Roll",60],
-["Shawarma Plate",130],
-["Shawarma Spl Roll",100],
-["Shawarma Spl Plate",160],
-["Shawarma Peri Peri Roll",70]
+"TAWA SPECIAL PAROTTA":[
+["Parotta (2 Pcs)",40],
+["Egg Vachu Parotta",40],
+["Plain Vachu Parotta",35],
+["Chapathi (2 Pcs)",25],
+["Veg Kothu Parotta",90],
+["Paneer Kothu Parotta",150],
+["Mushroom Kothu Parotta",140],
+["Egg Kothu Parotta",100],
+["Chicken Kothu Parotta",130],
+["Egg Stuff",120],
+["Chicken Stuff",160],
+["Chilli Parotta",110],
+["Chicken Chilly Parotta",150]
 ],
 
-/* DOSA */
 "DOSA CORNER":[
 ["Plain Dosai",40],
 ["Kal Dosai",20],
@@ -239,7 +213,6 @@ const categories = {
 ["Onion Uthappam",60]
 ],
 
-/* EGG */
 "EGG SPECIAL":[
 ["Masala Omelette Single",30],
 ["Masala Omelette Double",60],
@@ -250,7 +223,6 @@ const categories = {
 ["Kalakki",20]
 ],
 
-/* NAAN */
 "NAAN / ROTI":[
 ["Plain Naan",30],
 ["Butter Naan",40],
@@ -260,129 +232,96 @@ const categories = {
 ["Plain Roti",30],
 ["Kulcha",30]
 ]
-
 };
 
-/* ================= TABLE SYSTEM ================= */
-
-let tables={};
-let currentTable="";
+let menu=document.getElementById("menu");
+let orders={};
 let total=0;
 
-const menuDiv=document.getElementById("menu");
-const totalEl=document.getElementById("total");
-
-for(let cat in categories){
- let c=document.createElement("div");
- c.className="category";
- c.innerHTML=`<h3>${cat}</h3>`;
- categories[cat].forEach(i=>{
-   let key=i[0].replace(/[^a-zA-Z0-9]/g,"");
-   let item=document.createElement("div");
-   item.className="item";
-   item.innerHTML=`
-   <div>${i[0]}<br>₹${i[1]}</div>
-   <div class="qty">
-     <button onclick="change('${key}','${i[0]}',${i[1]},-1)">-</button>
-     <span id="q-${key}">0</span>
-     <button onclick="change('${key}','${i[0]}',${i[1]},1)">+</button>
-   </div>`;
-   c.appendChild(item);
- });
- menuDiv.appendChild(c);
+for(let cat in data){
+menu.innerHTML+=`<div class="category">${cat}</div>`;
+data[cat].forEach(item=>{
+let key=item[0].replace(/\s/g,'');
+menu.innerHTML+=`
+<div class="item" data-name="${item[0]}">
+<div>${item[0]} <br> ₹${item[1]}</div>
+<div class="qty">
+<button onclick="change('${key}','${item[0]}',${item[1]},-1)">-</button>
+<span id="${key}">0</span>
+<button onclick="change('${key}','${item[0]}',${item[1]},1)">+</button>
+</div>
+</div>`;
+});
 }
 
-function loadTable(){
- currentTable=document.getElementById("tableNo").value;
- if(!currentTable)return;
- if(!tables[currentTable])tables[currentTable]={};
- refreshUI();
+function change(key,name,price,val){
+if(!orders[key] && val<0)return;
+if(!orders[key])orders[key]={name,price,qty:0};
+orders[key].qty+=val;
+if(orders[key].qty<=0)delete orders[key];
+document.getElementById(key).innerText=orders[key]?orders[key].qty:0;
+total+=price*val;
+if(total<0)total=0;
+document.getElementById("total").innerText=total;
 }
 
-function change(k,n,p,d){
- if(!currentTable){alert("Select Table First");return;}
- let table=tables[currentTable];
- if(!table[k]&&d<0)return;
- if(!table[k])table[k]={name:n,qty:0,price:p};
- table[k].qty+=d;
- if(table[k].qty<=0)delete table[k];
- refreshUI();
+function sendWhatsApp(){
+let table=document.getElementById("tableSelect").value;
+if(!table || Object.keys(orders).length===0){
+alert("Select table & items");
+return;
+}
+let payment=document.getElementById("payment").value;
+let msg=`Mumbai Special BBQ\n${table}\nPayment: ${payment}\n\n`;
+for(let k in orders){
+let i=orders[k];
+msg+=`${i.name} x ${i.qty} = ₹${i.qty*i.price}\n`;
+}
+msg+=`\nTotal ₹${total}`;
+window.open(`https://wa.me/918608776956?text=${encodeURIComponent(msg)}`);
 }
 
-function refreshUI(){
- total=0;
- document.querySelectorAll(".qty span").forEach(s=>s.innerText=0);
- let table=tables[currentTable]||{};
- for(let k in table){
-   total+=table[k].qty*table[k].price;
-   let el=document.getElementById("q-"+k);
-   if(el)el.innerText=table[k].qty;
- }
- totalEl.innerText=total;
-}
-
-function clearCurrentTable(){
- if(!currentTable)return;
- tables[currentTable]={};
- refreshUI();
+function clearCurrent(){
+orders={};
+total=0;
+document.querySelectorAll(".qty span").forEach(e=>e.innerText=0);
+document.getElementById("total").innerText=0;
 }
 
 function closeTable(){
- if(!currentTable||total==0){alert("No active order");return;}
- if(!confirm("Close this table and save sale?"))return;
-
- let payment=document.getElementById("paymentType").value;
- let sales=JSON.parse(localStorage.getItem("sales"))||[];
-
- sales.push({
-  date:new Date().toLocaleString(),
-  table:currentTable,
-  total:total,
-  payment:payment
- });
-
- localStorage.setItem("sales",JSON.stringify(sales));
- tables[currentTable]={};
- refreshUI();
- alert("Table Closed & Saved");
+saveSale();
+clearCurrent();
 }
 
-function sendWA(){
- if(!currentTable||total==0){alert("Select table & items");return;}
- let table=tables[currentTable];
- let msg=`Mumbai Special BBQ%0ATable: ${currentTable}%0A`;
- for(let k in table){
-  msg+=`${table[k].name} x ${table[k].qty} = ₹${table[k].qty*table[k].price}%0A`;
- }
- msg+=`%0ATotal ₹${total}`;
- window.open("https://wa.me/918608776956?text="+msg,"_blank");
+function saveSale(){
+let sales=JSON.parse(localStorage.getItem("sales"))||[];
+sales.push({date:new Date().toLocaleString(),total});
+localStorage.setItem("sales",JSON.stringify(sales));
 }
 
 function downloadReport(){
- let sales=JSON.parse(localStorage.getItem("sales"))||[];
- if(!sales.length){alert("No Sales Data");return;}
- let csv="Date,Table,Total,Payment\n";
- sales.forEach(s=>{
-  csv+=`${s.date},${s.table},${s.total},${s.payment}\n`;
- });
- let a=document.createElement("a");
- a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
- a.download="Sales_Report.csv";
- a.click();
+let sales=JSON.parse(localStorage.getItem("sales"))||[];
+if(sales.length==0){alert("No Data");return;}
+let csv="Date,Total\n";
+sales.forEach(s=>csv+=`${s.date},${s.total}\n`);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(new Blob([csv]));
+a.download="Sales_Report.csv";
+a.click();
 }
 
-function resetSales(){
- if(confirm("Reset all sales data?")){
-  localStorage.removeItem("sales");
-  alert("Sales Cleared");
- }
+function resetReport(){
+if(confirm("Reset Sales?")){
+localStorage.removeItem("sales");
+alert("Sales Reset");
+}
 }
 
-function filterItems(){
- let q=document.getElementById("search").value.toLowerCase();
- document.querySelectorAll(".item").forEach(i=>{
-  i.style.display=i.innerText.toLowerCase().includes(q)?"flex":"none";
- });
+function searchItem(){
+let q=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll(".item").forEach(i=>{
+i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
+});
 }
 
 </script>
