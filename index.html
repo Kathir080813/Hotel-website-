@@ -6,324 +6,267 @@
 <title>Mumbai Special BBQ</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#f5f5f5;
-padding-bottom:260px;
-}
-
+body{margin:0;font-family:Arial;background:#f4f4f4}
 .header{
-background:#8b0000;
-color:white;
+background:#8B0000;
+color:#fff;
 padding:10px;
 }
+h1{margin:5px 0;font-size:18px}
 
 select,input{
 width:100%;
-padding:10px;
-margin-top:6px;
-border-radius:8px;
+padding:8px;
+margin:4px 0;
+border-radius:6px;
 border:1px solid #ccc;
 }
 
-.category{
-background:#ff6f00;
-color:white;
+.fast{
+background:#fff;
 padding:8px;
-margin-top:15px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:6px;
+}
+
+.fast button{
+padding:12px;
+border:none;
+background:#ff9800;
+color:#fff;
+border-radius:8px;
 font-weight:bold;
+}
+
+.menu{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:6px;
+padding:8px;
 }
 
 .item{
-background:white;
-padding:10px;
+background:#fff;
+padding:8px;
+border-radius:8px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-border-bottom:1px solid #ddd;
+font-size:14px;
 }
 
 .qty button{
-padding:5px 10px;
-}
-.qty span{
-padding:0 10px;
-font-weight:bold;
+padding:4px 8px;
 }
 
-.cart{
+.footer{
 position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:white;
-padding:10px;
-box-shadow:0 -2px 8px rgba(0,0,0,0.2);
+background:#fff;
+padding:8px;
+box-shadow:0 -2px 5px rgba(0,0,0,0.2);
 }
 
-.cart button{
+.total{
+font-weight:bold;
+font-size:18px;
+margin-bottom:6px;
+}
+
+.footer button{
 width:100%;
 padding:10px;
-margin-top:5px;
+margin-top:4px;
 border:none;
 border-radius:6px;
-color:white;
+color:#fff;
 font-weight:bold;
 }
 
-.green{background:green;}
-.orange{background:orange;}
-.blue{background:#3949ab;}
-.gray{background:#555;}
-.red{background:#c62828;}
+.green{background:#2e7d32}
+.orange{background:#ff9800}
+.blue{background:#3949ab}
+.red{background:#c62828}
 </style>
 </head>
+
 <body>
 
 <div class="header">
-<h2>Mumbai Special BBQ</h2>
-<select id="tableSelect">
-<option value="">Select Table</option>
-<option>Table 1</option><option>Table 2</option>
-<option>Table 3</option><option>Table 4</option>
-<option>Table 5</option><option>Table 6</option>
-<option>Table 7</option><option>Table 8</option>
-</select>
-
+<h1>Mumbai Special BBQ</h1>
+<select id="tableSelect"></select>
 <select id="payment">
 <option>Cash</option>
 <option>GPay</option>
 <option>PhonePe</option>
-<option>UPI</option>
 <option>Card</option>
 </select>
-
-<input type="text" id="search" placeholder="Search..." oninput="searchItem()">
+<input type="text" id="search" placeholder="Search item..." oninput="renderMenu()">
 </div>
 
-<div id="menu"></div>
+<div class="fast" id="fastItems"></div>
+<div class="menu" id="menu"></div>
 
-<div class="cart">
-<div><b>Total ₹ <span id="total">0</span></b></div>
+<div class="footer">
+<div class="total">Total ₹ <span id="total">0</span></div>
 <button class="green" onclick="sendWhatsApp()">Send WhatsApp</button>
-<button class="orange" onclick="clearCurrent()">Clear Current Table</button>
-<button class="blue" onclick="closeTable()">Close Table (Save & Clear)</button>
-<button class="gray" onclick="downloadReport()">Download Sales Report</button>
+<button class="orange" onclick="clearTable()">Clear Current Table</button>
+<button class="blue" onclick="closeTable()">Close Table (Save)</button>
+<button class="red" onclick="downloadReport()">Download Sales Report</button>
 <button class="red" onclick="resetReport()">Reset Sales Report</button>
 </div>
 
 <script>
+let tables = {};
+let sales = JSON.parse(localStorage.getItem("sales")) || [];
+let items = [
 
-let data={
-"BRIYANI":[
-["Chicken Biriyani",130],
-["Chicken Biriyani Qty",100],
-["65 Biriyani",150],
-["Egg Biriyani",100],
-["Plain Biriyani",90]
-],
+/* FAST ITEMS */
+{name:"Chicken Biriyani",price:130,fast:true},
+{name:"Parotta",price:20,fast:true},
+{name:"Chicken Noodles",price:130,fast:true},
+{name:"Grill Half",price:200,fast:true},
+{name:"Tandoori Half",price:200,fast:true},
+{name:"Shawarma Roll",price:60,fast:true},
+{name:"Chicken 65",price:130,fast:true},
+{name:"Egg Rice",price:100,fast:true},
 
-"INDIAN CHICKEN GRAVY":[
-["Butter Chicken Masala",180],
-["Chicken Masala",160],
-["Pepper Chicken Masala",170],
-["Kadai Chicken Masala",160],
-["Hyderabad Chicken Masala",170],
-["Punjabi Chicken Masala",180],
-["Chettinadu Chicken Masala",130]
-],
+/* FULL LIST */
+{name:"Plain Biriyani",price:90},
+{name:"Egg Biriyani",price:100},
+{name:"65 Biriyani",price:150},
+{name:"Veg Rice",price:100},
+{name:"Gopi Rice",price:110},
+{name:"Mushroom Rice",price:120},
+{name:"Panner Rice",price:130},
+{name:"Chicken Schezwan Rice",price:140},
+{name:"Egg Schezwan Rice",price:110},
+{name:"Veg Noodles",price:100},
+{name:"Gopi Noodles",price:110},
+{name:"Mushroom Noodles",price:120},
+{name:"Panner Noodles",price:130},
+{name:"Chicken Schezwan Noodles",price:140},
+{name:"Tandoori Full",price:400},
+{name:"Tandoori Qty",price:100},
+{name:"Grill Full",price:400},
+{name:"Grill Qty",price:100},
+{name:"BBQ Half",price:210},
+{name:"BBQ Full",price:400}
+];
 
-"STARTERS":[
-["Chicken 65 (5 Pcs)",130],
-["Chicken Lollipop (5 Pcs)",130],
-["Chicken 65 B/I (7 Pcs)",150],
-["Chilli Chicken Dry/Gravy",140],
-["Pepper Chicken Dry/Gravy",140],
-["Garlic Chicken Gravy",150],
-["Ginger Chicken Gravy",150],
-["Lemon Chicken Gravy",150],
-["China Chilly Chicken",130],
-["Gopi 65",110],
-["Mushroom 65",120],
-["Paneer 65",150]
-],
-
-"TANDOORI":[
-["Tandoori Qty",100],
-["Tandoori Half",200],
-["Tandoori Full",400]
-],
-
-"GRILL":[
-["Grill Qty",100],
-["Grill Half",200],
-["Grill Full",400]
-],
-
-"NOODLES":[
-["Chicken Noodles",130],
-["Singapore Chicken Noodles",150],
-["Chicken Schezwan Noodles",140],
-["Chicken Noodles (1/2)",150],
-["Egg Noodles",100],
-["Veg Noodles",100],
-["Gopi Noodles",110],
-["Mushroom Noodles",120],
-["Paneer Noodles",130]
-],
-
-"FRIED RICE":[
-["Chicken Fried Rice",130],
-["Chicken Schezwan Rice",140],
-["Mixed Chicken Rice & Noodles",150],
-["Chicken Rice Half",100],
-["Chicken Rice (2/3)",300],
-["Egg Fried Rice",100],
-["Egg Schezwan Rice",110],
-["Veg Fried Rice",100],
-["Gopi Fried Rice",110],
-["Mushroom Fried Rice",120],
-["Paneer Fried Rice",130]
-],
-
-"TAWA SPECIAL PAROTTA":[
-["Parotta (2 Pcs)",40],
-["Egg Vachu Parotta",40],
-["Plain Vachu Parotta",35],
-["Chapathi (2 Pcs)",25],
-["Veg Kothu Parotta",90],
-["Paneer Kothu Parotta",150],
-["Mushroom Kothu Parotta",140],
-["Egg Kothu Parotta",100],
-["Chicken Kothu Parotta",130],
-["Egg Stuff",120],
-["Chicken Stuff",160],
-["Chilli Parotta",110],
-["Chicken Chilly Parotta",150]
-],
-
-"DOSA CORNER":[
-["Plain Dosai",40],
-["Kal Dosai",20],
-["Egg Dosai",50],
-["Egg Kal Dosai",40],
-["Kari Dosai",100],
-["Onion Dosai",50],
-["Onion Uthappam",60]
-],
-
-"EGG SPECIAL":[
-["Masala Omelette Single",30],
-["Masala Omelette Double",60],
-["Egg Podimas",40],
-["Plain Omelette Single",20],
-["Plain Omelette Double",40],
-["Half Boiled / Full Boiled",20],
-["Kalakki",20]
-],
-
-"NAAN / ROTI":[
-["Plain Naan",30],
-["Butter Naan",40],
-["Garlic Naan",45],
-["Pudhin Naan",40],
-["Butter Roti",40],
-["Plain Roti",30],
-["Kulcha",30]
-]
-};
-
-let menu=document.getElementById("menu");
-let orders={};
+let currentTable="";
 let total=0;
 
-for(let cat in data){
-menu.innerHTML+=`<div class="category">${cat}</div>`;
-data[cat].forEach(item=>{
-let key=item[0].replace(/\s/g,'');
-menu.innerHTML+=`
-<div class="item" data-name="${item[0]}">
-<div>${item[0]} <br> ₹${item[1]}</div>
-<div class="qty">
-<button onclick="change('${key}','${item[0]}',${item[1]},-1)">-</button>
-<span id="${key}">0</span>
-<button onclick="change('${key}','${item[0]}',${item[1]},1)">+</button>
-</div>
-</div>`;
-});
+function initTables(){
+for(let i=1;i<=8;i++){
+let opt=document.createElement("option");
+opt.value="Table "+i;
+opt.innerText="Table "+i;
+tableSelect.appendChild(opt);
+}
 }
 
-function change(key,name,price,val){
-if(!orders[key] && val<0)return;
-if(!orders[key])orders[key]={name,price,qty:0};
-orders[key].qty+=val;
-if(orders[key].qty<=0)delete orders[key];
-document.getElementById(key).innerText=orders[key]?orders[key].qty:0;
-total+=price*val;
-if(total<0)total=0;
+tableSelect.onchange=function(){
+currentTable=this.value;
+if(!tables[currentTable]) tables[currentTable]={};
+renderMenu();
+};
+
+function addItem(name,price){
+if(!currentTable){alert("Select Table");return;}
+let table=tables[currentTable];
+if(!table[name]) table[name]={price:price,qty:0};
+table[name].qty++;
+calculateTotal();
+}
+
+function calculateTotal(){
+let table=tables[currentTable]||{};
+total=0;
+for(let i in table){
+total+=table[i].price*table[i].qty;
+}
 document.getElementById("total").innerText=total;
 }
 
-function sendWhatsApp(){
-let table=document.getElementById("tableSelect").value;
-if(!table || Object.keys(orders).length===0){
-alert("Select table & items");
-return;
+function renderMenu(){
+let searchVal=search.value.toLowerCase();
+menu.innerHTML="";
+items.filter(i=>!i.fast).forEach(i=>{
+if(i.name.toLowerCase().includes(searchVal)){
+menu.innerHTML+=`
+<div class="item">
+<div>${i.name}<br>₹${i.price}</div>
+<div class="qty">
+<button onclick="addItem('${i.name}',${i.price})">+</button>
+</div>
+</div>`;
 }
-let payment=document.getElementById("payment").value;
-let msg=`Mumbai Special BBQ\n${table}\nPayment: ${payment}\n\n`;
-for(let k in orders){
-let i=orders[k];
-msg+=`${i.name} x ${i.qty} = ₹${i.qty*i.price}\n`;
-}
-msg+=`\nTotal ₹${total}`;
-window.open(`https://wa.me/918608776956?text=${encodeURIComponent(msg)}`);
+});
 }
 
-function clearCurrent(){
-orders={};
-total=0;
-document.querySelectorAll(".qty span").forEach(e=>e.innerText=0);
-document.getElementById("total").innerText=0;
+function renderFast(){
+items.filter(i=>i.fast).forEach(i=>{
+fastItems.innerHTML+=`<button onclick="addItem('${i.name}',${i.price})">${i.name}<br>₹${i.price}</button>`;
+});
+}
+
+function sendWhatsApp(){
+if(!currentTable||!tables[currentTable]){alert("No order");return;}
+let msg=`Mumbai Special BBQ\n${currentTable}\nPayment: ${payment.value}\n\n`;
+for(let i in tables[currentTable]){
+let d=tables[currentTable][i];
+msg+=`${i} x ${d.qty} = ₹${d.qty*d.price}\n`;
+}
+msg+=`\nTotal: ₹${total}`;
+window.open("https://wa.me/918608776956?text="+encodeURIComponent(msg));
+}
+
+function clearTable(){
+if(!currentTable)return;
+tables[currentTable]={};
+calculateTotal();
 }
 
 function closeTable(){
-saveSale();
-clearCurrent();
-}
-
-function saveSale(){
-let sales=JSON.parse(localStorage.getItem("sales"))||[];
-sales.push({date:new Date().toLocaleString(),total});
+if(!currentTable)return;
+sales.push({
+date:new Date().toLocaleString(),
+table:currentTable,
+items:tables[currentTable],
+total:total,
+payment:payment.value
+});
 localStorage.setItem("sales",JSON.stringify(sales));
+tables[currentTable]={};
+calculateTotal();
 }
 
 function downloadReport(){
-let sales=JSON.parse(localStorage.getItem("sales"))||[];
-if(sales.length==0){alert("No Data");return;}
-let csv="Date,Total\n";
-sales.forEach(s=>csv+=`${s.date},${s.total}\n`);
+let csv="Date,Table,Payment,Total\n";
+sales.forEach(s=>{
+csv+=`${s.date},${s.table},${s.payment},${s.total}\n`;
+});
+let blob=new Blob([csv],{type:"text/csv"});
 let a=document.createElement("a");
-a.href=URL.createObjectURL(new Blob([csv]));
-a.download="Sales_Report.csv";
+a.href=URL.createObjectURL(blob);
+a.download="sales_report.csv";
 a.click();
 }
 
 function resetReport(){
-if(confirm("Reset Sales?")){
 localStorage.removeItem("sales");
+sales=[];
 alert("Sales Reset");
 }
-}
 
-function searchItem(){
-let q=document.getElementById("search").value.toLowerCase();
-document.querySelectorAll(".item").forEach(i=>{
-i.style.display=i.dataset.name.toLowerCase().includes(q)?"flex":"none";
-});
-}
-
+initTables();
+renderFast();
+renderMenu();
 </script>
+
 </body>
 </html>
