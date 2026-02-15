@@ -9,260 +9,219 @@
 body{
   margin:0;
   font-family:Arial;
-  background:#f2f2f2;
+  background:#f4f4f4;
 }
+
 .header{
   background:#6d1b1b;
   color:white;
   padding:12px;
-  text-align:center;
-  font-weight:bold;
-  font-size:18px;
-}
-.container{
-  padding:10px;
-}
-.category h3{
-  background:#ff6f00;
-  color:white;
-  padding:6px;
-  margin:12px 0 6px 0;
-}
-.item{
-  background:white;
-  padding:8px;
-  margin:6px 0;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  border-radius:8px;
 }
-.qty button{
-  padding:4px 8px;
+
+.header input{
+  padding:6px 10px;
+  border-radius:6px;
+  border:none;
 }
-.qty span{
-  min-width:20px;
-  display:inline-block;
-  text-align:center;
-  font-weight:bold;
+
+.main{
+  display:flex;
+  height:calc(100vh - 60px);
 }
-.bill{
-  background:white;
-  margin-top:12px;
+
+.left{
+  width:60%;
+  overflow-y:auto;
   padding:10px;
+  background:#fafafa;
 }
+
+.right{
+  width:40%;
+  background:white;
+  padding:10px;
+  border-left:2px solid #ddd;
+  display:flex;
+  flex-direction:column;
+}
+
+.category{
+  margin-top:10px;
+}
+
+.category h3{
+  background:#ff6f00;
+  color:white;
+  padding:5px;
+  margin:5px 0;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  padding:6px;
+  background:white;
+  margin:4px 0;
+  border-radius:6px;
+}
+
+.qty button{
+  padding:2px 6px;
+}
+
+.bill-list{
+  flex:1;
+  overflow-y:auto;
+}
+
 .total{
   font-weight:bold;
   font-size:18px;
 }
-button.action{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
+
+button{
+  padding:8px;
+  margin-top:5px;
   border:none;
   border-radius:6px;
   color:white;
+  cursor:pointer;
 }
-.wa{background:green}
-.print{background:blue}
 
-/* THERMAL PRINT */
-@media print{
- body *{display:none}
- .bill, .bill *{display:block}
- .bill{
-   width:58mm;
-   font-size:12px;
- }
+.wa{background:green;}
+.clear{background:red;}
+.report{background:#283593;}
+.reset{background:#444;}
+
+select{
+  padding:5px;
+  margin-bottom:5px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">MUMBAI SPECIAL BBQ</div>
-<div class="container" id="menu"></div>
+<div class="header">
+  <div>
+    <b>Mumbai Special BBQ</b><br>
+    <select id="tableNo">
+      <option value="">Select Table</option>
+      <option>TB1</option>
+      <option>TB2</option>
+      <option>TB3</option>
+      <option>TB4</option>
+      <option>TB5</option>
+      <option>TB6</option>
+      <option>TB7</option>
+      <option>TB8</option>
+    </select>
+  </div>
+  <input type="text" id="search" placeholder="Search item..." oninput="filterItems()">
+</div>
 
-<div class="bill">
-<h4>Order Bill</h4>
-<ul id="orderList"></ul>
-<div class="total">Total ₹ <span id="total">0</span></div>
-<button class="action wa" onclick="sendWA()">Send WhatsApp</button>
-<button class="action print" onclick="window.print()">Print Bill</button>
+<div class="main">
+
+<div class="left" id="menu"></div>
+
+<div class="right">
+  <h3>Order</h3>
+  <div class="bill-list" id="orderList"></div>
+  <div class="total">Total ₹ <span id="total">0</span></div>
+
+  <button class="wa" onclick="sendWA()">Send WhatsApp</button>
+  <button class="clear" onclick="clearCart()">Clear Cart</button>
+  <button class="report" onclick="downloadReport()">Download Sales Report</button>
+  <button class="reset" onclick="resetSales()">Reset Sales Report</button>
+</div>
+
 </div>
 
 <script>
 
-const items = [
-
-/* BIRIYANI */
+const categories = {
+"🍚 Biryani":[
 ["Chicken Biriyani",130],
-["Chicken Biriyani Qty",100],
 ["65 Biriyani",150],
 ["Egg Biriyani",100],
-["Plain Biriyani",90],
-
-/* INDIAN CHICKEN GRAVY */
-["Butter Chicken Masala",180],
-["Chicken Masala",160],
-["Pepper Chicken Masala",170],
-["Kadai Chicken Masala",160],
-["Hyderabad Chicken Masala",170],
-["Panjabi Chicken Masala",180],
-["Chettinad Chicken Masala",130],
-
-/* VEG GRAVY */
-["Gopi Manchurian Gravy",130],
-["Gopi Chilli Gravy",130],
-["Mushroom Manchurian Gravy",130],
-["Mushroom Chilli Gravy",130],
-["Paneer Manchurian Gravy",150],
-["Kadai Paneer Masala",170],
-["Paneer Pepper Masala",160],
-["Paneer Butter Masala",200],
-["Mushroom Masala",160],
-["Pepper Mushroom Masala",180],
-
-/* STARTERS */
+["Plain Biriyani",90]
+],
+"🍗 Starters":[
 ["Chicken 65 (5 Pcs)",130],
-["Chicken Lollipop (5 Pcs)",130],
-["Chicken 65 B/I (7 Pcs)",150],
 ["Chilli Chicken Dry",140],
 ["Chilli Chicken Gravy",150],
 ["Pepper Chicken Dry",140],
 ["Pepper Chicken Gravy",150],
-["Garlic Chicken Gravy",150],
-["Ginger Chicken Gravy",150],
-["Lemon Chicken Gravy",150],
-["Lollipop Sauce",150],
-["China Chilly Chicken",130],
-["Gopi 65",110],
-["Mushroom 65",120],
-["Paneer 65",150],
-
-/* TANDOORI */
-["Tandoori Qty",100],
-["Tandoori Half",200],
-["Tandoori Full",400],
-
-/* GRILL */
+["Paneer 65",150]
+],
+"🔥 Grill":[
 ["Grill Qty",100],
 ["Grill Half",200],
-["Grill Full",400],
-
-/* NOODLES */
+["Grill Full",400]
+],
+"🔥 Tandoori":[
+["Tandoori Qty",100],
+["Tandoori Half",200],
+["Tandoori Full",400]
+],
+"🍜 Noodles":[
 ["Chicken Noodles",130],
-["Singapore Chicken Noodles",150],
 ["Chicken Schezwan Noodles",140],
-["Chicken Noodles (1/2)",150],
 ["Egg Noodles",100],
-["Veg Noodles",100],
-["Gopi Noodles",110],
-["Mushroom Noodles",120],
-["Paneer Noodles",130],
-
-/* FRIED RICE */
-["Chicken Fried Rice",130],
-["Chicken Schezwan Rice",140],
-["Mixed Chicken Rice & Noodles",150],
-["Chicken Rice Half",100],
-["Chicken Rice (1/2)",150],
-["Chicken Rice (2/3)",300],
-["Egg Fried Rice",100],
-["Egg Schezwan Rice",110],
-["Veg Fried Rice",100],
-["Gopi Fried Rice",110],
-["Mushroom Fried Rice",120],
-["Paneer Fried Rice",130],
-
-/* BBQ CHICKEN */
-["Barbeque Chicken Full",450],
-["Barbeque Chicken Half",220],
-["Barbeque Chicken Qty",110],
-["Pepper Barbeque Chicken Full",550],
-["Pepper Barbeque Chicken Half",270],
-["Pepper Barbeque Chicken Qty",140],
-["Spl Barbeque Chicken Full",550],
-["Spl Barbeque Chicken Half",270],
-["Spl Barbeque Chicken Qty",140],
-["Hara Bhara BBQ Chicken Full",550],
-["Hara Bhara BBQ Chicken Half",270],
-["Hara Bhara BBQ Chicken Qty",140],
-
-/* SHAWARMA */
+["Veg Noodles",100]
+],
+"🌯 Shawarma":[
 ["Shawarma Roll",60],
 ["Shawarma Plate",130],
-["Shawarma Spl Roll",100],
-["Shawarma Spl Plate",160],
-["Shawarma Peri Peri Roll",70],
-
-/* TAWA SPECIAL */
-["Parotta (2 Pcs)",40],
-["Egg Vachu Parotta",40],
-["Plain Vachu Parotta",35],
-["Chapathi (2 Pcs)",25],
-["Veg Kothu Parotta",90],
-["Paneer Kothu Parotta",150],
-["Mushroom Kothu Parotta",140],
-["Egg Kothu Parotta",100],
-["Chicken Kothu Parotta",130],
-["Egg Stuff",120],
-["Chicken Stuff",160],
-["Chilli Parotta",110],
-["Chicken Chilly Parotta",150],
-
-/* DOSA */
+["Shawarma Spl Roll",100]
+],
+"🫓 Dosa":[
 ["Plain Dosai",40],
 ["Kal Dosai",20],
 ["Egg Dosai",50],
-["Egg Kal Dosai",40],
-["Kari Dosai",100],
-["Onion Dosai",50],
-["Onion Uthappam",60],
-
-/* EGG SPECIAL */
+["Kari Dosai",100]
+],
+"🥚 Egg":[
 ["Masala Omelette Single",30],
 ["Masala Omelette Double",60],
 ["Egg Podimas",40],
-["Plain Omelette Single",20],
-["Plain Omelette Double",40],
 ["Half Boiled",20],
-["Kalaki",20],
-
-/* NAAN ROTI */
-["Plain Naan",30],
-["Butter Naan",40],
-["Garlic Naan",45],
-["Pudhin Naan",40],
-["Butter Roti",40],
-["Plain Roti",30],
-["Kulcha",30],
-
-];
+["Kalaki",20]
+]
+};
 
 let cart={}, total=0;
 const menuDiv=document.getElementById("menu");
 const orderList=document.getElementById("orderList");
 const totalEl=document.getElementById("total");
 
-items.forEach(i=>{
- let div=document.createElement("div");
- div.className="item";
- div.innerHTML=`
- <div>${i[0]}<br>₹${i[1]}</div>
- <div class="qty">
-   <button onclick="change('${i[0]}',${i[1]},-1)">-</button>
-   <span id="q-${i[0]}">0</span>
-   <button onclick="change('${i[0]}',${i[1]},1)">+</button>
- </div>`;
- menuDiv.appendChild(div);
-});
+for(let cat in categories){
+ let cDiv=document.createElement("div");
+ cDiv.className="category";
+ cDiv.innerHTML=`<h3>${cat}</h3>`;
+ categories[cat].forEach(i=>{
+   let item=document.createElement("div");
+   item.className="item";
+   item.innerHTML=`
+     <div>${i[0]}<br>₹${i[1]}</div>
+     <div class="qty">
+       <button onclick="change('${i[0]}',${i[1]},-1)">-</button>
+       <span id="q-${i[0]}">0</span>
+       <button onclick="change('${i[0]}',${i[1]},1)">+</button>
+     </div>`;
+   cDiv.appendChild(item);
+ });
+ menuDiv.appendChild(cDiv);
+}
 
 function change(name,price,d){
- if(!cart[name]&&d<0)return;
- if(!cart[name])cart[name]={qty:0,price};
+ if(!cart[name] && d<0) return;
+ if(!cart[name]) cart[name]={qty:0,price};
  cart[name].qty+=d;
- if(cart[name].qty<=0)delete cart[name];
+ if(cart[name].qty<=0) delete cart[name];
  document.getElementById("q-"+name).innerText=cart[name]?cart[name].qty:0;
  render();
 }
@@ -273,19 +232,59 @@ function render(){
  for(let k in cart){
    let amt=cart[k].qty*cart[k].price;
    total+=amt;
-   orderList.innerHTML+=`<li>${k} x ${cart[k].qty} = ₹${amt}</li>`;
+   orderList.innerHTML+=`<div>${k} x ${cart[k].qty} = ₹${amt}</div>`;
  }
  totalEl.innerText=total;
 }
 
+function clearCart(){
+ cart={};
+ total=0;
+ document.querySelectorAll(".qty span").forEach(s=>s.innerText=0);
+ render();
+}
+
 function sendWA(){
- if(total==0){alert("No Items");return;}
- let msg="Mumbai Special BBQ%0A";
+ let table=document.getElementById("tableNo").value;
+ if(!table || total==0){ alert("Select table & items"); return;}
+ saveSale(table,total);
+ let msg=`Mumbai Special BBQ%0ATable: ${table}%0A`;
  for(let k in cart){
-   msg+=`${k} x ${cart[k].qty} = ₹${cart[k].qty*cart[k].price}%0A`;
+  msg+=`${k} x ${cart[k].qty} = ₹${cart[k].qty*cart[k].price}%0A`;
  }
  msg+=`%0ATotal ₹${total}`;
  window.open("https://wa.me/918608776956?text="+msg,"_blank");
+}
+
+function saveSale(table,total){
+ let sales=JSON.parse(localStorage.getItem("sales"))||[];
+ sales.push({date:new Date().toLocaleString(),table,total});
+ localStorage.setItem("sales",JSON.stringify(sales));
+}
+
+function downloadReport(){
+ let sales=JSON.parse(localStorage.getItem("sales"))||[];
+ if(!sales.length){alert("No Sales Data");return;}
+ let csv="Date,Table,Total\n";
+ sales.forEach(s=>csv+=`${s.date},${s.table},${s.total}\n`);
+ let a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+ a.download="Sales_Report.csv";
+ a.click();
+}
+
+function resetSales(){
+ if(confirm("Reset all sales data?")){
+  localStorage.removeItem("sales");
+  alert("Sales Reset");
+ }
+}
+
+function filterItems(){
+ let q=document.getElementById("search").value.toLowerCase();
+ document.querySelectorAll(".item").forEach(i=>{
+  i.style.display=i.innerText.toLowerCase().includes(q)?"flex":"none";
+ });
 }
 
 </script>
